@@ -54,6 +54,9 @@
   color: #fff;
 }
 
+.icon {
+  margin-left: 15px;
+}
 .nav-links-mobile {
   display: none;
 }

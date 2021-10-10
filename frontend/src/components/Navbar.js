@@ -14,8 +14,8 @@ function Navbar() {
     <>
       <nav className='navbar'>
         <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
-          Tour Agency
-          <i class='fab fa-firstdraft' />
+          Tour Agency  
+          <i class="fas fa-globe-americas icon"/>
         </Link>
         <div className='menu-icon' onClick={handleClick}>
           <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
@@ -26,27 +26,20 @@ function Navbar() {
               Home
             </Link>
           </li>
+
           <li className='nav-item'>
-            <Link
-              to='/products'
-              className='nav-links'
-              onClick={closeMobileMenu}
-            >
-              Products
+            <Link to='/contactUs' className='nav-links' onClick={closeMobileMenu}>
+              Contact Us
             </Link>
           </li>
           <li className='nav-item'>
-            <Link
-              to='/contact-us'
-              className='nav-links'
-              onClick={closeMobileMenu}
-            >
-              Contact Us
+            <Link to='/products' className='nav-links' onClick={closeMobileMenu}>
+              Products
             </Link>
           </li>
           <li>
             <Link
-              to='/sign-up'
+              to='/signUp'
               className='nav-links-mobile'
               onClick={closeMobileMenu}
             >
