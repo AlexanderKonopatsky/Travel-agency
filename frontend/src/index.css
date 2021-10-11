@@ -20,19 +20,52 @@ code {
    font-family: 'PT Sans', sans-serif;
  }
 
- .home, .contactUs, .products, .signUp{
+/*  .top-image, .contactUs, .products, .signUp{
   display: flex;
-  height: 90vh;
+  height: 80vh;
   align-items: center;
   justify-content: center;
   font-size: 3rem;
 }
 
-.home {
+.top-image {
   background-image: url('./images/img-3.jpg');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
   color: #fff;
   font-size: 100px;
+} */
+
+
+.top-image {
+    background-image: url('./images/img-2.jpg');
+    align-items: center;
+    background-color: #013d48;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+    height: 500px;
 }
+
+.hero-image_container {
+  margin: 0;
+  padding: 0 10px;
+  position: relative;
+}
+
+.hero-image__title {
+  color: white;
+  display: block;
+  font-family: "Times New Roman", Serif;
+  font-size: 66px;
+  font-style: normal;
+  letter-spacing: -1px;
+  line-height: 72px;
+  font-weight: 50;
+}
+
