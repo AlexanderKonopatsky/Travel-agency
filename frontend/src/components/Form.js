@@ -71,7 +71,7 @@ export function Form() {
                   </button>
                   <input type="number" id="booking-pax" value={count}
                     className="form-incrementer__input form-incrementer__input__booking" required="required"
-                    readonly="readonly" />
+                    readonly="readonly" / >
                   <button onClick={increment} className="form-incrementer__btn" data-increment="" type="button">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26px" height="26px" viewBox="0 0 26 26" fill="#1a1a1a">
                       <path
