@@ -20,11 +20,19 @@ code {
    font-family: 'PT Sans', sans-serif;
  }
 
- .home, .contactUs, .products, .signUp {
-   display: flex;
-   height: 90vh;
-   align-items: center;
-   justify-content: center;
-   font-size: 3rem;
- }
+ .home, .contactUs, .products, .signUp{
+  display: flex;
+  height: 90vh;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
 
+.home {
+  background-image: url('./images/img-3.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #fff;
+  font-size: 100px;
+}
