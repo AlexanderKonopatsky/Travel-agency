@@ -15,6 +15,7 @@
 
 }
 
+
 h1 {
   text-align: center;
 }
@@ -76,9 +77,9 @@ h1 {
   padding: 6px 8px;
   max-width: calc((100%) - 60px);
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 500;
   color: #fff;
-  background-color: #1f98f4;
+  background-color: #000000;
   box-sizing: border-box;
 }
 
@@ -101,8 +102,9 @@ h1 {
   transform: scale(1.1);
 }
 
-.cards__item__info {
+.cards_cont {
   padding: 20px 30px 30px;
+  height: 100%;
 }
 
 .cards__item__text {
@@ -127,4 +129,142 @@ h1 {
   .cards__item {
     margin-bottom: 2rem;
   }
+}
+
+
+
+
+p {
+  margin: 0 0 11px;
+}
+
+.cards__item__text {
+  color: #1a1a1a;
+  font-family: "Proxima Nova", Sans-Serif;
+  font-weight: 800;
+  margin: 0;
+}
+
+
+.tour_card_description {
+  font-family: "Proxima Nova", Sans-Serif;
+  font-weight: 200;
+  color: #404040;
+  font-size: 18px;
+  line-height: 1.33;
+  margin-bottom: 0;
+  margin-top: 28px;
+}
+
+
+.rating {
+  margin-top: 20px;
+}
+
+.star-rating .fa {
+  color: #f5a623;
+}
+
+.star-rating__count {
+  font-family: "Proxima Nova", Sans-Serif;
+  font-size: 1em;
+  font-weight: normal;
+  margin-left: 10px;
+}
+
+
+
+
+.tour-card__details {
+  border-top: 1px solid #d8d8d8;
+  display: flex;
+  height: 60px;
+}
+
+
+.tour-detail {
+  color: #1a1a1a;
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  justify-content: center;
+  padding: 18px 0 16px 0;
+  text-align: center;
+}
+
+.tour-detail__text {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+
+.text--body {
+  color: #404040;
+  font-family: "Proxima Nova", Sans-Serif;
+  margin: 0;
+}
+
+
+.label {
+  font-family: "Proxima Nova", Sans-Serif;
+  letter-spacing: 0.1em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  font-size: 12px;
+  margin-bottom: 0;
+  font-weight: 600;
+}
+
+
+.action-button {
+  background-color: #013d48;
+  border: 1px solid #013d48;
+  border-radius: 0;
+  color: white;
+  font-family: "Proxima Nova", Sans-Serif;
+  letter-spacing: 0.1em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  appearance: none;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 13px;
+  font-weight: bold;
+  margin: 0;
+  padding: 21px 25px;
+  text-align: center;
+  width: 40%;
+}
+
+
+.tour-detail+.tour-detail {
+  border-left: 1px solid #d8d8d8;
+}
+
+
+.tour-card__favorite {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 2;
+}
+
+
+.favorite-toggle {
+    appearance: none;
+    background-color: transparent;
+    border: 0;
+    margin: 10px;
+    padding: 0;
+    text-align: left;
+    align-items: center;
+    background-color: rgba(255,255,255,0.8);
+    box-shadow: 0px 0px 5px 1px rgb(0 0 0 / 30%);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    height: 40px;
+    justify-content: center;
+    transition: all 150ms linear;
+    width: 40px;
 }
