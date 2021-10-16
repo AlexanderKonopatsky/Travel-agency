@@ -7,9 +7,8 @@ function Home() {
   return (
     <>
       <div className="top-image">
-    
-        <h1 class="top-image_container">
-          <span class="hero-image__title hero-image__title--phrase">The world is waiting!</span>
+        <h1>
+          <span class="home-image__title-text">The world is waiting!</span>
         </h1>
       </div>
       <Form />
