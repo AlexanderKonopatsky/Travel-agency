@@ -12,7 +12,6 @@ function Tour() {
               <h1 className='text-center'>
                 Introduction to Berlin Tour: The Story of Berlin
               </h1>
-
             </div>
           </div>
         </div>
@@ -24,8 +23,6 @@ function Tour() {
           </div>
         </div>
       </div>
-
-
       <MainSection />
       <Footer />
     </>

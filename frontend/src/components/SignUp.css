@@ -1,0 +1,160 @@
+.signUp_section {
+  background-color: #f8e1cf;
+}
+
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.col-xs-12 {
+  width: 100%;
+}
+
+.header_section {
+  text-align: center;
+
+
+}
+
+.row {
+  padding-top: 120px;
+  padding-bottom: 60px;
+}
+
+.header_text {
+  margin-bottom: 10px;
+  color: #1a1a1a;
+  font-family: "Times New Roman", Serif;
+  font-weight: normal;
+  margin: 0;
+}
+
+.header_under {
+  font-size: 16px;
+  line-height: 1.625;
+  font-weight: 300;
+  color: #404040;
+  font-family: "Proxima Nova", Sans-Serif;
+  margin: 0;
+}
+
+.link_login {
+  background-color: transparent;
+  color: #013d48;
+  text-decoration: underline;
+  font-weight: lighter;
+  margin-left: 10px;
+}
+
+.form_login {
+
+  padding-bottom: 100px;
+}
+
+.form_for_new_user {
+  margin:auto;
+}
+
+.section_form {
+  display: flex;
+  justify-content: center;
+  background-color: white;
+  max-width: 550px;
+  margin: auto;
+  border-radius: 7px;
+
+}
+
+
+.btn_auth {
+  background-color: #126472;
+  border: 1px solid #013d48;
+  border-radius: 4px;
+  color: white;
+  font-family: "Proxima Nova", Sans-Serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  appearance: none;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 13px;
+  font-weight: bold;
+  margin: 0;
+  padding: 21px 120px;
+  margin-top: 10px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.row1 {
+  display: grid;
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+
+
+.text-divider {
+  align-items: center;
+  display: flex;
+  margin: 30px 0;
+}
+
+
+.text-divider__divider {
+  border-top: 1px solid #d8d8d8;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+}
+
+
+.text-divider__text {
+  font-family: "Proxima Nova", Sans-Serif;
+  letter-spacing: 0.1em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: rgb(109, 86, 86);
+  flex: 0 0 auto;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 0 15px;
+}
+
+.form-box {
+  margin-bottom: 10px;
+}
+
+.form-box__field {
+  display: block;
+  margin: 0;
+}
+
+
+.form-label {
+  font-family: "Proxima Nova", Sans-Serif;
+  letter-spacing: 0.1em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: #404040;
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+
+.form-input {
+  border: 0.5px solid #a6a6a6;
+  border-radius: 2px;
+  background-color: #fafafa;
+  color: #1a1a1a;
+  display: block;
+  font-size: 18px;
+  font-weight: normal;
+  height: 54px;
+  letter-spacing: -0.1px;
+  padding: 0 15px;
+  width: 100%;
+}

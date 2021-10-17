@@ -5,6 +5,7 @@ import ContactUs from "./components/pages/ContactUs"
 import Products from "./components/pages/Products"
 import Home from "./components/pages/Home"
 import SignUp from "./components/pages/SignUp"
+import Login from "./components/pages/Login"
 import Tour from "./components/pages/Tour"
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path="/contactUs" exact component={ContactUs}/>
         <Route path="/signUp" exact component={SignUp}/>
         <Route path="/tour" exact component={Tour}/>
+        <Route path="/login" exact component={Login}/>
       </Switch>
     </Router>
   )

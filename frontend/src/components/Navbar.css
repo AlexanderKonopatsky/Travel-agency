@@ -8,12 +8,15 @@
 }
 
 .navbar-logo {
+  display: flex;
   color: #fff;
   justify-self: start;
   margin-left: 20px;
   cursor: pointer;
   text-decoration: none;
   font-size: 2rem;
+  white-space: nowrapж;
+  width: 250px;
 }
 
 .fa-firstdraft {
@@ -27,9 +30,11 @@
   grid-gap: 10px;
   list-style: none;
   text-align: center;
-  width: 70vw;
+  /* width: 50vw; */
   justify-content: end;
-  margin-right: 2rem;
+  margin: auto;
+  margin-right: 3rem;
+  margin-left: 10em;
 }
 
 .nav-item {
@@ -55,7 +60,9 @@
 }
 
 .icon {
-  margin-left: 15px;
+
+  margin: auto;
+  margin-left: 25px;
 }
 .nav-links-mobile {
   display: none;
@@ -80,6 +87,8 @@
     left: -100%;
     opacity: 1;
     transition: all 0.5s ease;
+
+    margin: auto;
   }
 
   .nav-menu.active {
@@ -104,9 +113,8 @@
 
   .navbar-logo {
     position: absolute;
-    top: 0;
-    left: 0;
-    transform: translate(25%, 50%);
+
+   
   }
 
   .menu-icon {
@@ -119,10 +127,7 @@
     cursor: pointer;
   }
 
-  .fa-times {
-    color: #fff;
-    font-size: 2rem;
-  }
+
 
   .nav-links-mobile {
     display: block;
