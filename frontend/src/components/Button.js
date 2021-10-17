@@ -2,10 +2,10 @@ import React from 'react';
 import './Button.css';
 import { Link } from 'react-router-dom';
 
-export function Button() {
+export function Button(props) {
   return (
-    <Link to='signUp'>
-      <button className='btn'>Sign Up</button>
+    <Link to={props.link}>
+      <button className='btn'>{props.text}</button>
     </Link>
   );
 }

@@ -37,6 +37,13 @@ function Navbar() {
               Products
             </Link>
           </li>
+          <li className='nav-item'>
+            <Link to='/tour' className='nav-links' onClick={closeMobileMenu}>
+              Tour
+            </Link>
+          </li>
+
+
           <li>
             <Link
               to='/signUp'
@@ -47,7 +54,8 @@ function Navbar() {
             </Link>
           </li>
         </ul>
-        <Button />
+        <Button text='Log in' link='login'/>
+        <Button text='Sign up' link='signUp'/>
       </nav>
     </>
   );

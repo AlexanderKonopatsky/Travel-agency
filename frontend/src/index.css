@@ -13,30 +13,12 @@ code {
 }
  */
 
- * {
-   box-sizing: border-box;
-   margin: 0;
-   padding: 0;
-   font-family: 'PT Sans', sans-serif;
- }
-
-/*  .top-image, .contactUs, .products, .signUp{
-  display: flex;
-  height: 80vh;
-  align-items: center;
-  justify-content: center;
-  font-size: 3rem;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'PT Sans', sans-serif;
 }
-
-.top-image {
-  background-image: url('./images/img-3.jpg');
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  color: #fff;
-  font-size: 100px;
-} */
-
 
 .top-image {
     background-image: url('./images/img-2.jpg');
@@ -52,20 +34,120 @@ code {
     height: 500px;
 }
 
-.hero-image_container {
-  margin: 0;
-  padding: 0 10px;
-  position: relative;
+.home-image__title-text {
+    color: white;
+    display: block;
+    font-family: "Times New Roman", Serif;
+    font-size: 66px;
+    font-style: normal;
+    letter-spacing: -1px;
+    line-height: 72px;
+    font-weight: 50;
 }
 
-.hero-image__title {
+.hero-grid {
+    align-items: center;
+    flex-direction: row;
+    padding: 45px 0;
+    background-color: #013d48;
+    display: -ms-flexbox;
+    display: flex;
+    flex-direction: column-reverse;
+    overflow: hidden;
+}
+
+.text-center {
   color: white;
-  display: block;
+  font-size: 60px;
+  letter-spacing: -0.5px;
+  line-height: 1.05;
   font-family: "Times New Roman", Serif;
-  font-size: 66px;
-  font-style: normal;
-  letter-spacing: -1px;
-  line-height: 72px;
-  font-weight: 50;
+  font-weight: normal;
+  margin: 0;
+  text-align: center;
 }
 
+.hero-grid__favorite {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    z-index: 2;
+}
+
+img {
+    max-width: 100%;
+    vertical-align: middle;
+    width: 100%;
+}
+
+.grid {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    padding: 45px 0;
+    background-color: #013d48;
+    overflow: hidden;
+}
+
+.grid__section {
+    flex: 1 0 50%;
+    display: flex;
+    position: relative;
+    align-items: center;
+}
+
+.grid__content__container {
+    max-width: 585px;
+    margin: auto;
+    margin-right: 0px;
+}
+
+.grid__content {
+    padding-right: 40px;
+    color: white;
+    margin: 0 auto;
+}
+
+.text--headline--neutral-white {
+    color: white;
+    font-size: 60px;
+    letter-spacing: -0.5px;
+    line-height: 1.05;
+    font-family: "Times New Roman", Serif;
+    font-weight: normal;
+    margin: 0;
+    text-align: center;
+}
+
+
+
+.grid__wrap {
+    height: 100%;
+    position: relative;
+    width: auto;
+}
+
+.grid__gallery-button {
+    appearance: none;
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+    height: 100%;
+    position: relative;
+    transition: all 150ms linear;
+    width: 70%;
+    margin-left: 5em;
+}
+
+.grid__image {
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+    object-position: center;
+}
+
+img {
+    max-width: 100%;
+    vertical-align: middle;
+    width: 100%;
+}

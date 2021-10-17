@@ -1,0 +1,70 @@
+.main-section {
+    background-color: #f3dac7;
+}
+
+.main-container {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.grid-section {
+    display: grid;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    grid-gap: 30px;
+    grid-template-columns: 1fr 280px;
+    margin-left: 14%;
+    margin-right: 13%;
+}
+
+.grid-with-sidebar {
+    position: sticky;
+    top: 0;
+}
+
+.grid-with-sidebar {
+    max-height: 100vh;
+    background-color: white;
+    text-align: center;
+}
+
+.grid-main-column {
+    grid-column: 1;
+    grid-row: 1;
+    margin-right: 0;
+}
+
+.head-text {
+    color: #1a1a1a;
+    font-family: "Times New Roman", Serif;
+    font-weight: normal;
+    margin: 0;
+    margin-bottom: 11px;
+}
+
+.box {
+    background-color: white;
+    padding: 30px;
+}
+
+.box-head {
+    font-family: "Proxima Nova", Sans-Serif;
+    font-size: 22px;
+    font-weight: normal;
+    line-height: 1;
+    margin-bottom: 23px;
+    margin-top: 0;
+}
+
+.box-body {
+    font-family: "Proxima Nova", Sans-Serif;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 1;
+    margin-bottom: 20px;
+    margin-top: 0;
+}
+
+.react-datepicker {
+    margin-top: 20px;
+}
