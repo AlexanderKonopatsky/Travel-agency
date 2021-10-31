@@ -2,7 +2,7 @@ const data = {
   tours: [
     {
       _id: '1', 
-      src: 'images/img-1.jpg',
+      src: '/images/img-4.jpg',
       text: 'The Last',
       label: 'label',
       path: '/',
@@ -15,7 +15,7 @@ const data = {
     },
     {
       _id: '1', 
-      src: 'images/img-2.jpg',
+      src: '/images/img-2.jpg',
       text: 'The Last',
       label: 'label',
       path: '/',
@@ -27,7 +27,7 @@ const data = {
     },
     {
       _id: '1', 
-      src: 'images/img-3.jpg',
+      src: '/images/img-4.jpg',
       text: 'The Last',
       label: 'label',
       path: '/ ',

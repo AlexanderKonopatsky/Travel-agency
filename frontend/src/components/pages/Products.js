@@ -3,10 +3,6 @@ import Footer from "../Footer";
 import { connect } from 'react-redux'
 
 
-
-
-
-
 function Products() {
   return (
 
@@ -28,8 +24,6 @@ function Products() {
       </div>
       
       </div>
-   
-     
    
   )
 }
