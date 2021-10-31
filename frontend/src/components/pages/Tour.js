@@ -1,8 +1,14 @@
-import React from "react";
-import Footer from "../Footer";
-import MainSection from "../MainSection";
+import React from "react"
+import Footer from "../Footer"
+import MainSection from "../MainSection"
+import data from '../../data'
 
-function Tour() {
+function Tour(props) {
+  const tour = data.tours.find(x => x._id === props.match.params.id)
+  if (!tour) {
+    return <div>Tour Not Found</div>
+  }
+  
   return (
     <>
       <div className='grid'>

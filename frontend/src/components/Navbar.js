@@ -15,7 +15,7 @@ function Navbar() {
       <nav className='navbar'>
         <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
           Tour Agency  
-          <i class="fas fa-globe-americas icon"/>
+          <i className="fas fa-globe-americas icon"/>
         </Link>
         <div className='menu-icon' onClick={handleClick}>
           <i className={click ? 'fas fa-times' : 'fas fa-bars'} />

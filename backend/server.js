@@ -1,0 +1,61 @@
+const express = require('express')
+
+data = {
+  tours: [
+    {
+      _id: '1', 
+      src: 'images/img-1.jpg',
+      text: 'The Last',
+      label: 'label',
+      path: '/',
+      desc: 'Luomo: Private Boat Excursion',
+      rating: 4.5,
+      additionalInfo: 'Dop info',
+      price: 342,
+      numReviews: 32
+      
+    },
+    {
+      _id: '1', 
+      src: 'images/img-2.jpg',
+      text: 'The Last',
+      label: 'label',
+      path: '/',
+      desc: 'Luomo: Private Boat Excursion',
+      rating: 3,
+      additionalInfo: 'Dop info',
+      price: 853,
+      numReviews: 12
+    },
+    {
+      _id: '1', 
+      src: 'images/img-3.jpg',
+      text: 'The Last',
+      label: 'label',
+      path: '/ ',
+      desc: 'Luomo: Private Boat Excursion',
+      rating: 2.5,
+      additionalInfo: 'Dop info',
+      price: 138,
+      numReviews: 21
+    },
+  ]
+}
+
+
+
+const port = process.env.PORT || 5000
+const app = express()
+
+app.get('/', (req, res) => {
+  res.send('server is ready')
+})
+
+app.get('/api/tours', (req, res) => {
+  res.send(data.tours)
+})
+
+
+app.listen(port, () => {
+  console.log(`http://localhost:${port}/`)
+})
