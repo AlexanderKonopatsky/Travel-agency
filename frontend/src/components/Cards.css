@@ -162,15 +162,20 @@ p {
 }
 
 .star-rating .fa {
-  color: #f5a623;
+ 
 }
 
-.star-rating__count {
-  font-family: "Proxima Nova", Sans-Serif;
-  font-size: 1em;
-  font-weight: normal;
-  margin-left: 10px;
+.star-rating span {
+  color: #f5a623;
+  margin: 0.1rem;
 }
+
+.star-rating span:last-child {
+  color: black;
+
+}
+
+
 
 
 

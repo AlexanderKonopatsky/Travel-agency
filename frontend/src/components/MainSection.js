@@ -19,7 +19,7 @@ export function MainSection() {
         <div className="main-container">
           <div className="grid-section">
             <div className="grid-sidebar">
-              <div class='head-text'>
+              <div className='head-text'>
                 Book a Tour
               </div>
               <div className="grid-with-sidebar">
@@ -36,7 +36,7 @@ export function MainSection() {
             </div>
 
             <div className="grid-main-column">
-              <div class='head-text'>
+              <div className='head-text'>
                 Tour Details
               </div>
               <div className="box">
@@ -45,7 +45,35 @@ export function MainSection() {
                 </div>
                 <div className="box-body">
                   This three-hour introduction to Berlin is designed to provide a perfect introduction to Berlin for first timers, or to reorient returning travelers to some of the city's most important sites, including the Brandenburg Gate, Holocaust Memorial, and the
+                  This three-hour introduction to Berlin is designed to provide a perfect introduction to Berlin for first timers, or to reorient returning travelers to some of the city's most important sites, including the Brandenburg Gate, Holocaust Memorial, and the
+                  This three-hour introduction to Berlin is designed to provide a perfect introduction to Berlin for first timers, or to reorient returning travelers to some of the city's most important sites, including the Brandenburg Gate, Holocaust Memorial, and the
+                  This three-hour introduction to Berlin is designed to provide a perfect introduction to Berlin for first timers, or to reorient returning travelers to some of the city's most important sites, including the Brandenburg Gate, Holocaust Memorial, and the
                 </div>
+
+              </div>
+
+              <div className='head-text'>
+                Tour Details
+              </div>
+              <div className="box">
+                <div className="box-head">
+                  Tour description
+                </div>
+                <div className="box-body">
+                  This three-hour introduction to Berlin is designed to provide a perfect introduction to Berlin for first timers, or to reorient returning travelers to some of the city's most important sites, including the Brandenburg Gate, Holocaust Memorial, and the
+                  This three-hour introduction to Berlin is designed to provide a perfect introduction to Berlin for first timers, or to reorient returning travelers to some of the city's most important sites, including the Brandenburg Gate, Holocaust Memorial, and the
+                 
+                </div>
+
+                <div className="box-head">
+                  Tour description
+                </div>
+                <div className="box-body">
+                  This three-hour introduction to Berlin is designed to provide a perfect introduction to Berlin for first timers, or to reorient returning travelers to some of the city's most important sites, including the Brandenburg Gate, Holocaust Memorial, and the
+                  This three-hour introduction to Berlin is designed to provide a perfect introduction to Berlin for first timers, or to reorient returning travelers to some of the city's most important sites, including the Brandenburg Gate, Holocaust Memorial, and the
+                 
+                </div>
+
 
               </div>
             </div>

@@ -151,3 +151,20 @@ img {
     vertical-align: middle;
     width: 100%;
 }
+
+
+.alert {
+  padding: 1rem;
+  border: 0.1rem solid transparent;
+  border-radius: 0.5rem;
+}
+
+.alert-info {
+  color:yellow;
+  background-color: thistle;
+}
+
+.alert-danger {
+  color:brown;
+  background-color: thistle;
+}

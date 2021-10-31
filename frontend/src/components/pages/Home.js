@@ -8,11 +8,11 @@ function Home() {
     <>
       <div className="top-image">
         <h1>
-          <span class="home-image__title-text">The world is waiting!</span>
+          <span className="home-image__title-text">The world is waiting!</span>
         </h1>
       </div>
       <Form />
-      <Cards />
+      <Cards/>
       <Footer />
     </>
   )
