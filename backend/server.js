@@ -4,11 +4,11 @@ data = {
   tours: [
     {
       _id: '1', 
-      src: 'images/img-1.jpg',
+      src: '/images/img-1.jpg',
       text: 'The Last',
       label: 'label',
       path: '/',
-      desc: 'Luomo: Private Boat Excursion',
+      desc: 'Luomo: Priva timers, or to reorient retThis three-hour introduction to Berlin is designed to provide a perfect introduction to Berlin for first timers, or to reorient ret',
       rating: 4.5,
       additionalInfo: 'Dop info',
       price: 342,
@@ -16,24 +16,24 @@ data = {
       
     },
     {
-      _id: '1', 
-      src: 'images/img-2.jpg',
+      _id: '2', 
+      src: '/images/img-2.jpg',
       text: 'The Last',
       label: 'label',
       path: '/',
-      desc: 'Luomo: Private Boat Excursion',
+      desc: 'Luomo: timers, or to reo timers, or to reorient retThis three-hour introduction to Berlin is designed to provrient retThis three-hour introduction to Berlin is designed to prov Private B timers, or to reorient retThis three-hour introduction to Berlin is designed to provoat Excursion',
       rating: 3,
       additionalInfo: 'Dop info',
       price: 853,
       numReviews: 12
     },
     {
-      _id: '1', 
-      src: 'images/img-3.jpg',
+      _id: '3', 
+      src: '/images/img-4.jpg',
       text: 'The Last',
       label: 'label',
       path: '/ ',
-      desc: 'Luomo: Private Boat Excursion',
+      desc: 'Luomo: Pr timers, or to reorient retThis three timers, or to reorient retThis three-hour introduction to Berlin is designed to prov-hour introduction to Berlin is designed to provivat timers, or to reorient retThis three-hour introduction to Berlin is designed to prove Boat Excursion',
       rating: 2.5,
       additionalInfo: 'Dop info',
       price: 138,
@@ -53,6 +53,15 @@ app.get('/', (req, res) => {
 
 app.get('/api/tours', (req, res) => {
   res.send(data.tours)
+})
+
+app.get('/api/tour/:id', (req, res) => {
+  const tour = data.tours.find((x) => x._id === req.params.id)
+  if (tour) {
+    res.send(tour)
+  } else {
+    res.status(404).send({message: 'Tour not Found'})
+  }
 })
 
 

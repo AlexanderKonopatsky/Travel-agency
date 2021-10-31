@@ -29,7 +29,7 @@ export function Form() {
   return (
     <div  className="booking__container">
       <form  action="/booking_bars" method="post">
-        <div className="booking">
+      
           <div className="booking">
             <div className="booking__section">
               <div className="booking__section__top">
@@ -89,11 +89,14 @@ export function Form() {
                 <label className="label">Participants</label>
               </div>
             </div>
+            <div className="booking__section">
+   
+                <button name="button" type="submit" className="booking__btn">Find Tours</button>
+     
+            </div>
           </div>
-          <div className="booking__action">
-            <button name="button" type="submit" className="booking__btn">Find Tours</button>
-          </div>
-        </div>
+
+       
       </form>
     </div>
   );

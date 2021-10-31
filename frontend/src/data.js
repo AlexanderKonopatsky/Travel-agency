@@ -2,7 +2,7 @@ module.exports = {
   tours: [
     {
       _id: '1', 
-      src: 'images/img-1.jpg',
+      src: '/images/img-1.jpg',
       text: 'The Last',
       label: 'label',
       path: '/',
@@ -15,7 +15,7 @@ module.exports = {
     },
     {
       _id: '1', 
-      src: 'images/img-2.jpg',
+      src: '/images/img-2.jpg',
       text: 'The Last',
       label: 'label',
       path: '/',
@@ -27,7 +27,7 @@ module.exports = {
     },
     {
       _id: '1', 
-      src: 'images/img-3.jpg',
+      src: '/images/img-3.jpg',
       text: 'The Last',
       label: 'label',
       path: '/ ',
