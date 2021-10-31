@@ -29,7 +29,7 @@ function Tour(props) {
           </div>
         </div>
       </div>
-      <MainSection />
+      <MainSection tour={tour} />
       <Footer />
     </>
   )
