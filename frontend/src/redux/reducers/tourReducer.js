@@ -1,4 +1,4 @@
-import { TOUR_DETAILS_FAIL, TOUR_DETAILS_REQUEST, TOUR_DETAILS_SUCCESS, TOUR_LIST_FAIL, TOUR_LIST_REQUEST, TOUR_LIST_SUCCESS } from "../types";
+import { TOUR_DETAILS_FAIL, TOUR_DETAILS_REQUEST, TOUR_DETAILS_SUCCESS, TOUR_LIST_FAIL, TOUR_LIST_REQUEST, TOUR_LIST_SUCCESS } from '../constants/tourConstants';
 
 export const tourListReducer = (state = { loading: true, tours: []}, action) => {
   switch (action.type) {

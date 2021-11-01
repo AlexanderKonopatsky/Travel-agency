@@ -1,16 +1,24 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import {Link} from 'react-router-dom'
 import {Button} from './Button'
 import './Navbar.css'
 
 
 function Navbar() {
+
   const [click, setClick] = useState(false);
 
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
 
+  const cart = useSelector(state => state.cart)
+
+  const { cartItems } = cart
+
   return (
+      
+
     <>
       <nav className='navbar'>
         <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
@@ -40,6 +48,15 @@ function Navbar() {
           <li className='nav-item'>
             <Link to='/tour' className='nav-links' onClick={closeMobileMenu}>
               Tour
+            </Link>
+          </li>
+
+          <li className='nav-item'>
+            <Link to='/cart' className='nav-links' onClick={closeMobileMenu}>
+              Cart
+              {
+                cartItems.length > 0 && (<span className="badge">{cartItems.length}</span>)
+              }
             </Link>
           </li>
 

@@ -16,7 +16,7 @@
   }
 
   .booking {
-    /*     box-shadow: 0 2px 3px 0 rgb(0 0 0 / 20%); */
+    box-shadow: 0 2px 3px 0 rgb(53, 39, 39); 
     display: flex;
     height: 120px;
     flex-direction: row;
