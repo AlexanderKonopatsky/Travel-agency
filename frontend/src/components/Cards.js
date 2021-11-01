@@ -1,7 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import './Cards.css';
 import CardItem from './CardItem';
-import axios from 'axios'
 import MessageBox from './MessageBox'
 import LoadingBox from './LoadingBox'
 import { useDispatch, useSelector } from 'react-redux';

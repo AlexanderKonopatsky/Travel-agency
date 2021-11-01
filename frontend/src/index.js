@@ -7,7 +7,15 @@ import { rootReducer } from './redux/rootReducer';
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 
-const store = createStore(rootReducer, compose(
+const initialState = {
+  cart: {
+    cartItems: localStorage.getItem('cartItems') 
+      ? JSON.parse(localStorage.getItem('cartItems'))
+      : []
+  }
+}
+
+const store = createStore(rootReducer, initialState, compose(
   applyMiddleware(thunk),
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 ))
