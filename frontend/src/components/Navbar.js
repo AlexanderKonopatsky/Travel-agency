@@ -60,8 +60,15 @@ function Navbar() {
             </Link>
           </li>
 
+          <li className='nav-item'>
+          <Button onClick={closeMobileMenu} text='Log in' link='login'/>
+          </li>
+          <li className='nav-item'>
+          <Button onClick={closeMobileMenu} text='Sign up' link='signUp'/>
+          </li>
 
-          <li>
+
+{/*           <li>
             <Link
               to='/signUp'
               className='nav-links-mobile'
@@ -69,10 +76,14 @@ function Navbar() {
             >
               Sign Up
             </Link>
-          </li>
+          </li> */}
+
+
+
+          
         </ul>
-        <Button text='Log in' link='login'/>
-        <Button text='Sign up' link='signUp'/>
+{/*         <Button onClick={closeMobileMenu} text='Log in' link='login'/>
+        <Button onClick={closeMobileMenu} text='Sign up' link='signUp'/> */}
       </nav>
     </>
   );
