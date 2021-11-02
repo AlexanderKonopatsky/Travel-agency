@@ -11,7 +11,7 @@ export function Form() {
   const [count, setCount] = useState(2)
 
   const options = [
-    'Russia', 'Belarus', 'Germany', 'Italy',
+    'Minsk', 'Moscow', 'Berlin', 'Paris',
   ];
   const defaultOption = options[0];
 

@@ -26,14 +26,13 @@
 
 .nav-menu {
   display: grid;
-  grid-template-columns: repeat(5, auto);
+  grid-template-columns: repeat(7, auto);
   grid-gap: 10px;
   list-style: none;
   text-align: center;
   /* width: 50vw; */
   justify-content: end;
-  margin: auto;
-  margin-right: 3rem;
+
   margin-left: 10em;
 }
 
@@ -161,6 +160,6 @@
   border-radius: 25%;
   border: 1px solid #013d48;
   padding: 0.2rem 0.7rem;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   margin-left: 0.5rem;
 }

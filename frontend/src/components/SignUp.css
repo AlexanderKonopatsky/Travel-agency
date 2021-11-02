@@ -1,5 +1,5 @@
 .signUp_section {
-  background-color: #f8e1cf;
+  background-color: #f4f0ed;
 }
 
 .container {
@@ -19,7 +19,7 @@
 
 }
 
-.row {
+.row2 {
   padding-top: 120px;
   padding-bottom: 60px;
 }
@@ -59,6 +59,7 @@
 }
 
 .section_form {
+  
   display: flex;
   justify-content: center;
   background-color: white;

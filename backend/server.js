@@ -5,12 +5,12 @@ data = {
     {
       _id: '1', 
       src: '/images/img-1.jpg',
-      text: 'The Last',
+      text: 'Tower of London Tour',
       label: 'label',
       path: '/',
-      desc: 'Luomo: Priva timers, or to reorient retThis three-hour introduction to Berlin is designed to provide a perfect introduction to Berlin for first timers, or to reorient ret',
+      desc: 'Survey the stories behind the beheadings, Beefeaters, and Crown Jewels in Londons famous tower',
       rating: 4.5,
-      additionalInfo: 'Dop info',
+      additionalInfo: 'This three-hour Tower of London tour, led by an expert historian, uses the Tower as a backdrop for understanding and discussing British history and culture. Together, well unpack the many roles the ',
       price: 342,
       numReviews: 32
       
@@ -18,22 +18,22 @@ data = {
     {
       _id: '2', 
       src: '/images/img-2.jpg',
-      text: 'The Last',
+      text: 'Tower of London Tour For Kids',
       label: 'label',
       path: '/',
-      desc: 'Luomo: timers, or to reo timers, or to reorient retThis three-hour introduction to Berlin is designed to provrient retThis three-hour introduction to Berlin is designed to prov Private B timers, or to reorient retThis three-hour introduction to Berlin is designed to provoat Excursion',
+      desc: 'Discover the Tower of London for all ages',
       rating: 3,
-      additionalInfo: 'Dop info',
+      additionalInfo: 'The Tower of London is one of Londons most famous landmarks. Known for its feathered inhabitants, its gruesome executions, and its famous prisoners, the Tower is the site of intriguing stories that inspire and fascinate young visitors.',
       price: 853,
       numReviews: 12
     },
     {
       _id: '3', 
       src: '/images/img-4.jpg',
-      text: 'The Last',
+      text: 'London History Tour: Portrait of a City',
       label: 'label',
       path: '/ ',
-      desc: 'Luomo: Pr timers, or to reorient retThis three timers, or to reorient retThis three-hour introduction to Berlin is designed to prov-hour introduction to Berlin is designed to provivat timers, or to reorient retThis three-hour introduction to Berlin is designed to prove Boat Excursion',
+      desc: 'Uncover Londons 2,000-year history in the company of a local historian on this London City Tour, broadly covering the history of Englands capital. Providing an overview of London from Roman outpost to cutting-edge world capital, this walk',
       rating: 2.5,
       additionalInfo: 'Dop info',
       price: 138,

@@ -160,8 +160,8 @@ img {
 }
 
 .alert-info {
-  color:yellow;
-  background-color: thistle;
+  color:rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
 }
 
 .alert-danger {
@@ -172,8 +172,8 @@ img {
 .action-button-tour {
   width: 100%;
   margin-top: 50px;
-  background-color: #264c93;
-  border: 1px solid #072152;
+  background-color: #126472;
+  border: 1px solid #08525f;
   border-radius: 0;
   color: white;
   font-family: "Proxima Nova", Sans-Serif;
@@ -216,6 +216,4 @@ img {
   text-align: center;
   text-decoration: none;
 }
-
-
 

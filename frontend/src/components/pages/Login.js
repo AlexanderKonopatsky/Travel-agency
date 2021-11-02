@@ -7,7 +7,7 @@ function Login() {
 <>
       <div className="signUp_section">
         <div className='container'>
-          <div className='row'>
+          <div className='row2'>
             <div className='col-xs-12'>
               <div className='header_section'>
                 <h1 className='header_text'>
