@@ -43,7 +43,7 @@ function Tour(props) {
             <div className='grid__content__container'>
               <div className='grid__content'>
                 <h1 className='text-center'>
-                   {tour.text} 
+                   {tour.title} 
                 </h1>
               </div>
             </div>
@@ -51,7 +51,7 @@ function Tour(props) {
           <div className='grid__section '>
             <div className='grid__wrap'>
               <button className='grid__gallery-button' >
-                <img alt="" className="grid__image"  src={tour.src}  />
+                <img alt="" className="grid__image"  src={tour.image}  />
               </button>
             </div>
           </div>

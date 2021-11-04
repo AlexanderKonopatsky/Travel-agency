@@ -2,7 +2,7 @@ import Axios from "axios"
 import { CART_ADD_ITEM, CART_REMOVE_ITEM } from "../constants/cartConstants"
 
 export const addToCart = (tourId, startDate, endDate) => async (dispatch, getState) => {
-  const { data } = await Axios.get(`/api/tour/${tourId}`)
+  const { data } = await Axios.get(`/api/tours/${tourId}`)
 
   const newStartDate = startDate.slice(0, startDate.indexOf(':') - 2)
   const newEndDate = endDate.slice(0, endDate.indexOf(':') - 2)
@@ -11,12 +11,12 @@ export const addToCart = (tourId, startDate, endDate) => async (dispatch, getSta
     type: CART_ADD_ITEM,
     payload: {
       tourId: data._id,
-      src: data.src,
-      text: data.text,
       image: data.image,
+      title: data.title,
+      category: data.category,
       desc: data.desc,
       price: data.price,
-      addInfo: data.additionalInfo,
+      additionalInfo: data.additionalInfo,
       startDate: newStartDate,
       endDate: newEndDate
     }

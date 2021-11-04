@@ -39,7 +39,9 @@
     font-family: "Times New Roman", Serif;
     font-weight: normal;
     margin: 0;
-    margin-bottom: 11px;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    margin-left: 20px;
 }
 
 .box {
