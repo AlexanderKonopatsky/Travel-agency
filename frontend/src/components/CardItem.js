@@ -1,6 +1,4 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Rating from './rating';
 
 function CardItem(props) {
@@ -23,12 +21,12 @@ function CardItem(props) {
             <img
               className='cards__item__img'
               alt='Travel'
-              src={tour.src}
+              src={tour.image}
             />
           </figure>
           <div className="cards_cont">
             {/* <div className='cards__item__info'> */}
-            <h3 className='cards__item__text'>{tour.text}</h3>
+            <h3 className='cards__item__text'>{tour.title}</h3>
             {/*      </div> */}
             <p className="tour_card_description">{tour.desc}</p>
 

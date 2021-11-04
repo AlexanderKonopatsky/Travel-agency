@@ -26,7 +26,7 @@ export const detailsTour = (tourId) => async (dispatch) => {
     payload: tourId
   })
   try {
-    const { data } = await Axios.get(`/api/tour/${tourId}`)
+    const { data } = await Axios.get(`/api/tours/${tourId}`)
     dispatch({
       type: TOUR_DETAILS_SUCCESS,
       payload: data
