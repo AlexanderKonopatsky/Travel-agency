@@ -1,8 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { signIn } from "../../redux/actions/userActions";
 import Footer from "../Footer";
+import LoadingBox from "../LoadingBox";
+import MessageBox from "../MessageBox";
 import '../SignUp.css'
 
-function Login() {
+function Login(props) {
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const dispatch = useDispatch()
+
+  const userSignIn = useSelector(state => state.userSignIn)
+  const { userInfo, loading, error } = userSignIn
+
+  const submitHandler = (e) => {
+    e.preventDefault()
+    dispatch(signIn(email, password))
+
+  }
+
+  useEffect(() => {
+    if (userInfo) {
+      props.history.push('/')
+    }
+  }, [props.history, userInfo])
+
   return (
 <>
       <div className="signUp_section">
@@ -20,58 +45,58 @@ function Login() {
               </div>
             </div>
           </div>
+
+          <div className='section_message'>
+            {loading && <LoadingBox></LoadingBox>}
+            {error && <MessageBox variant="danger">{error}</MessageBox>}
+          </div>
+
           <div className='form_login'>
-            <div className='section_form col-md-6 col-md-offset-3'>
-              <form className='form_for_new_user' action='/' method='post'>
-              <div className='row1'>
+            <div className='section_form '>
+              <form className='form_for_new_user' onSubmit={submitHandler}>
+                <div className='row1'>
+                  
+                  < div className='text-divider'>
+                    <div className='text-divider__divider'></div>
+                    <div className='text-divider__text'>OAuth authorization</div>
+                    <div className='text-divider__divider'></div>
+                  </div>
 
-              < div className='text-divider'>
-              <div className='text-divider__divider'></div>
-              <div className='text-divider__text'>OAuth authorization</div>
-              <div className='text-divider__divider'></div>
-              </div>
-
-              <a className='btn_auth' href='/'  data-facebook-login>
-              <span >Log in with Vk</span>
-              </a>
-
-
-              <a className='btn_auth' href='/'  data-facebook-login>
-
-              <span >Log in with Gmail</span>
-              </a>
-
-              < div className='text-divider'>
-              <div className='text-divider__divider'></div>
-              <div className='text-divider__text'>or sign up with email</div>
-              <div className='text-divider__divider'></div>
-              </div>
-
-              <div className='form-box'>
-              <label className="form-box__field" >
-                <span className='form-label'>
-                    Email
-                </span>
-                <input className="form-input" type="text"  />
-              </label>
-              </div>
-
-              <div className='form-box'>
-              <label className="form-box__field" >
-                <span className='form-label'>
-                    Password
-                </span>
-                <input className="form-input" type="text"  />
-              </label>
-              </div>
+                  <a className='btn_auth' href='/'  data-facebook-login>
+                    <span >Log in with Vk</span>
+                  </a>
 
 
+                  <a className='btn_auth' href='/'  data-facebook-login>
+                    <span >Log in with Gmail</span>
+                  </a>
 
-              <a className='btn_auth' href='/' >
+                  < div className='text-divider'>
+                    <div className='text-divider__divider'></div>
+                    <div className='text-divider__text'>or sign in with email</div>
+                    <div className='text-divider__divider'></div>
+                  </div>
 
-              <span >Log in with Email</span>
-              </a>
-              </div>
+                  <div className='form-box'>
+                  <label className="form-box__field" >
+                    <span className='form-label'>Email</span>
+                    <input className="form-input" type="email" onChange={ e => setEmail(e.target.value)}  required />
+                  </label>
+                  </div>
+
+                  <div className='form-box'>
+                  <label className="form-box__field" >
+                    <span className='form-label'>Password</span>
+                    <input className="form-input" type="password" onChange={ e => setPassword(e.target.value)} generateJsonToken />
+                  </label>
+                </div>
+
+
+                <button className='btn_auth'  type="submit" >
+                  Log in with Email
+                </button>
+                
+                </div>
               </form>
             </div>
           </div>

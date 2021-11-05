@@ -1,10 +1,16 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const dotenv = require('dotenv')
 const userRouter = require('./routers/userRouter')
 const tourRouter = require('./routers/tourRouter')
 
 const port = process.env.PORT || 5000
+
+dotenv.config()
+
 const app = express()
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 mongoose.connect(process.env.MONGODB_URL || `mongodb+srv://alexander:alexander321@cluster0.wizkj.mongodb.net/TourAgency?retryWrites=true&w=majority`, 
   {

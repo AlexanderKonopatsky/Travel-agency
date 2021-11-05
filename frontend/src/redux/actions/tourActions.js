@@ -32,10 +32,6 @@ export const detailsTour = (tourId) => async (dispatch) => {
       payload: data
     })
   } catch (error) {
-/*     console.log('error', error)
-    console.log('error.response', error.response)
-    console.log('error.data', error.data)
-    console.log('error.data.message ', error.data.message ) */
     dispatch({
       type: TOUR_DETAILS_FAIL,
       payload: error.response && error.response.data.message 

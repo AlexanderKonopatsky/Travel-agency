@@ -8,6 +8,11 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 
 const initialState = {
+  userSignIn: {
+    userInfo: localStorage.getItem("userInfo") 
+    ? JSON.parse(localStorage.getItem("userInfo"))
+    : null
+  },
   cart: {
     cartItems: localStorage.getItem('cartItems') 
       ? JSON.parse(localStorage.getItem('cartItems'))
