@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {Link} from 'react-router-dom'
+import { signOut } from '../redux/actions/userActions'
 import {Button} from './Button'
 import './Navbar.css'
 
@@ -13,12 +14,20 @@ function Navbar() {
   const closeMobileMenu = () => setClick(false);
 
   const cart = useSelector(state => state.cart)
-
   const { cartItems } = cart
 
-  return (
-      
+  const userSignIn = useSelector(state => state.userSignIn)
+  const { userInfo } = userSignIn
 
+  const dispatch = useDispatch()
+
+  const signOutHandler = () => {
+    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+    dispatch(signOut())
+  }
+
+  return (
+    
     <>
       <nav className='navbar'>
         <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
@@ -59,31 +68,30 @@ function Navbar() {
               }
             </Link>
           </li>
+          {
+            userInfo ? (
+              <div className="dropdown">
+                <li className='nav-item'>
+                 <Button onClick={closeMobileMenu} text={userInfo.name} link='login'></Button>
+                 <i className="fa fa-caret-down"></i>
+                 <ul className="dropdown-content">
+                  <button onClick={signOutHandler} className="ul-user">Sign Out</button>
+                </ul>
+                </li> 
+
+              </div>
+               ) 
+            : (
+              <li className='nav-item'>
+              <Button onClick={closeMobileMenu} text='Log in' link='login'/>
+              </li> )
+          }
 
           <li className='nav-item'>
-          <Button onClick={closeMobileMenu} text='Log in' link='login'/>
+            <Button onClick={closeMobileMenu} text='Sign up' link='signUp'/>
           </li>
-          <li className='nav-item'>
-          <Button onClick={closeMobileMenu} text='Sign up' link='signUp'/>
-          </li>
-
-
-{/*           <li>
-            <Link
-              to='/signUp'
-              className='nav-links-mobile'
-              onClick={closeMobileMenu}
-            >
-              Sign Up
-            </Link>
-          </li> */}
-
-
-
-          
+         
         </ul>
-{/*         <Button onClick={closeMobileMenu} text='Log in' link='login'/>
-        <Button onClick={closeMobileMenu} text='Sign up' link='signUp'/> */}
       </nav>
     </>
   );

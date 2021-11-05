@@ -69,6 +69,28 @@
 
 }
 
+.section_message {
+  
+  display: flex;
+  justify-content: center;
+  
+  max-width: 550px;
+  margin: auto;
+  margin-bottom: 25px;
+  border-radius: 7px;
+
+}
+
+.section_loading {
+  display: flex;
+  justify-content: center;
+  background-color: rgb(255, 255, 255);
+  max-width: 550px;
+  margin: auto;
+  margin-bottom: 25px;
+  border-radius: 7px;
+}
+
 
 .btn_auth {
   background-color: #126472;

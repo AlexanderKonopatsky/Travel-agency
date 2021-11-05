@@ -165,6 +165,7 @@ img {
 }
 
 .alert-danger {
+  margin: auto;
   color:brown;
   background-color: thistle;
 }
