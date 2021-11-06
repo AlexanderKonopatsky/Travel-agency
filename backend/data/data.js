@@ -1,13 +1,15 @@
 data = {
   users: [
     {
-      name: 'admin',
+      firstName: 'admin',
+      lastName: 'administrator',
       email: 'admin@gmail.com',
       password: bcrypt.hashSync('123456789', 8),
       isAdmin: true
     },
     {
-      name: 'Alex',
+      firstName: 'Alex',
+      lastName: 'Alexander',
       email: 'alex@gmail.com',
       password: bcrypt.hashSync('987654321', 8),
       isAdmin: true

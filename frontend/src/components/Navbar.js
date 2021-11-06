@@ -72,7 +72,7 @@ function Navbar() {
             userInfo ? (
               <div className="dropdown">
                 <li className='nav-item'>
-                 <Button onClick={closeMobileMenu} text={userInfo.name} link='login'></Button>
+                 <Button onClick={closeMobileMenu} text={userInfo.firstName} link='login'></Button>
                  <i className="fa fa-caret-down"></i>
                  <ul className="dropdown-content">
                   <button onClick={signOutHandler} className="ul-user">Sign Out</button>
