@@ -15,8 +15,8 @@ function SignUp(props) {
 
   const dispatch = useDispatch()
 
-  const userSignIn = useSelector(state => state.userSignIn)
-  const { userInfo, loading, error } = userSignIn
+  const userSignUp = useSelector(state => state.userSignUp)
+  const { userInfo, loading, error } = userSignUp
 
   const submitHandler = (e) => {
     e.preventDefault()
