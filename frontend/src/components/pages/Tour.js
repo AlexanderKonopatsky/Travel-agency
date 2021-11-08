@@ -27,7 +27,6 @@ function Tour(props) {
   }, [dispatch, tourId])
 
   const addToCartHandler = () => {
-    console.log('props.history.push')
     props.history.push(`/cart/${tourId}?startDate=${startDate}&endDate=${endDate}`)
   }
   

@@ -16,6 +16,12 @@ function Login(props) {
   const userSignIn = useSelector(state => state.userSignIn)
   const { userInfo, loading, error } = userSignIn
 
+  const redirect = props.location.search
+    ? props.location.search.split('=')[1]
+    : '/';
+
+  console.log(redirect)
+
   const submitHandler = (e) => {
     e.preventDefault()
     dispatch(signIn(email, password))
@@ -24,9 +30,9 @@ function Login(props) {
 
   useEffect(() => {
     if (userInfo) {
-      props.history.push('/')
+      props.history.push(redirect)
     }
-  }, [props.history, userInfo])
+  }, [props.history, redirect, userInfo])
 
   return (
 <>

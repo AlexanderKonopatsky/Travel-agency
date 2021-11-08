@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 const userRouter = require('./routers/userRouter')
 const tourRouter = require('./routers/tourRouter')
+const orderRouter = require('./routers/orderRouter')
 
 const port = process.env.PORT || 5000
 
@@ -21,6 +22,7 @@ mongoose.connect(process.env.MONGODB_URL || `mongodb+srv://alexander:alexander32
 
 app.use('/api/users', userRouter)
 app.use('/api/tours', tourRouter)
+app.use('/api/orders', orderRouter)
 
 app.get('/', (req, res) => {
   res.send('server is ready')

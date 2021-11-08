@@ -6,11 +6,10 @@ export const addToCart = (tourId, startDate, endDate) => async (dispatch, getSta
 
   const newStartDate = startDate.slice(0, startDate.indexOf(':') - 2)
   const newEndDate = endDate.slice(0, endDate.indexOf(':') - 2)
-  console.log('startDate', startDate)
   dispatch({
     type: CART_ADD_ITEM,
     payload: {
-      tourId: data._id,
+      _id: data._id,
       image: data.image,
       title: data.title,
       category: data.category,

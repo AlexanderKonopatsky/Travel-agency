@@ -22,7 +22,6 @@ function Navbar() {
   const dispatch = useDispatch()
 
   const signOutHandler = () => {
-    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
     dispatch(signOut())
   }
 

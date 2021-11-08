@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react'
 import { addToCart, removeFromCart } from '../../redux/actions/cartActions'
+import { createOrder } from '../../redux/actions/orderActions'
 import { useDispatch, useSelector } from 'react-redux'
 import MessageBox from '../MessageBox'
 import '../cartPage.css'
 import Footer from '../Footer'
+import { ORDER_CREATE_RESET } from '../../redux/constants/orderConstants'
+import LoadingBox from '../LoadingBox'
 
 
 export default function CartPage(props) {
@@ -13,22 +16,40 @@ export default function CartPage(props) {
 
 
   const dispatch = useDispatch()
-  useEffect(() => {
-    if(tourId) {
-      dispatch(addToCart(tourId, startDate, endDate))
-    }
-  }, [dispatch, tourId, startDate, endDate])
 
   const cart = useSelector(state => state.cart)
   const { cartItems } = cart
+
+  const userSignIn = useSelector(state => state.userSignIn)
+  const { userInfo } = userSignIn
+
+  const orderCreate = useSelector(state => state.orderCreate)
+  const { order, success, loading, error } = orderCreate
 
   const removeFromCartHandler = (id) => {
     dispatch(removeFromCart(id))
   }
 
-  const checkoutHandler = () => {
-    props.history.push('/signUp?redirect=shipping')
+  const orderHandler = () => {
+    if (!userInfo) {
+      props.history.push('/login?redirect=cart')
+    } else {
+      dispatch(createOrder({ orderItems: cartItems}))
+    }
   }
+
+
+  useEffect(() => {
+    if(tourId && !success) {
+      dispatch(addToCart(tourId, startDate, endDate))
+    }
+
+    if(success) {
+      props.history.push(`/orderHistory`)
+      dispatch({ type: ORDER_CREATE_RESET})
+    }
+  }, [dispatch, tourId, startDate, endDate, success, order, props.history])
+
   
   return (
     <>
@@ -51,9 +72,6 @@ export default function CartPage(props) {
                       <div>
                       <img className='item-cart-image' src={item.image} alt='/'></img>
                       </div>
-                    {
-                      console.log(item)
-                    }
                       <div>
                         <h3 className="text">{item.title}</h3>
                         <h4 className="text">Start date: {item.startDate}</h4>
@@ -64,7 +82,7 @@ export default function CartPage(props) {
     
                     </div>
                     <div className="item-bnt-remove"> 
-                      <button type="button" className="btn-remove" onClick={() => removeFromCartHandler(item.tourId)}>Remove</button>
+                      <button type="button" className="btn-remove" onClick={() => removeFromCartHandler(item._id)}>Remove</button>
                     </div> 
 {/*                     <div className="item-cart-table">
                       <thead>
@@ -99,9 +117,14 @@ export default function CartPage(props) {
                 <div className="col-total">Total  {cartItems.reduce((a, c) => a + c.price, 0)} $</div>
 {/*                 <div className="col-price"></div> */}
               </div>
-              <input onClick={checkoutHandler} type="submit" value="Checkout" class="btn-checkout" />
+              <button onClick={orderHandler} type="submit" class="btn-checkout" disabled={cartItems.length === 0} >To order</button>
             </div>
           </section>
+
+          <div className='section_message'>
+            {loading && <LoadingBox></LoadingBox>}
+            {error && <MessageBox variant="danger">{error}</MessageBox>}
+          </div>
         </div>
       </div>
     </div>
