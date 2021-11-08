@@ -1,7 +1,7 @@
 const express = require('express')
 const User = require('../models/userModel')
 const bcrypt = require('bcrypt')
-const generateJsonToken = require('../utils')
+const { generateJsonToken } = require('../utils')
 
 const userRouter = express.Router()
 

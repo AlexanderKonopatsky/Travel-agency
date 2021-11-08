@@ -6,7 +6,6 @@ import "react-datepicker/dist/react-datepicker.css";
 
 export function MainSection(props) {
   const { tour } = props
-  console.log(tour)
 
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(null);

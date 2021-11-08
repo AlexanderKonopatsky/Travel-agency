@@ -128,3 +128,8 @@
   height: 20px;
 }
 
+
+button[disabled]{
+  background: #b3acac;  
+  border: 1px solid #414849;
+}
