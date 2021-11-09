@@ -6,6 +6,7 @@ import Products from './pages/Products'
 import Home from './pages/Home'
 import SignUp from './pages/SignUp'
 import Login from './pages/Login'
+import OrderHistoryPage from './pages/OrderHistoryPage'
 import Tour from './pages/Tour'
 import CartPage from './pages/CartPage'
 import OrderPage from './pages/OrderPage'
@@ -27,6 +28,7 @@ function App() {
           <Route path="/cart/:id?" component={CartPage}/>
           <Route path="/order/:id" component={OrderPage}/>
           <Route path="/login" exact component={Login}/>
+          <Route path="/orderHistory/list" exact component={OrderHistoryPage}/>
         </Switch>
         <Footer></Footer>
       </Router>

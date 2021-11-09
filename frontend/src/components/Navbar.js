@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import {Link} from 'react-router-dom'
 import { signOut } from '../redux/actions/userActions'
 import {Button} from './Button'
 import './Navbar.css'
 
 
-function Navbar() {
+function Navbar(props) {
 
   const [click, setClick] = useState(false);
 
@@ -26,7 +27,7 @@ function Navbar() {
   }
 
   const orderHistoryHandler = () => {
-    
+    props.history.push('/orderHistory/list')
   }
 
   const profileHandler = () => {
@@ -114,4 +115,4 @@ function Navbar() {
   );
 }
 
-export default Navbar
+export default withRouter(Navbar)
