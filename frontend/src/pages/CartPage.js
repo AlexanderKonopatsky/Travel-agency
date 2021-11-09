@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react'
-import { addToCart, removeFromCart } from '../../redux/actions/cartActions'
-import { createOrder } from '../../redux/actions/orderActions'
+import { addToCart, removeFromCart } from '../redux/actions/cartActions'
+import { createOrder } from '../redux/actions/orderActions'
 import { useDispatch, useSelector } from 'react-redux'
-import MessageBox from '../MessageBox'
-import '../cartPage.css'
-import Footer from '../Footer'
-import { ORDER_CREATE_RESET } from '../../redux/constants/orderConstants'
-import LoadingBox from '../LoadingBox'
+import MessageBox from "../components/MessageBox";
+import '../components/cartPage.css'
+import { ORDER_CREATE_RESET } from '../redux/constants/orderConstants'
+import LoadingBox from '../components/LoadingBox'
 
 
 export default function CartPage(props) {
@@ -45,8 +44,9 @@ export default function CartPage(props) {
     }
 
     if(success) {
-      props.history.push(`/orderHistory`)
-      dispatch({ type: ORDER_CREATE_RESET})
+/*       props.history.push(`/order/${order._id}`)  */
+      props.history.push(`/order/${order._id}`)  
+      /* dispatch({ type: ORDER_CREATE_RESET}) */
     }
   }, [dispatch, tourId, startDate, endDate, success, order, props.history])
 
@@ -128,7 +128,7 @@ export default function CartPage(props) {
         </div>
       </div>
     </div>
-    <Footer />
+
     </>
   )
 }

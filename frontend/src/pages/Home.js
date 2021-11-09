@@ -1,7 +1,6 @@
 import React from "react";
-import Footer from "../Footer";
-import Form from "../Form";
-import Cards from "../Cards";
+import Form from "../components/Form";
+import Cards from "../components/Cards";
 
 function Home() {
   return (
@@ -13,7 +12,7 @@ function Home() {
       </div>
       <Form />
       <Cards/>
-      <Footer />
+
     </>
   )
 }

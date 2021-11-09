@@ -12,10 +12,19 @@ orderRouter.post('/', isAuth, async (req, res) => {
   } else {
     const order = new Order({
       orderItems: req.body.orderItems,
-      user: req.user._id
+      userInfo: req.user._id
     })
     const createdOrder = await order.save()
     res.status(201).send({ message: 'Order created', order: createdOrder })
+  }
+})
+
+orderRouter.get('/:id', isAuth, async (req, res) => {
+  const order = await Order.findById(req.params.id).populate('orderItems userInfo')
+  if (order) {
+    res.send(order)
+  } else {
+    res.status(404).send({ message: 'Order not found'})
   }
 })
 

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Footer from "../Footer";
-import { signUp} from "../../redux/actions/userActions";
-import LoadingBox from "../LoadingBox";
-import MessageBox from "../MessageBox";
-import '../SignUp.css'
+import { signUp} from "../redux/actions/userActions";
+import LoadingBox from "../components/LoadingBox";
+import MessageBox from "../components/MessageBox";
+import '../components/SignUp.css'
 
 function SignUp(props) {
   const [firstName, setFirstName] = useState('')
@@ -138,7 +137,6 @@ function SignUp(props) {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   )
 }

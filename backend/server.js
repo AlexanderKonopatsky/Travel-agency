@@ -7,13 +7,18 @@ const orderRouter = require('./routers/orderRouter')
 
 const port = process.env.PORT || 5000
 
+const MONGODB_URL1 = `mongodb+srv://alexander:alexander321@cluster0.wizkj.mongodb.net/TourAgency?retryWrites=true&w=majority`
+const MONGODB_URL2 = 'mongodb://localhost/TourAgency'
+
 dotenv.config()
 
 const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-mongoose.connect(process.env.MONGODB_URL || `mongodb+srv://alexander:alexander321@cluster0.wizkj.mongodb.net/TourAgency?retryWrites=true&w=majority`, 
+
+
+mongoose.connect(process.env.MONGODB_URL || MONGODB_URL1, 
   {
       useNewUrlParser: true,
       useUnifiedTopology: true
