@@ -42,6 +42,7 @@ module.exports = {
       jwt.verify(token, process.env.JWT_TOKEN || '73UCuYCi', (err, decode) => {
 
         if (err) {
+          
           res.status(401).send({message: 'Invalid JWT token'})
         } else {
           req.user = decode

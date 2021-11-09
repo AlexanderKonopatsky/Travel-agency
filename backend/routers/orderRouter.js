@@ -19,13 +19,19 @@ orderRouter.post('/', isAuth, async (req, res) => {
   }
 })
 
-orderRouter.get('/:id', isAuth, async (req, res) => {
+orderRouter.get('/:id', async (req, res) => {
   const order = await Order.findById(req.params.id).populate('orderItems userInfo')
   if (order) {
     res.send(order)
   } else {
     res.status(404).send({ message: 'Order not found'})
   }
+})
+
+
+orderRouter.get('/list/list', isAuth, async (req, res) => {
+  const orders = await Order.find({ userInfo : req.user._id }).populate('orderItems')
+  res.send(orders)
 })
 
 module.exports = orderRouter
