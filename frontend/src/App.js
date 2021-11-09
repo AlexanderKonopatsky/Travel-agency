@@ -1,13 +1,15 @@
 import React from 'react'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import Navbar from './components/Navbar'
-import ContactUs from './components/pages/ContactUs'
-import Products from './components/pages/Products'
-import Home from './components/pages/Home'
-import SignUp from './components/pages/SignUp'
-import Login from './components/pages/Login'
-import Tour from './components/pages/Tour'
-import CartPage from './components/pages/CartPage'
+import ContactUs from './pages/ContactUs'
+import Products from './pages/Products'
+import Home from './pages/Home'
+import SignUp from './pages/SignUp'
+import Login from './pages/Login'
+import Tour from './pages/Tour'
+import CartPage from './pages/CartPage'
+import OrderPage from './pages/OrderPage'
+import Footer from './components/Footer'
 
 
 
@@ -18,13 +20,15 @@ function App() {
         <Navbar></Navbar>
         <Switch>
           <Route path="/" exact component={Home}/>
-          <Route path="/products" exact component={Products}/>
+          <Route path="/products/:id" exact component={Products}/>
           <Route path="/contactUs" exact component={ContactUs}/>
           <Route path="/signUp" exact component={SignUp}/>
           <Route path="/tour/:id" component={Tour}/>
           <Route path="/cart/:id?" component={CartPage}/>
+          <Route path="/order/:id" component={OrderPage}/>
           <Route path="/login" exact component={Login}/>
         </Switch>
+        <Footer></Footer>
       </Router>
 
   )

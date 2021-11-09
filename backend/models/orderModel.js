@@ -11,7 +11,7 @@ const orderSchema = new Schema({
   ],
   paymentMethod: { type: String, required: false },
   totalPrice: { type: Number, required: false },
-  user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  userInfo: { type: Schema.Types.ObjectId, ref: 'Users', required: true },
   isPaid: { type: Boolean, default: false },
   paidAt: { type: Date },
   },

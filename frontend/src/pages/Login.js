@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { signIn } from "../../redux/actions/userActions";
-import Footer from "../Footer";
-import LoadingBox from "../LoadingBox";
-import MessageBox from "../MessageBox";
-import '../SignUp.css'
+import { signIn } from "../redux/actions/userActions";
+import LoadingBox from "../components/LoadingBox";
+import MessageBox from "../components/MessageBox";
+import '../components/SignUp.css'
 
 function Login(props) {
 
@@ -20,7 +19,6 @@ function Login(props) {
     ? props.location.search.split('=')[1]
     : '/';
 
-  console.log(redirect)
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -108,7 +106,6 @@ function Login(props) {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   )
 }

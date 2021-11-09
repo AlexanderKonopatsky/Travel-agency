@@ -25,6 +25,14 @@ function Navbar() {
     dispatch(signOut())
   }
 
+  const orderHistoryHandler = () => {
+    
+  }
+
+  const profileHandler = () => {
+    
+  }
+
   return (
     
     <>
@@ -74,8 +82,18 @@ function Navbar() {
                  <Button onClick={closeMobileMenu} text={userInfo.firstName} link='login'></Button>
                  <i className="fa fa-caret-down"></i>
                  <ul className="dropdown-content">
-                  <button onClick={signOutHandler} className="ul-user">Sign Out</button>
-                </ul>
+                 <li className="li-navbar">
+                   <button onClick={profileHandler} className="ul-user">Profile</button>
+                   </li>
+                   <li className="li-navbar">
+                   <button onClick={orderHistoryHandler} className="ul-user">Order history</button>
+                   </li>
+                   <li className="li-navbar">
+                   <button onClick={signOutHandler} className="ul-user">Sign Out</button>
+                   </li>
+
+                   
+                 </ul>
                 </li> 
 
               </div>

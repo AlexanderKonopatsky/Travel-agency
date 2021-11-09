@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux'
-import { detailsTour } from "../../redux/actions/tourActions";
+import { detailsTour } from "../redux/actions/tourActions";
 import DatePicker from "react-datepicker";
-import LoadingBox from "../LoadingBox";
-import MessageBox from "../MessageBox";
-import Footer from "../Footer"
+import LoadingBox from "../components/LoadingBox";
+import MessageBox from "../components/MessageBox";
 import "react-datepicker/dist/react-datepicker.css";
-import '../MainSection.css';
+import '../components/MainSection.css';
 
 function Tour(props) {
   const [startDate, setStartDate] = useState(new Date());
@@ -114,7 +113,7 @@ function Tour(props) {
             </div>
           </div>
         </section>
-        <Footer />
+
         </>
          )
         }
