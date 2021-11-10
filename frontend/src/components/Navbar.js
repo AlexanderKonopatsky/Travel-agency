@@ -20,6 +20,8 @@ function Navbar(props) {
   const userSignIn = useSelector(state => state.userSignIn)
   const { userInfo } = userSignIn
 
+
+
   const dispatch = useDispatch()
 
   const signOutHandler = () => {
@@ -31,7 +33,7 @@ function Navbar(props) {
   }
 
   const profileHandler = () => {
-    
+    props.history.push('/profile')
   }
 
   return (

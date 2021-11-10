@@ -1,0 +1,18 @@
+.grid-cart-profile {
+  padding-top: 60px;
+  display: grid;
+  grid-gap: 30px;
+  grid-template-columns: 1fr 1fr;
+  margin: auto;
+  max-width: 1300px;
+}
+
+.header_text_profile {
+  padding-top: 150px;
+  font-size: 48px;
+  line-height: 1.1;
+  color: #1a1a1a;
+  font-family: "Times New Roman", Serif;
+  font-weight: normal;
+  margin: 0;
+}

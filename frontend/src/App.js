@@ -11,6 +11,7 @@ import Tour from './pages/Tour'
 import CartPage from './pages/CartPage'
 import OrderPage from './pages/OrderPage'
 import Footer from './components/Footer'
+import Profile from './pages/Profile'
 
 
 
@@ -29,6 +30,7 @@ function App() {
           <Route path="/order/:id" component={OrderPage}/>
           <Route path="/login" exact component={Login}/>
           <Route path="/orderHistory/list" exact component={OrderHistoryPage}/>
+          <Route path="/profile" exact component={Profile}/>
         </Switch>
         <Footer></Footer>
       </Router>

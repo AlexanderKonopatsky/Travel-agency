@@ -2,6 +2,7 @@ const express = require('express')
 const User = require('../models/userModel')
 const bcrypt = require('bcrypt')
 const { generateJsonToken } = require('../utils')
+const { isAuth } = require('../utils')
 
 const userRouter = express.Router()
 
@@ -50,6 +51,16 @@ userRouter.post('/signUp', async (req, res) => {
     isAdmin: createdUser.isAdmin,
     token: generateJsonToken(createdUser)
   })
+})
+
+
+userRouter.get('/:id', isAuth, async (req, res) => {
+  const user = await User.findById(req.params.id)
+  if (user) {
+    res.send(user)
+  } else {
+    res.status(404).send({ message: 'User not found'})
+  }
 })
 
 module.exports = userRouter
