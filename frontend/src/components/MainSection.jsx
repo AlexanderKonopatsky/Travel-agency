@@ -35,8 +35,8 @@ export function MainSection(props) {
                 />
               </div>
               <div>
-              <input type="submit" value="See Available Tours" class="action-button-tour" />
-              <input type="submit" value="Add tour to cart" class="action-button-tour" />
+                <input type="submit" value="See Available Tours" class="action-button-tour" />
+                <input type="submit" value="Add tour to cart" class="action-button-tour" />
                 {/* <button className="primary block">Add to Cart</button> */}
               </div>
 
@@ -69,7 +69,7 @@ export function MainSection(props) {
                 <div className="box-body">
                   This three-hour introduction to Berlin is designed to provide a perfect introduction to Berlin for first timers, or to reorient returning travelers to some of the city's most important sites, including the Brandenburg Gate, Holocaust Memorial, and the
                   This three-hour introduction to Berlin is designed to provide a perfect introduction to Berlin for first timers, or to reorient returning travelers to some of the city's most important sites, including the Brandenburg Gate, Holocaust Memorial, and the
-                 
+
                 </div>
 
                 <div className="box-head">
@@ -78,7 +78,7 @@ export function MainSection(props) {
                 <div className="box-body">
                   This three-hour introduction to Berlin is designed to provide a perfect introduction to Berlin for first timers, or to reorient returning travelers to some of the city's most important sites, including the Brandenburg Gate, Holocaust Memorial, and the
                   This three-hour introduction to Berlin is designed to provide a perfect introduction to Berlin for first timers, or to reorient returning travelers to some of the city's most important sites, including the Brandenburg Gate, Holocaust Memorial, and the
-                 
+
                 </div>
 
 

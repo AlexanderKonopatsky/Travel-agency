@@ -21,22 +21,22 @@ function Footer() {
               type='email'
               placeholder='Your Email'
             />
-            <Button buttonStyle='btn--outline' text="Subscribe"/>
+            <Button buttonStyle='btn--outline' text="Subscribe" />
           </form>
         </div>
       </section>
-    
+
       <section className='social-media'>
         <div className='social-media-wrap'>
           <div className='footer-logo'>
             <Link to='/' className='social-logo'>
               Tour Agency
-              <i className="fas fa-globe-americas icon"/>
+              <i className="fas fa-globe-americas icon" />
             </Link>
           </div>
           <small className='website-rights'>Tour Agency © 2021</small>
           <div className='social-icons'>
-            <Link 
+            <Link
               className='social-icon-link facebook'
               to='/'
               target='_blank'

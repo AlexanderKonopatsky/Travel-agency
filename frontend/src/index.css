@@ -176,6 +176,11 @@ img {
   background-color: thistle;
 }
 
+.alert-success {
+  box-shadow: 1px 1px 1px 0 rgb(53 39 39);
+  background-color: #bef095;
+}
+
 .action-button-tour {
   width: 100%;
   margin-top: 50px;

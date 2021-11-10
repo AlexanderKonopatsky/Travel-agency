@@ -33,7 +33,7 @@ function Login(props) {
   }, [props.history, redirect, userInfo])
 
   return (
-<>
+    <>
       <div className="signUp_section">
         <div className='container'>
           <div className='row2'>
@@ -43,7 +43,7 @@ function Login(props) {
                   Log in to your account
                 </h1>
                 <p className='header_under'>
-                  Don't have an account? 
+                  Don't have an account?
                   <a href='login' className='link_login'>Sign up.</a>
                 </p>
               </div>
@@ -59,19 +59,19 @@ function Login(props) {
             <div className='section_form '>
               <form className='form_for_new_user' onSubmit={submitHandler}>
                 <div className='row1'>
-                  
+
                   < div className='text-divider'>
                     <div className='text-divider__divider'></div>
                     <div className='text-divider__text'>OAuth authorization</div>
                     <div className='text-divider__divider'></div>
                   </div>
 
-                  <a className='btn_auth' href='/'  data-facebook-login>
+                  <a className='btn_auth' href='/' data-facebook-login>
                     <span >Log in with Vk</span>
                   </a>
 
 
-                  <a className='btn_auth' href='/'  data-facebook-login>
+                  <a className='btn_auth' href='/' data-facebook-login>
                     <span >Log in with Gmail</span>
                   </a>
 
@@ -82,24 +82,24 @@ function Login(props) {
                   </div>
 
                   <div className='form-box'>
-                  <label className="form-box__field" >
-                    <span className='form-label'>Email</span>
-                    <input className="form-input" type="email" onChange={ e => setEmail(e.target.value)}  required />
-                  </label>
+                    <label className="form-box__field" >
+                      <span className='form-label'>Email</span>
+                      <input className="form-input" type="email" onChange={e => setEmail(e.target.value)} required />
+                    </label>
                   </div>
 
                   <div className='form-box'>
-                  <label className="form-box__field" >
-                    <span className='form-label'>Password</span>
-                    <input className="form-input" type="password" onChange={ e => setPassword(e.target.value)} generateJsonToken />
-                  </label>
-                </div>
+                    <label className="form-box__field" >
+                      <span className='form-label'>Password</span>
+                      <input className="form-input" type="password" onChange={e => setPassword(e.target.value)} generateJsonToken />
+                    </label>
+                  </div>
 
 
-                <button className='btn_auth'  type="submit" >
-                  Log in with Email
-                </button>
-                
+                  <button className='btn_auth' type="submit" >
+                    Log in with Email
+                  </button>
+
                 </div>
               </form>
             </div>

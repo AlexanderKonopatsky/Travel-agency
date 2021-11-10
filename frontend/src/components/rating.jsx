@@ -4,15 +4,15 @@ export default function Rating(props) {
   const { rating, numReviews } = props
 
   return (
-      <div className="rating star-rating">
+    <div className="rating star-rating">
       <span>
         <i
           className={
             rating >= 1
               ? 'fa fa-star'
               : rating >= 0.5
-              ? 'far fa-star-half-o'
-              : 'fa fa-star-o'
+                ? 'far fa-star-half-o'
+                : 'fa fa-star-o'
           }
         ></i>
       </span>
@@ -22,8 +22,8 @@ export default function Rating(props) {
             rating >= 2
               ? 'fa fa-star'
               : rating >= 1.5
-              ? 'fa fa-star-half-o'
-              : 'fa fa-star-o'
+                ? 'fa fa-star-half-o'
+                : 'fa fa-star-o'
           }
         ></i>
       </span>
@@ -33,8 +33,8 @@ export default function Rating(props) {
             rating >= 3
               ? 'fa fa-star'
               : rating >= 2.5
-              ? 'fa fa-star-half-o'
-              : 'fa fa-star-o'
+                ? 'fa fa-star-half-o'
+                : 'fa fa-star-o'
           }
         ></i>
       </span>
@@ -44,8 +44,8 @@ export default function Rating(props) {
             rating >= 4
               ? 'fa fa-star'
               : rating >= 3.5
-              ? 'fa fa-star-half-o'
-              : 'fa fa-star-o'
+                ? 'fa fa-star-half-o'
+                : 'fa fa-star-o'
           }
         ></i>
       </span>
@@ -55,8 +55,8 @@ export default function Rating(props) {
             rating >= 5
               ? 'fa fa-star'
               : rating >= 4.5
-              ? 'far fa-star-half-o'
-              : 'fa fa-star-o'
+                ? 'far fa-star-half-o'
+                : 'fa fa-star-o'
           }
         ></i>
       </span>

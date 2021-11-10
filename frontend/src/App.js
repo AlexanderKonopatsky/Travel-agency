@@ -11,7 +11,7 @@ import Tour from './pages/Tour'
 import CartPage from './pages/CartPage'
 import OrderPage from './pages/OrderPage'
 import Footer from './components/Footer'
-import Profile from './pages/Profile'
+import Profile from './pages/ProfilePage'
 
 
 

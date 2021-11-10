@@ -2,14 +2,14 @@ import React from 'react';
 import Rating from './rating';
 
 function CardItem(props) {
-  
+
   const { tour } = props
-  
+
   return (
     <>
 
       <li key={tour._id} className='cards__item'>
-        
+
         <a className='cards__item__link' href={`tour/${tour._id}`}>
           <div className='tour-card__favorite'>
             <button aria-label='Add to favorites' className='favorite-toggle'>
@@ -30,8 +30,8 @@ function CardItem(props) {
             {/*      </div> */}
             <p className="tour_card_description">{tour.desc}</p>
 
-            <Rating rating={tour.rating} numReviews={tour.numReviews}/>
-           
+            <Rating rating={tour.rating} numReviews={tour.numReviews} />
+
           </div>
 
           <div>
@@ -56,7 +56,7 @@ function CardItem(props) {
               </div> */}
             </div>
           </div>
-          </a>
+        </a>
         {/*  </Link> */}
       </li>
     </>
