@@ -29,7 +29,7 @@ orderRouter.get('/:id', async (req, res) => {
 })
 
 
-orderRouter.get('/list/list', isAuth, async (req, res) => {
+orderRouter.get('/history/list', isAuth, async (req, res) => {
   const orders = await Order.find({ userInfo : req.user._id }).populate('orderItems')
   res.send(orders)
 })

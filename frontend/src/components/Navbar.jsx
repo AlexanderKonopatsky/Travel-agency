@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { signOut } from '../redux/actions/userActions'
-import {Button} from './Button'
+import { Button } from './Button'
 import './Navbar.css'
 
 
@@ -20,6 +20,8 @@ function Navbar(props) {
   const userSignIn = useSelector(state => state.userSignIn)
   const { userInfo } = userSignIn
 
+
+
   const dispatch = useDispatch()
 
   const signOutHandler = () => {
@@ -31,16 +33,16 @@ function Navbar(props) {
   }
 
   const profileHandler = () => {
-    
+    props.history.push('/profile')
   }
 
   return (
-    
+
     <>
       <nav className='navbar'>
         <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
-          Tour Agency  
-          <i className="fas fa-globe-americas icon"/>
+          Tour Agency
+          <i className="fas fa-globe-americas icon" />
         </Link>
         <div className='menu-icon' onClick={handleClick}>
           <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
@@ -80,35 +82,35 @@ function Navbar(props) {
             userInfo ? (
               <div className="dropdown">
                 <li className='nav-item'>
-                 <Button onClick={closeMobileMenu} text={userInfo.firstName} link='login'></Button>
-                 <i className="fa fa-caret-down"></i>
-                 <ul className="dropdown-content">
-                 <li className="li-navbar">
-                   <button onClick={profileHandler} className="ul-user">Profile</button>
-                   </li>
-                   <li className="li-navbar">
-                   <button onClick={orderHistoryHandler} className="ul-user">Order history</button>
-                   </li>
-                   <li className="li-navbar">
-                   <button onClick={signOutHandler} className="ul-user">Sign Out</button>
-                   </li>
+                  <Button onClick={closeMobileMenu} text={userInfo.firstName} link='login'></Button>
+                  <i className="fa fa-caret-down"></i>
+                  <ul className="dropdown-content">
+                    <li className="li-navbar">
+                      <button onClick={profileHandler} className="ul-user">Profile</button>
+                    </li>
+                    <li className="li-navbar">
+                      <button onClick={orderHistoryHandler} className="ul-user">Order history</button>
+                    </li>
+                    <li className="li-navbar">
+                      <button onClick={signOutHandler} className="ul-user">Sign Out</button>
+                    </li>
 
-                   
-                 </ul>
-                </li> 
+
+                  </ul>
+                </li>
 
               </div>
-               ) 
-            : (
-              <li className='nav-item'>
-              <Button onClick={closeMobileMenu} text='Log in' link='login'/>
-              </li> )
+            )
+              : (
+                <li className='nav-item'>
+                  <Button onClick={closeMobileMenu} text='Log in' link='login' />
+                </li>)
           }
 
           <li className='nav-item'>
-            <Button onClick={closeMobileMenu} text='Sign up' link='signUp'/>
+            <Button onClick={closeMobileMenu} text='Sign up' link='signUp' />
           </li>
-         
+
         </ul>
       </nav>
     </>
