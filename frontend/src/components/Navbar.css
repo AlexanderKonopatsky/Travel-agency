@@ -176,7 +176,23 @@
 
 }
 
-.dropdown:hover .dropdown-content {
+.dropdown-content-admin {
+  position: absolute;
+  display: none;
+/*   min-width: 12rem; */
+  z-index: 1;
+/*   margin-left: -14px; */
+  margin-top: 250px;
+  border-radius: 0.5rem;
+}
+
+
+.dropdown:hover .dropdown-content-admin  {
+  display: block;
+}
+
+
+ .dropdown:hover .dropdown-content  {
   display: block;
 }
 

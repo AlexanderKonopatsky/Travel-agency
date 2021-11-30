@@ -12,7 +12,7 @@ import CartPage from './pages/CartPage'
 import OrderPage from './pages/OrderPage'
 import Footer from './components/Footer'
 import Profile from './pages/ProfilePage'
-
+import PrivateRoute from './components/PrivateRoute'
 
 
 function App() {
@@ -30,7 +30,7 @@ function App() {
           <Route path="/order/:id" component={OrderPage}/>
           <Route path="/login" exact component={Login}/>
           <Route path="/orderHistory/list" exact component={OrderHistoryPage}/>
-          <Route path="/profile" exact component={Profile}/>
+          <PrivateRoute path='/profile' component={Profile}></PrivateRoute>
         </Switch>
         <Footer></Footer>
       </Router>

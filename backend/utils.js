@@ -52,6 +52,14 @@ module.exports = {
     } else {
       res.status(401).send({ message: 'No JWT token'})
     }
+  },
+
+  isAdmin: function isAdmin(req, res, next) {
+    if (req.user && req.user.isAdmin) {
+      next()
+    } else {
+      res.status(400).send({message: 'Invalid admin token'})
+    }
   }
 
 }
