@@ -13,7 +13,8 @@ import OrderPage from './pages/OrderPage'
 import Footer from './components/Footer'
 import Profile from './pages/ProfilePage'
 import PrivateRoute from './components/PrivateRoute'
-
+import AdminRoute from './components/AdminRoute'
+import TourListPage from './pages/TourListPage'
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/login" exact component={Login}/>
           <Route path="/orderHistory/list" exact component={OrderHistoryPage}/>
           <PrivateRoute path='/profile' component={Profile}></PrivateRoute>
+          <AdminRoute path="/tourlist" component={TourListPage}></AdminRoute>
         </Switch>
         <Footer></Footer>
       </Router>
