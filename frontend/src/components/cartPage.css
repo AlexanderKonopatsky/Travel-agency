@@ -31,7 +31,7 @@
 }
 
 .item-cart {
-  box-shadow: 1px 1px 1px 0 rgb(53 39 39);
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
   background-color: white;
   padding: 25px;
   border-radius: 7px;
@@ -39,7 +39,7 @@
 }
 
 .item-checkout {
-  box-shadow: 1px 1px 1px 0 rgb(53 39 39);
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
   background-color: white;
   padding: 25px;
   border-radius: 7px;
@@ -132,4 +132,20 @@
 button[disabled]{
   background: #b3acac;  
   border: 1px solid #414849;
+}
+
+
+
+.grid-main-column-tour {
+  width: 800px;
+  margin: auto;
+}
+
+
+.item-tour {
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+  background-color: white;
+  padding: 25px;
+  border-radius: 7px;
+  margin-bottom: 20px;
 }

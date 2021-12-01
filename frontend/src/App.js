@@ -15,6 +15,7 @@ import Profile from './pages/ProfilePage'
 import PrivateRoute from './components/PrivateRoute'
 import AdminRoute from './components/AdminRoute'
 import TourListPage from './pages/TourListPage'
+import TourEditPage from './pages/TourEditPage'
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
         <Navbar></Navbar>
         <Switch>
           <Route path="/" exact component={Home}/>
-{/*           <Route path="/products/:id" exact component={Products}/> */}
+          <Route path="/products/:id" exact component={Products}/>
           <Route path="/products" component={Products}/>
           <Route path="/contactUs" exact component={ContactUs}/>
           <Route path="/signUp" exact component={SignUp}/>
@@ -31,6 +32,7 @@ function App() {
           <Route path="/cart/:id?" component={CartPage}/>
           <Route path="/order/:id" component={OrderPage}/>
           <Route path="/login" exact component={Login}/>
+          <Route path="/tour/:id/edit" exact component={TourEditPage}/>
           <Route path="/orderHistory/list" exact component={OrderHistoryPage}/>
           <PrivateRoute path='/profile' component={Profile}></PrivateRoute>
           <AdminRoute path="/tourlist" component={TourListPage}></AdminRoute>

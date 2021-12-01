@@ -25,9 +25,6 @@ function TourListScreen(props) {
   useEffect(() => {
     if (successCreate) {
       dispatch({ type: TOUR_CREATE_RESET })
-      console.log('------------------------')
-      console.log(createdTour, successCreate)
-      console.log('------------------------')
       props.history.push(`/tour/${createdTour._id}/edit`)
     }
     dispatch(listTour())
@@ -63,7 +60,6 @@ function TourListScreen(props) {
               <th>ID</th>
               <th>NAME</th>
               <th>category</th>
-
               <th>label</th>
               <th>desc</th>
               <th>dop info</th>
@@ -72,6 +68,7 @@ function TourListScreen(props) {
               <th>numReviews</th>
               <th>createdAt</th>
               <th>updatedAt</th>
+              <th>Buttons</th>
             </tr>
           </thead>
           <tbody>
@@ -91,7 +88,7 @@ function TourListScreen(props) {
                 <td>
                   <button
                     type="button"
-                    className="btn_details_order"
+                    className="btn_details_admin"
                     onClick={() =>
                       props.history.push(`/tour/${tour._id}/edit`)
                     }
@@ -100,7 +97,7 @@ function TourListScreen(props) {
                   </button>
                   <button
                     type="button"
-                    className="btn_details_order"
+                    className="btn_details_admin"
                     onClick={() => deleteHandler(tour)}
                   >
                     Delete

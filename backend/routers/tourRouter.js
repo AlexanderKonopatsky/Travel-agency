@@ -38,6 +38,24 @@ tourRouter.post('/', isAuth, isAdmin, async (req, res) => {
   res.send({ message: 'Tour created', tour: createdTour})
 })
 
+tourRouter.put('/:id', isAuth, isAdmin, async (req, res) => {
+  const tourId = req.params.id
+  const tour = await Tour.findById(tourId)
+  if (tour) {
+    tour.title = req.body.title;
+    tour.image = req.body.image;
+    tour.category = req.body.category;
+    tour.label = req.body.label;
+    tour.desc = req.body.desc;
+    tour.additionalInfo = req.body.additionalInfo;
+    tour.price = req.body.price;
+    const updatedTour = await tour.save()
+    res.send({ message: 'Tour updated', tour: updatedTour})
+  } else {
+    res.status(404).send({ message: 'Tour not found' })
+  }
+})
+
 module.exports = tourRouter
 
 
