@@ -10,35 +10,55 @@ import HorizontalScroll from 'react-scroll-horizontal'
 import { gsap } from "gsap";
 
 
+
+
 function Cards() {
   const dispatch = useDispatch()
   const tourList = useSelector((state) => state.tourList)
   const { loading, error, tours } = tourList
+
+  const [scrollX1, setscrollX1] = useState(0);
+  const [scrolEnd1, setscrolEnd1] = useState(false);
+
+  const [scrollX2, setscrollX2] = useState(0);
+  const [scrolEnd2, setscrolEnd2] = useState(false);
+  //---------------------------
+
+  let scrl = useRef(null);
+  let scrl2 = useRef(null);
+
 
   useEffect(() => {
     dispatch(listTour())
   }, [dispatch])
 
 
-
-
-  //---------------------------
-  let scrl = useRef(null);
-  const [scrollX, setscrollX] = useState(0);
-  const [scrolEnd, setscrolEnd] = useState(false);
-
   //Slide click
-  const slide = (shift) => {
+  const slide1 = (shift) => {
     scrl.current.scrollLeft += shift;
-    setscrollX(scrollX + shift);
+    setscrollX1(scrollX1 + shift);
 
     if (
       Math.floor(scrl.current.scrollWidth - scrl.current.scrollLeft) <=
       scrl.current.offsetWidth
     ) {
-      setscrolEnd(true);
+      setscrolEnd1(true);
     } else {
-      setscrolEnd(false);
+      setscrolEnd1(false);
+    }
+  };
+
+  const slide2 = (shift) => {
+    scrl2.current.scrollLeft += shift;
+    setscrollX2(scrollX2 + shift);
+
+    if (
+      Math.floor(scrl2.current.scrollWidth - scrl2.current.scrollLeft) <=
+      scrl2.current.offsetWidth
+    ) {
+      setscrolEnd2(true);
+    } else {
+      setscrolEnd2(false);
     }
   };
 
@@ -52,15 +72,27 @@ function Cards() {
     gsap.to(e.target, { scale: 1 });
   };
 
-  const scrollCheck = () => {
-    setscrollX(scrl.current.scrollLeft);
+  const scrollCheck1 = () => {
+    setscrollX1(scrl.current.scrollLeft);
     if (
       Math.floor(scrl.current.scrollWidth - scrl.current.scrollLeft) <=
       scrl.current.offsetWidth
     ) {
-      setscrolEnd(true);
+      setscrolEnd1(true);
     } else {
-      setscrolEnd(false);
+      setscrolEnd1(false);
+    }
+  };
+
+  const scrollCheck2 = () => {
+    setscrollX2(scrl2.current.scrollLeft);
+    if (
+      Math.floor(scrl2.current.scrollWidth - scrl2.current.scrollLeft) <=
+      scrl2.current.offsetWidth
+    ) {
+      setscrolEnd2(true);
+    } else {
+      setscrolEnd2(false);
     }
   };
   //---------------------------
@@ -73,66 +105,76 @@ function Cards() {
           error ? (<MessageBox variant="danger">{error}</MessageBox>)
             : (
               <>
-                {/*               <div className='cards__container'>
-                <div className='cards__wrapper'>
-                  <ul className='cards__items'>
-                    {
-                      tours.map(tour => (
-                        <CardItem key={tour._id} tour={tour} />
-                      ))
-                    }
-                  </ul>
-                </div>
-              </div> */}
 
+                <div>
+                  <div className="head_text_tours">Best in Belarus</div>
 
-{/*                 <div className="sroll-horizontal">
-                  <HorizontalScroll>
+                  <div className="scroll2">
 
-                    {
-                      tours.map(tour => (
-                        <CardItem2 key={tour._id} tour={tour} />
-                      ))
-                    }
-
-                  </HorizontalScroll>
-                </div>
- */}
-
-
-             
-
-                <div className="scroll2">
-                
-                  {scrollX !== 0 && (
-                    <button
-                      className="prev"
-                      onClick={() => slide(-500)}
-                      onMouseEnter={(e) => anim(e)}
-                      onMouseLeave={(e) => anim2(e)}
-                    >
-                      <i className="fa fa-angle-left"></i>
-                    </button>
-                  )}
-                  <ul className="scroll_ul" ref={scrl} onScroll={scrollCheck}>
-                    {
-                      tours.map(tour => (
-                        <CardItem key={tour._id} tour={tour} />
-                      ))
-                    }
-                  </ul>
-                  {!scrolEnd && (
-                    <button
-                      className="next"
-                      onClick={() => slide(+500)}
-                      onMouseEnter={(e) => anim(e)}
-                      onMouseLeave={(e) => anim2(e)}
-                    >
-                      <i className="fa fa-angle-right"></i>
-                    </button>
-                  )}
+                    {scrollX1 !== 0 && (
+                      <button
+                        className="prev"
+                        onClick={() => slide1(-500)}
+                        onMouseEnter={(e) => anim(e)}
+                        onMouseLeave={(e) => anim2(e)}
+                      >
+                        <i className="fa fa-angle-left"></i>
+                      </button>
+                    )}
+                    <ul className="scroll_ul" ref={scrl} onScroll={scrollCheck1}>
+                      {
+                        tours.map(tour => (
+                          <CardItem key={tour._id} tour={tour} />
+                        ))
+                      }
+                    </ul>
+                    {!scrolEnd1 && (
+                      <button
+                        className="next"
+                        onClick={() => slide1(+500)}
+                        onMouseEnter={(e) => anim(e)}
+                        onMouseLeave={(e) => anim2(e)}
+                      >
+                        <i className="fa fa-angle-right"></i>
+                      </button>
+                    )}
+                  </div>
                 </div>
 
+                <div>
+                  <div className="head_text_tours">Best in Russia</div>
+
+                  <div className="scroll2">
+
+                    {scrollX2 !== 0 && (
+                      <button
+                        className="prev"
+                        onClick={() => slide2(-500)}
+                        onMouseEnter={(e) => anim(e)}
+                        onMouseLeave={(e) => anim2(e)}
+                      >
+                        <i className="fa fa-angle-left"></i>
+                      </button>
+                    )}
+                    <ul className="scroll_ul" ref={scrl2} onScroll={scrollCheck2}>
+                      {
+                        tours.map(tour => (
+                          <CardItem key={tour._id} tour={tour} />
+                        ))
+                      }
+                    </ul>
+                    {!scrolEnd2 && (
+                      <button
+                        className="next"
+                        onClick={() => slide2(+500)}
+                        onMouseEnter={(e) => anim(e)}
+                        onMouseLeave={(e) => anim2(e)}
+                      >
+                        <i className="fa fa-angle-right"></i>
+                      </button>
+                    )}
+                  </div>
+                </div>
               </>
 
             )

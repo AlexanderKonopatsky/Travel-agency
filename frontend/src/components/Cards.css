@@ -282,3 +282,14 @@ p {
   background-color: burlywood;
   margin-right: 10px;
 }
+
+
+.head_text_tours {
+
+  color: #3a3a3a;
+  font-size: 3rem;
+  font-weight: 600;
+  max-width: 400px;
+  margin: 50px auto 20px;
+  text-align: center;
+}
