@@ -102,14 +102,45 @@ function Navbar(props) {
               </div>
             )
               : (
+                <>
                 <li className='nav-item'>
                   <Button onClick={closeMobileMenu} text='Log in' link='login' />
-                </li>)
+                </li>
+                <li className='nav-item'>
+                <Button onClick={closeMobileMenu} text='Sign up' link='signUp' />
+                </li>
+                </>
+                )
           }
 
-          <li className='nav-item'>
-            <Button onClick={closeMobileMenu} text='Sign up' link='signUp' />
-          </li>
+          {userInfo && userInfo.isAdmin && (
+             <div className="dropdown">
+             <li className='nav-item'>
+               <Button onClick={closeMobileMenu} text='Admin' link='login'></Button>
+               <i className="fa fa-caret-down"></i>
+               <ul className="dropdown-content-admin">
+                 <li className="li-navbar">
+                   <button onClick={profileHandler} className="ul-user">Dashboard</button>
+                 </li>
+                 <li className="li-navbar">
+                   <button onClick={orderHistoryHandler} className="ul-user">Tours</button>
+                 </li>
+                 <li className="li-navbar">
+                   <button onClick={signOutHandler} className="ul-user">Orders</button>
+                 </li>
+                 <li className="li-navbar">
+                   <button onClick={signOutHandler} className="ul-user">Users</button>
+                 </li>
+                 
+
+
+               </ul>
+             </li>
+
+           </div>
+          )}
+
+
 
         </ul>
       </nav>

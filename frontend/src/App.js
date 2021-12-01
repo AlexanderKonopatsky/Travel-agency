@@ -12,8 +12,9 @@ import CartPage from './pages/CartPage'
 import OrderPage from './pages/OrderPage'
 import Footer from './components/Footer'
 import Profile from './pages/ProfilePage'
-
-
+import PrivateRoute from './components/PrivateRoute'
+import AdminRoute from './components/AdminRoute'
+import TourListPage from './pages/TourListPage'
 
 function App() {
   return (
@@ -22,15 +23,17 @@ function App() {
         <Navbar></Navbar>
         <Switch>
           <Route path="/" exact component={Home}/>
-          <Route path="/products/:id" exact component={Products}/>
+{/*           <Route path="/products/:id" exact component={Products}/> */}
+          <Route path="/products" component={Products}/>
           <Route path="/contactUs" exact component={ContactUs}/>
           <Route path="/signUp" exact component={SignUp}/>
-          <Route path="/tour/:id" component={Tour}/>
+          <Route path="/tour/:id" component={Tour} exact/>
           <Route path="/cart/:id?" component={CartPage}/>
           <Route path="/order/:id" component={OrderPage}/>
           <Route path="/login" exact component={Login}/>
           <Route path="/orderHistory/list" exact component={OrderHistoryPage}/>
-          <Route path="/profile" exact component={Profile}/>
+          <PrivateRoute path='/profile' component={Profile}></PrivateRoute>
+          <AdminRoute path="/tourlist" component={TourListPage}></AdminRoute>
         </Switch>
         <Footer></Footer>
       </Router>
