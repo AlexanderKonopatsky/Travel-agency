@@ -1,7 +1,7 @@
 const express = require('express')
 const Tour = require('../models/tourModel')
 const tourRouter = express.Router()
-
+const { isAuth, isAdmin } = require('../utils')
 
 tourRouter.get('/', async (req, res) => {
   const tours = await Tour.find({})
@@ -22,6 +22,21 @@ tourRouter.get('/seed', async (req, res) => {
   res.send({createdTours})
 })
 
+tourRouter.post('/', isAuth, isAdmin, async (req, res) => {
+  const tour = new Tour({
+    title: 'title',
+    image: '/images/img-2.jpg',
+    category: "category",
+    label :"label",
+    desc:"Discover the Tower of London for all ages",
+    additionalInfo: "The Tower of London is one of Londons most famous landmarks. Known for...",
+    price: 853,
+    rating: 3,
+    numReviews: 12
+  })
+  const createdTour = await tour.save()
+  res.send({ message: 'Tour created', tour: createdTour})
+})
 
 module.exports = tourRouter
 

@@ -1,4 +1,15 @@
-import { TOUR_DETAILS_FAIL, TOUR_DETAILS_REQUEST, TOUR_DETAILS_SUCCESS, TOUR_LIST_FAIL, TOUR_LIST_REQUEST, TOUR_LIST_SUCCESS } from '../constants/tourConstants';
+import { 
+  TOUR_DETAILS_FAIL, 
+  TOUR_DETAILS_REQUEST,
+  TOUR_DETAILS_SUCCESS,
+  TOUR_LIST_FAIL, 
+  TOUR_LIST_REQUEST,
+  TOUR_LIST_SUCCESS,
+  TOUR_CREATE_FAIL,
+  TOUR_CREATE_SUCCESS,
+  TOUR_CREATE_REQUEST,
+  TOUR_CREATE_RESET
+  } from '../constants/tourConstants';
 
 export const tourListReducer = (state = { loading: true, tours: []}, action) => {
   switch (action.type) {
@@ -27,3 +38,20 @@ export const tourDetailsReducer = ( state = { product: {}, loading: true}, actio
       return state
   }
 }
+
+export const tourCreateReducer = ( state = {}, action) => {
+  switch (action.type) {
+    case TOUR_CREATE_REQUEST:
+      return { loading: true }
+    case TOUR_CREATE_SUCCESS:
+      return { loading: false, success: true, tour: action.payload }
+    case TOUR_CREATE_FAIL:
+      return { loading: false, error: action.payload}
+    case TOUR_CREATE_RESET: 
+      return {}
+    default:
+      return state
+  }
+}
+
+

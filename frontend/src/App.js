@@ -23,10 +23,11 @@ function App() {
         <Navbar></Navbar>
         <Switch>
           <Route path="/" exact component={Home}/>
-          <Route path="/products/:id" exact component={Products}/>
+{/*           <Route path="/products/:id" exact component={Products}/> */}
+          <Route path="/products" component={Products}/>
           <Route path="/contactUs" exact component={ContactUs}/>
           <Route path="/signUp" exact component={SignUp}/>
-          <Route path="/tour/:id" component={Tour}/>
+          <Route path="/tour/:id" component={Tour} exact/>
           <Route path="/cart/:id?" component={CartPage}/>
           <Route path="/order/:id" component={OrderPage}/>
           <Route path="/login" exact component={Login}/>

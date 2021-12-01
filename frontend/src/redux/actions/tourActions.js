@@ -1,4 +1,14 @@
-import {TOUR_DETAILS_FAIL, TOUR_DETAILS_REQUEST, TOUR_DETAILS_SUCCESS, TOUR_LIST_FAIL, TOUR_LIST_REQUEST, TOUR_LIST_SUCCESS} from '../constants/tourConstants'
+import {
+  TOUR_DETAILS_FAIL,
+  TOUR_DETAILS_REQUEST, 
+  TOUR_DETAILS_SUCCESS, 
+  TOUR_LIST_FAIL, 
+  TOUR_LIST_REQUEST,
+  TOUR_LIST_SUCCESS,
+  TOUR_CREATE_FAIL,
+  TOUR_CREATE_SUCCESS,
+  TOUR_CREATE_REQUEST
+} from '../constants/tourConstants'
 import Axios from 'axios'
 
 export const listTour = () => async (dispatch) => {
@@ -34,6 +44,29 @@ export const detailsTour = (tourId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: TOUR_DETAILS_FAIL,
+      payload: error.response && error.response.data.message 
+        ? error.response.data.message
+        : error.message
+    })
+  }
+}
+
+export const createTour = (tourId) => async (dispatch, getState) => {
+  dispatch({
+    type: TOUR_CREATE_REQUEST
+  })
+  const { userSignIn : { userInfo } } = getState() 
+  try {
+    const { data } = await Axios.post('/api/tours', {}, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+    console.log('00000000000000000000000')
+    console.log(data)
+    dispatch({
+      type: TOUR_CREATE_SUCCESS,
+      payload: data.tour
+    })
+  } catch (error) {
+    dispatch({
+      type: TOUR_CREATE_FAIL,
       payload: error.response && error.response.data.message 
         ? error.response.data.message
         : error.message

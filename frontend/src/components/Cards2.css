@@ -43,7 +43,6 @@
   border-radius: 10px;
   background-color: white;
   box-shadow: 1px 1px 1px 0 rgb(53 39 39);
-  min-width: 350px;
 }
 
 .cards__item__link {
@@ -274,7 +273,7 @@ p {
 
 
 .sroll-horizontal {
-  width: 1120px;
+  width: 700px;
   height: 400px;
 }
 
