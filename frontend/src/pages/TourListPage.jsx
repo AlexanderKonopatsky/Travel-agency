@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux'
-import { listTour, createTour } from '../redux/actions/tourActions'
+import { listTour, createTour, deleteTour } from '../redux/actions/tourActions'
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import '../components/orderList.css'
 import { TOUR_CREATE_RESET } from "../redux/constants/tourConstants"
+import { TOUR_DELETE_RESET } from "../redux/constants/tourConstants"
 
 function TourListScreen(props) {
 
 
 
   const tourCreate = useSelector(state => state.tourCreate)
-  const { 
+  const {
     loading: loadingCreate,
     error: errorCreate,
     success: successCreate,
@@ -22,38 +23,53 @@ function TourListScreen(props) {
   const tourList = useSelector(state => state.tourList)
   const { loading, error, tours } = tourList
 
+  const tourDelete = useSelector(state => state.tourDelete)
+  const { loading: loadingDelete, error: errorDelete, success: successDelete } = tourDelete
+
   useEffect(() => {
     if (successCreate) {
       dispatch({ type: TOUR_CREATE_RESET })
       props.history.push(`/tour/${createdTour._id}/edit`)
     }
+    if (successDelete) {
+      dispatch({ type: TOUR_DELETE_RESET })
+    }
     dispatch(listTour())
-  }, [createdTour, dispatch, props.history, successCreate])
-
-  const deleteHandler = () => {
-    /// TODO: dispatch delete action
-  };
+  }, [createdTour, dispatch, props.history, successCreate, successDelete])
 
   const createHandler = () => {
     dispatch(createTour())
-  } 
+  }
+
+  const deleteHandler = (tour) => {
+    console.log('deleteHandler ')
+    if (window.confirm('Are you sure to delete?')) {
+      dispatch(deleteTour(tour._id))
+    }
+  }
   return (
 
     <div className="tourList">
       <h1>Tours</h1>
       <div className="row">
-        <h1>Products</h1>
+
         <button type="button" className="primary" onClick={createHandler}>
-          Create Product
+          Create Tour
         </button>
+        { loadingDelete && <LoadingBox></LoadingBox>}
+                  {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
       </div>
       {loadingCreate && <LoadingBox></LoadingBox>}
       {errorCreate && <MessageBox variant="danger">{errorCreate}</MessageBox>}
+
       {loading ? (
         <LoadingBox></LoadingBox>
       ) : error ? (
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
+
+
+
         <table className="table">
           <thead>
             <tr>
@@ -102,6 +118,7 @@ function TourListScreen(props) {
                   >
                     Delete
                   </button>
+
                 </td>
               </tr>
             ))}

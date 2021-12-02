@@ -10,7 +10,10 @@ import {
   TOUR_CREATE_REQUEST,
   TOUR_UPDATE_FAIL,
   TOUR_UPDATE_REQUEST,
-  TOUR_UPDATE_SUCCESS
+  TOUR_UPDATE_SUCCESS,
+  TOUR_DELETE_REQUEST,
+  TOUR_DELETE_SUCCESS,
+  TOUR_DELETE_FAIL
 } from '../constants/tourConstants'
 import Axios from 'axios'
 
@@ -90,6 +93,29 @@ export const updateTour = (tour) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: TOUR_UPDATE_FAIL,
+      payload: error.response && error.response.data.message 
+        ? error.response.data.message
+        : error.message
+    })
+  }
+}
+
+
+export const deleteTour = (tourId) => async (dispatch, getState) => {
+  dispatch({
+    type: TOUR_DELETE_REQUEST,
+    payload: tourId
+  })
+  const { userSignIn : { userInfo } } = getState() 
+  try {
+    const { data } = await Axios.delete(`/api/tours/${tourId}`, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+    dispatch({
+      type: TOUR_DELETE_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: TOUR_DELETE_FAIL,
       payload: error.response && error.response.data.message 
         ? error.response.data.message
         : error.message

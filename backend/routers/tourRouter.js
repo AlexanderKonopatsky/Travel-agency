@@ -56,6 +56,16 @@ tourRouter.put('/:id', isAuth, isAdmin, async (req, res) => {
   }
 })
 
+tourRouter.delete('/:id', isAuth, isAdmin, async (req, res) => {
+  const tour = await Tour.findById(req.params.id)
+  if (tour) {
+    const deletedTour = await tour.remove()
+    res.send({ message: 'Tour deleted', tour: deletedTour })
+  } else {
+    res.status(404).send({ message: 'Tour not found'})
+  }
+})
+
 module.exports = tourRouter
 
 
