@@ -4,6 +4,7 @@ import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import { detailsTour, updateTour } from "../redux/actions/tourActions";
 import { TOUR_UPDATE_RESET } from "../redux/constants/tourConstants"
+import Axios from "axios"
 
 
 function TourEditPage(props) {
@@ -15,6 +16,34 @@ function TourEditPage(props) {
   const [label, setLabel] = useState('')
   const [desc, setDesc] = useState('')
   const [additionalInfo, setAdditionalInfo] = useState('')
+
+  const [loadingUpload, setLoadingUpload] = useState(false)
+  const [errorUpload, setErrorUpload] = useState('')
+
+  const userSignIn = useSelector(state => state.userSignIn)
+  const { userInfo } = userSignIn
+
+  const uploadFileHandler = async (e) => {
+    console.log('--------------')
+    console.log(e.target.files[0])
+    const file = e.target.files[0]
+    const bodyFromData = new FormData()
+    bodyFromData.append('image', file)
+    setLoadingUpload(true)
+    try {
+      const { data } = await Axios.post('/api/uploads', bodyFromData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${userInfo.token}`
+        }
+      })
+      setImage(data)
+      setLoadingUpload(false)
+    } catch (error) {
+      setErrorUpload(error.message)
+      setLoadingUpload(false)
+    }
+  }
 
 
   const dispatch = useDispatch()
@@ -124,7 +153,11 @@ function TourEditPage(props) {
                           <span className='form-label'>
                             Image
                           </span>
-                          <input className="form-input" value={image} type="text" onChange={e => setImage(e.target.value)} />
+                          <input className="form-input"  type="file" id="fileUpdate" onChange={uploadFileHandler} />
+                          {loadingUpload && <LoadingBox></LoadingBox>}
+                          {errorUpload && (
+                            <MessageBox variant="danger">{errorUpload}</MessageBox>
+                          )}
                         </label>
                       </div>
 
