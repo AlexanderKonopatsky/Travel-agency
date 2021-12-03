@@ -48,6 +48,10 @@ function Navbar(props) {
     props.history.push('/orderListAdmin')
   }
 
+  const userListHandler = () => {
+    props.history.push('/userList')
+  }
+
   return (
 
     <>
@@ -141,7 +145,7 @@ function Navbar(props) {
                     <button onClick={orderListHandler} className="ul-user">Orders</button>
                   </li>
                   <li className="li-navbar">
-                    <button onClick={signOutHandler} className="ul-user">Users</button>
+                    <button onClick={userListHandler} className="ul-user">Users</button>
                   </li>
 
 

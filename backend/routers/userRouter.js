@@ -2,7 +2,7 @@ const express = require('express')
 const User = require('../models/userModel')
 const bcrypt = require('bcrypt')
 const { generateJsonToken } = require('../utils')
-const { isAuth } = require('../utils')
+const { isAuth, isAdmin } = require('../utils')
 
 const userRouter = express.Router()
 
@@ -83,6 +83,11 @@ userRouter.put('/profile', isAuth, async (req, res) => {
       token: generateJsonToken(updatedUser)
     })
   }
+})
+
+userRouter.get('/', isAuth, isAdmin, async (req, res) => {
+  const users = await User.find({})
+  res.send(users)
 })
 
 module.exports = userRouter

@@ -17,6 +17,7 @@ import AdminRoute from './components/AdminRoute'
 import TourListPage from './pages/TourListPage'
 import TourEditPage from './pages/TourEditPage'
 import OrderListAdminPage from './pages/orderListAdminPage'
+import UserListPage from './pages/UserListPage'
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <PrivateRoute path='/profile' component={Profile}></PrivateRoute>
           <AdminRoute path="/tourlist" component={TourListPage}></AdminRoute>
           <AdminRoute path="/orderListAdmin" component={OrderListAdminPage}></AdminRoute>
+          <AdminRoute path="/userList" component={UserListPage}></AdminRoute>
         </Switch>
         <Footer></Footer>
       </Router>
