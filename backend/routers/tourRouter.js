@@ -66,6 +66,14 @@ tourRouter.delete('/:id', isAuth, isAdmin, async (req, res) => {
   }
 })
 
+
+tourRouter.get('/search/:title', async (req, res) => {
+  const title = req.params.title
+  const titleFilter = title ? { title: { $regex: title, $options: 'i' } } : {};
+  const tours = await Tour.find({...titleFilter})
+  res.send(tours)
+})
+
 module.exports = tourRouter
 
 

@@ -305,3 +305,39 @@ button{
 .fa-angle-left {
   margin-right: 30px;
 }
+
+.fa-search {
+  background-color: black;
+}
+
+.search-icon-svg {
+
+  fill: currentColor;
+  margin-right: 5px;
+
+  height: 30px;
+  vertical-align: middle;
+  width: 19px;
+  color: #f8f8f8;
+}
+
+
+
+
+
+
+
+
+.svg-icon.search-icon {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin-right: 11px;
+  margin-top: 9px;
+}
+
+
+
+
+
+

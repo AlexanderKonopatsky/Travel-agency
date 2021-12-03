@@ -19,6 +19,7 @@ import TourEditPage from './pages/TourEditPage'
 import OrderListAdminPage from './pages/orderListAdminPage'
 import UserListPage from './pages/UserListPage'
 import UserEditPage from './pages/UserEditPage'
+import SearchPage from './pages/SearchPage'
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
         <Switch>
           <Route path="/" exact component={Home}/>
           <Route path="/products/:id" exact component={Products}/>
-          <Route path="/products" component={Products}/>
+          <Route path="/search" component={SearchPage}/>
           <Route path="/contactUs" exact component={ContactUs}/>
           <Route path="/signUp" exact component={SignUp}/>
           <Route path="/tour/:id" component={Tour} exact/>
@@ -42,6 +43,7 @@ function App() {
           <AdminRoute path="/orderListAdmin" component={OrderListAdminPage}></AdminRoute>
           <AdminRoute path="/userList" component={UserListPage}></AdminRoute>
           <AdminRoute path="/user/:id/edit" component={UserEditPage}></AdminRoute>
+          <Route path="/orderHistory/list" exact component={OrderHistoryPage}/>
         </Switch>
         <Footer></Footer>
       </Router>
