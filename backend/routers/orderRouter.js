@@ -2,7 +2,7 @@ const express = require('express')
 const Order = require('../models/orderModel')
 const Tour = require('../models/tourModel')
 const User = require('../models/userModel')
-const { isAuth } = require('../utils')
+const { isAuth, isAdmin } = require('../utils')
 
 const orderRouter = express.Router()
 
@@ -32,6 +32,21 @@ orderRouter.get('/:id', async (req, res) => {
 orderRouter.get('/history/list', isAuth, async (req, res) => {
   const orders = await Order.find({ userInfo : req.user._id }).populate('orderItems')
   res.send(orders)
+})
+
+orderRouter.get('/', isAuth, isAdmin, async (req, res) => {
+  const orders = await Order.find({}).populate('orderItems userInfo')
+  res.send(orders)
+})
+
+orderRouter.delete('/:id', isAuth, isAdmin, async (req, res) => {
+  const order = await Order.findById(req.params.id)
+  if (order) {
+    const deletedOrder = await order.remove()
+    res.send({ message: "Order deleted", order: deletedOrder })
+  } else {
+     res.status(404).send({ message : "Order not found"})
+  }
 })
 
 module.exports = orderRouter

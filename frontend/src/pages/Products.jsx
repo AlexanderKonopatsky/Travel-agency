@@ -1,4 +1,3 @@
-import "./styles.css";
 import { useState, useRef } from "react";
 import { gsap } from "gsap";
 import { useDispatch, useSelector } from 'react-redux';

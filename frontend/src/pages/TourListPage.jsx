@@ -42,7 +42,6 @@ function TourListScreen(props) {
   }
 
   const deleteHandler = (tour) => {
-    console.log('deleteHandler ')
     if (window.confirm('Are you sure to delete?')) {
       dispatch(deleteTour(tour._id))
     }

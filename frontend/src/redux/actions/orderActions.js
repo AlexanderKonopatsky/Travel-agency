@@ -6,7 +6,15 @@ import {  ORDER_CREATE_FAIL,
           ORDER_DETAILS_FAIL, 
           ORDER_LIST_REQUEST, 
           ORDER_LIST_SUCCESS,
-          ORDER_LIST_FAIL } from "../constants/orderConstants"
+          ORDER_LIST_FAIL,
+          ORDER_LIST_ADMIN_REQUEST, 
+          ORDER_LIST_ADMIN_SUCCESS,
+          ORDER_LIST_ADMIN_FAIL,
+          ORDER_DELETE_FAIL,
+          ORDER_DELETE_REQUEST,
+          ORDER_DELETE_RESET,
+          ORDER_DELETE_SUCCESS
+} from "../constants/orderConstants"
 
 import Axios from "axios"
 import { CART_EMPTY } from "../constants/cartConstants"
@@ -84,5 +92,52 @@ export const listOrder = (orderId) => async (dispatch, getState) => {
     })
   }
 }
+
+
+
+export const listOrderAdmin = () => async (dispatch, getState) => {
+  dispatch({
+    type: ORDER_LIST_ADMIN_REQUEST
+  })
+  try {
+    const { userSignIn : { userInfo } } = getState()
+    const { data } = await Axios.get(`/api/orders`, { headers: { Authorization: `Bearer ${userInfo.token}` } } )
+    dispatch({
+      type: ORDER_LIST_ADMIN_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: ORDER_LIST_ADMIN_FAIL,
+      payload: error.response && error.response.data.message 
+        ? error.response.data.message
+        : error.message
+    })
+  }
+}
+
+
+export const deleteOrder = (orderId) => async (dispatch, getState) => {
+  dispatch({
+    type: ORDER_DETAILS_REQUEST,
+    payload: orderId
+  })
+  const { userSignIn : { userInfo } } = getState() 
+  try {
+    const { data } = await Axios.delete(`/api/orders/${orderId}`, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+    dispatch({
+      type: ORDER_DELETE_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: ORDER_DELETE_FAIL,
+      payload: error.response && error.response.data.message 
+        ? error.response.data.message
+        : error.message
+    })
+  }
+}
+
 
 

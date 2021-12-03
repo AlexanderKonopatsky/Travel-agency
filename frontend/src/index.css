@@ -255,3 +255,53 @@ img {
 #fileUpdate {
   padding-top: 13px;
 }
+
+
+
+
+
+
+
+
+
+.scroll2 {
+  font-family: sans-serif;
+
+  width: 1320px;
+  height: 550px;
+
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+}
+
+.scroll_ul{
+  display: flex;
+  padding: 15px;
+  list-style: none;
+  max-width: 100%;
+  overflow-x: scroll;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  
+}
+
+
+
+button{
+  border: 0;
+  color: #777;
+  font-size: 24px;
+  margin: 0 8px;
+}
+
+
+.fa-angle-right {
+  margin-left: 30px;
+}
+
+.fa-angle-left {
+  margin-right: 30px;
+}
