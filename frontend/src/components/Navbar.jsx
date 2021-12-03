@@ -4,10 +4,12 @@ import { withRouter } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { signOut } from '../redux/actions/userActions'
 import { Button } from './Button'
+import SearchBar from './SearchBar'
 import './Navbar.css'
 
 
 function Navbar(props) {
+
 
   const [click, setClick] = useState(false);
 
@@ -43,7 +45,7 @@ function Navbar(props) {
   const dashboardHandler = () => {
     props.history.push('/dashboard')
   }
-  
+
   const orderListHandler = () => {
     props.history.push('/orderListAdmin')
   }
@@ -65,6 +67,9 @@ function Navbar(props) {
         </div>
         <ul className={click ? 'nav-menu active' : 'nav-menu'}>
           <li className='nav-item'>
+            <SearchBar placeholder="Enter a tour title..." />
+          </li>
+          <li className='nav-item'>
             <Link to='/' className='nav-links' onClick={closeMobileMenu}>
               Home
             </Link>
@@ -75,11 +80,7 @@ function Navbar(props) {
               Contact Us
             </Link>
           </li>
-          <li className='nav-item'>
-            <Link to='/products' className='nav-links' onClick={closeMobileMenu}>
-              Products
-            </Link>
-          </li>
+
           <li className='nav-item'>
             <Link to='/tour' className='nav-links' onClick={closeMobileMenu}>
               Tour

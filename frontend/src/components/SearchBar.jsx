@@ -1,0 +1,78 @@
+import React, { useState, useEffect } from "react";
+import "./SearchBar.css";
+import { SearchIcon } from "@material-ui/icons/Search";
+import { CloseIcon } from "@material-ui/icons/Close";
+import Axios from "axios"
+import axios from "axios";
+
+function SearchBar({ placeholder }) {
+
+  const [tours, setTours] = useState([])
+
+  const getTours = (title) => {
+    axios.get(`/api/tours/search/${title}`).then(res => setTours(res.data))
+  }
+
+  useEffect(() => {
+    getTours()
+  }, [])
+
+  const [filteredData, setFilteredData] = useState([]);
+  const [wordEntered, setWordEntered] = useState("");
+
+  const handleFilter = (event) => {
+    const searchWord = event.target.value;
+    setWordEntered(searchWord);
+    if (searchWord.length > 1) {
+/*       const newFilter = data.filter((value) => {
+        return value.title.toLowerCase().includes(searchWord.toLowerCase());
+      }); */
+      getTours(searchWord)
+      console.log(tours)
+      if (searchWord === "") {
+        setFilteredData([]);
+      } else {
+        setFilteredData(tours);
+      }
+    }
+
+  };
+
+  const clearInput = () => {
+    setFilteredData([]);
+    setWordEntered("");
+  };
+
+  return (
+    <div className="search">
+      <div className="searchInputs">
+
+        <svg class="svg-icon search-icon" aria-labelledby="title desc" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title id="title">Search Icon</title><desc id="desc">A magnifying glass icon.</desc><g class="search-path" fill="none" stroke="#848F91"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4" /><circle cx="8" cy="8" r="7" /></g></svg>
+
+
+        <input
+          type="text"
+          placeholder={placeholder}
+          value={wordEntered}
+          onChange={handleFilter}
+        />
+
+        <i class="fas fa-window-close" onClick={clearInput}></i>
+
+      </div>
+      {filteredData.length !== 0 && (
+        <div className="dataResult">
+          {filteredData.slice(0, 15).map((value, key) => {
+            return (
+              <a className="dataItem" href={value.link} target="_blank" rel="noreferrer">
+                <p>{value.title} </p>
+              </a>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default SearchBar;
