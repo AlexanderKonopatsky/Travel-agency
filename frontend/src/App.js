@@ -18,6 +18,8 @@ import TourListPage from './pages/TourListPage'
 import TourEditPage from './pages/TourEditPage'
 import OrderListAdminPage from './pages/orderListAdminPage'
 import UserListPage from './pages/UserListPage'
+import UserEditPage from './pages/UserEditPage'
+import UserEditPage2 from './pages/UserEditPage2'
 
 function App() {
   return (
@@ -40,6 +42,8 @@ function App() {
           <AdminRoute path="/tourlist" component={TourListPage}></AdminRoute>
           <AdminRoute path="/orderListAdmin" component={OrderListAdminPage}></AdminRoute>
           <AdminRoute path="/userList" component={UserListPage}></AdminRoute>
+          <AdminRoute path="/user/:id/edit" component={UserEditPage}></AdminRoute>
+          <AdminRoute path="/user/:id/edit2" component={UserEditPage2}></AdminRoute>
         </Switch>
         <Footer></Footer>
       </Router>

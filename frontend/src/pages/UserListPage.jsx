@@ -4,6 +4,7 @@ import { userList } from "../redux/actions/userActions";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import '../components/orderList.css'
+import { USER_DETAILS_RESET } from "../redux/constants/userConstants"
 import { ORDER_DELETE_RESET } from '../redux/constants/orderConstants'
 
 function UserListPage(props) {
@@ -17,10 +18,11 @@ function UserListPage(props) {
 
   useEffect(() => {
     dispatch(userList())
+    dispatch({type: USER_DETAILS_RESET})
   }, [dispatch])
 
   const editUserHandler = (user) => {
-
+    props.history.push(`/user/${user._id}/edit`)
   }
 
   const deleteUserHandler = (user) => {
@@ -56,7 +58,7 @@ function UserListPage(props) {
                   <td>{user.lastName}</td>
                   <td>{user.email}</td>
                   <td>{user.password}</td>
-                  <td>{user.isAdmin}</td>
+                  <td>{String(user.isAdmin)}</td>
                   <td>{user.createdAt.substring(0, 10)}</td>
                   <td>{user.updatedAt.substring(0, 10)}</td>
                   <td>

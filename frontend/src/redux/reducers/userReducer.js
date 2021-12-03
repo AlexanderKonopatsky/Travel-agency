@@ -9,13 +9,18 @@ import {
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
+  USER_DETAILS_RESET,
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
   USER_UPDATE_PROFILE_RESET,
   USER_LIST_FAIL,
   USER_LIST_REQUEST,
-  USER_LIST_SUCCESS,             
+  USER_LIST_SUCCESS,       
+  USER_EDIT_FAIL,
+  USER_EDIT_REQUEST,
+  USER_EDIT_SUCCESS,
+  USER_EDIT_RESET,      
 } from "../constants/userConstants"
 
 export const userSigninReducer = ( state = {}, action) => {
@@ -54,6 +59,8 @@ export const userDetailsReducer = ( state = { loading: true }, action) => {
       return { loading: false, user: action.payload }
     case USER_DETAILS_FAIL:
       return { loading: false, error: action.payload }
+    case USER_DETAILS_RESET: 
+      return {}
     default:
       return state
   }
@@ -84,6 +91,21 @@ export const userListReducer = ( state = { }, action) => {
       return { loading: false, users: action.payload }
     case USER_LIST_FAIL:
       return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const userEditReducer = ( state = { }, action) => {
+  switch (action.type) {
+    case USER_EDIT_REQUEST:
+      return {  loading: true }
+    case USER_EDIT_SUCCESS:
+      return { loading: false, success: true }
+    case USER_EDIT_FAIL:
+      return { loading: false, error: action.payload }
+    case USER_EDIT_RESET:
+      return {}
     default:
       return state
   }
