@@ -38,7 +38,6 @@ module.exports = {
   isAuth: function(req, res, next) {
     const authorization = req.headers.authorization
     if (authorization) {
-      console.log('GOOOOOD-----------------')
       const token = authorization.slice(7, authorization.length)
       jwt.verify(token, process.env.JWT_TOKEN || '73UCuYCi', (err, decode) => {
 
