@@ -54,7 +54,7 @@ module.exports = {
     }
   },
 
-  isAdmin: function isAdmin(req, res, next) {
+  isAdmin: function(req, res, next) {
     if (req.user && req.user.isAdmin) {
       next()
     } else {

@@ -7,7 +7,13 @@ import {
   TOUR_LIST_SUCCESS,
   TOUR_CREATE_FAIL,
   TOUR_CREATE_SUCCESS,
-  TOUR_CREATE_REQUEST
+  TOUR_CREATE_REQUEST,
+  TOUR_UPDATE_FAIL,
+  TOUR_UPDATE_REQUEST,
+  TOUR_UPDATE_SUCCESS,
+  TOUR_DELETE_REQUEST,
+  TOUR_DELETE_SUCCESS,
+  TOUR_DELETE_FAIL
 } from '../constants/tourConstants'
 import Axios from 'axios'
 
@@ -58,8 +64,6 @@ export const createTour = (tourId) => async (dispatch, getState) => {
   const { userSignIn : { userInfo } } = getState() 
   try {
     const { data } = await Axios.post('/api/tours', {}, { headers: { Authorization: `Bearer ${userInfo.token}` } })
-    console.log('00000000000000000000000')
-    console.log(data)
     dispatch({
       type: TOUR_CREATE_SUCCESS,
       payload: data.tour
@@ -67,6 +71,51 @@ export const createTour = (tourId) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: TOUR_CREATE_FAIL,
+      payload: error.response && error.response.data.message 
+        ? error.response.data.message
+        : error.message
+    })
+  }
+}
+
+export const updateTour = (tour) => async (dispatch, getState) => {
+  dispatch({
+    type: TOUR_UPDATE_REQUEST,
+    payload: tour
+  })
+  const { userSignIn : { userInfo } } = getState() 
+  try {
+    const { data } = await Axios.put(`/api/tours/${tour._id}`, tour, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+    dispatch({
+      type: TOUR_UPDATE_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: TOUR_UPDATE_FAIL,
+      payload: error.response && error.response.data.message 
+        ? error.response.data.message
+        : error.message
+    })
+  }
+}
+
+
+export const deleteTour = (tourId) => async (dispatch, getState) => {
+  dispatch({
+    type: TOUR_DELETE_REQUEST,
+    payload: tourId
+  })
+  const { userSignIn : { userInfo } } = getState() 
+  try {
+    const { data } = await Axios.delete(`/api/tours/${tourId}`, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+    dispatch({
+      type: TOUR_DELETE_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: TOUR_DELETE_FAIL,
       payload: error.response && error.response.data.message 
         ? error.response.data.message
         : error.message

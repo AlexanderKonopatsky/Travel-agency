@@ -36,6 +36,22 @@ function Navbar(props) {
     props.history.push('/profile')
   }
 
+  const tourListHandler = () => {
+    props.history.push('/tourlist')
+  }
+
+  const dashboardHandler = () => {
+    props.history.push('/dashboard')
+  }
+  
+  const orderListHandler = () => {
+    props.history.push('/orderListAdmin')
+  }
+
+  const userListHandler = () => {
+    props.history.push('/userList')
+  }
+
   return (
 
     <>
@@ -103,41 +119,41 @@ function Navbar(props) {
             )
               : (
                 <>
-                <li className='nav-item'>
-                  <Button onClick={closeMobileMenu} text='Log in' link='login' />
-                </li>
-                <li className='nav-item'>
-                <Button onClick={closeMobileMenu} text='Sign up' link='signUp' />
-                </li>
+                  <li className='nav-item'>
+                    <Button onClick={closeMobileMenu} text='Log in' link='login' />
+                  </li>
+                  <li className='nav-item'>
+                    <Button onClick={closeMobileMenu} text='Sign up' link='signUp' />
+                  </li>
                 </>
-                )
+              )
           }
 
           {userInfo && userInfo.isAdmin && (
-             <div className="dropdown">
-             <li className='nav-item'>
-               <Button onClick={closeMobileMenu} text='Admin' link='login'></Button>
-               <i className="fa fa-caret-down"></i>
-               <ul className="dropdown-content-admin">
-                 <li className="li-navbar">
-                   <button onClick={profileHandler} className="ul-user">Dashboard</button>
-                 </li>
-                 <li className="li-navbar">
-                   <button onClick={orderHistoryHandler} className="ul-user">Tours</button>
-                 </li>
-                 <li className="li-navbar">
-                   <button onClick={signOutHandler} className="ul-user">Orders</button>
-                 </li>
-                 <li className="li-navbar">
-                   <button onClick={signOutHandler} className="ul-user">Users</button>
-                 </li>
-                 
+            <div className="dropdown">
+              <li className='nav-item'>
+                <Button onClick={closeMobileMenu} text='Admin' link='login'></Button>
+                <i className="fa fa-caret-down"></i>
+                <ul className="dropdown-content-admin">
+                  <li className="li-navbar">
+                    <button onClick={dashboardHandler} className="ul-user">Dashboard</button>
+                  </li>
+                  <li className="li-navbar">
+                    <button onClick={tourListHandler} className="ul-user">Tour list</button>
+                  </li>
+                  <li className="li-navbar">
+                    <button onClick={orderListHandler} className="ul-user">Orders</button>
+                  </li>
+                  <li className="li-navbar">
+                    <button onClick={userListHandler} className="ul-user">Users</button>
+                  </li>
 
 
-               </ul>
-             </li>
 
-           </div>
+                </ul>
+              </li>
+
+            </div>
           )}
 
 

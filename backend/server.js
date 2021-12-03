@@ -4,6 +4,8 @@ const dotenv = require('dotenv')
 const userRouter = require('./routers/userRouter')
 const tourRouter = require('./routers/tourRouter')
 const orderRouter = require('./routers/orderRouter')
+const uploadRouter = require('./routers/uploadRouter')
+const path = require('path')
 
 const port = process.env.PORT || 5000
 
@@ -28,6 +30,9 @@ mongoose.connect(process.env.MONGODB_URL || MONGODB_URL1,
 app.use('/api/users', userRouter)
 app.use('/api/tours', tourRouter)
 app.use('/api/orders', orderRouter)
+app.use('/api/uploads', uploadRouter)
+
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
 app.get('/', (req, res) => {
   res.send('server is ready')

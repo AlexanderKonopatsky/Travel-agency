@@ -2,7 +2,7 @@ const express = require('express')
 const User = require('../models/userModel')
 const bcrypt = require('bcrypt')
 const { generateJsonToken } = require('../utils')
-const { isAuth } = require('../utils')
+const { isAuth, isAdmin } = require('../utils')
 
 const userRouter = express.Router()
 
@@ -66,6 +66,7 @@ userRouter.get('/:id', isAuth, async (req, res) => {
 
 userRouter.put('/profile', isAuth, async (req, res) => {
   const user = await User.findById(req.user._id)
+  console.log(req.body)
   if (user) {
     user.firstName = req.body.firstName
     user.lastName = req.body.lastName
@@ -85,4 +86,39 @@ userRouter.put('/profile', isAuth, async (req, res) => {
   }
 })
 
+userRouter.put('/profile2', isAuth, isAdmin, async (req, res) => {
+  const user = await User.findById(req.user._id)
+  console.log(user)
+  console.log(req.body)
+  console.log('profile2')
+  if (user) {
+    user.firstName = req.body.firstName
+    user.lastName = req.body.lastName
+    user.email = req.body.email
+    const updatedUser = await user.save()
+    res.send({ message: "User updated", user: updatedUser })
+  }
+})
+
+userRouter.get('/', isAuth, isAdmin, async (req, res) => {
+  const users = await User.find({})
+  res.send(users)
+})
+
+userRouter.put('/:id', isAuth, isAdmin,  async (req, res) => {
+  const user = await User.findById(req.params.id)
+  console.log(req.body)
+  if (user) {
+    user.firstName = req.body.firstName || user.firstname;
+    user.lastName = req.body.lastName || user.lastName;
+    user.email = req.body.email || user.email;
+    user.isAdmin = req.body.isAdmin || user.isAdmin;
+    user.isActive = req.body.isActive || user.isActive;
+
+    const updatedUser = await user.save()
+    res.send({ message: "User updated", user: updatedUser })
+  } else {
+    res.status(404).send({ message: "User not found" })
+  }
+})
 module.exports = userRouter

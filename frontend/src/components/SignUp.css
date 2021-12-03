@@ -21,7 +21,7 @@
 
 .row2 {
   padding-top: 120px;
-  padding-bottom: 60px;
+
 }
 
 .header_text {
@@ -59,7 +59,7 @@
 }
 
 .section_form {
-  
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
   display: flex;
   justify-content: center;
   background-color: white;
@@ -110,6 +110,7 @@
   margin-top: 10px;
   text-align: center;
   text-decoration: none;
+  width: 100%;
 }
 
 .row1 {
@@ -117,6 +118,8 @@
   margin-top: 30px;
   margin-bottom: 50px;
 }
+
+
 
 
 .text-divider {
@@ -147,6 +150,10 @@
 
 .form-box {
   margin-bottom: 10px;
+}
+
+textarea {
+  resize: vertical; /* user can resize vertically, but width is fixed */
 }
 
 .form-box__field {
@@ -181,3 +188,5 @@
   padding: 0 15px;
   width: 100%;
 }
+
+

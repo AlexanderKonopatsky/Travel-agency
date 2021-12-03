@@ -7,10 +7,6 @@ function CardItem(props) {
 
   return (  
     <>
-{/*       {currentId % 3  &&  <ul className='cards__items'>  */}
-
-    {/*   {currentId % 3 ? 'сейчас' : 'не'} */}
- 
          <li key={tour._id} className='cards__item'>
 
           <a className='cards__item__link' href={`tour/${tour._id}`}>

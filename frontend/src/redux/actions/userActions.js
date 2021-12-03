@@ -12,7 +12,13 @@ import {
   USER_DETAILS_FAIL,
   USER_UPDATE_PROFILE_FAIL,
   USER_UPDATE_PROFILE_REQUEST,
-  USER_UPDATE_PROFILE_SUCCESS
+  USER_UPDATE_PROFILE_SUCCESS,
+  USER_LIST_FAIL,
+  USER_LIST_REQUEST,
+  USER_LIST_SUCCESS,
+  USER_EDIT_FAIL,
+  USER_EDIT_REQUEST,
+  USER_EDIT_SUCCESS,
 } from "../constants/userConstants"
 
 export const signIn = (email, password) => async (dispatch) => {
@@ -103,7 +109,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
   const { userSignIn : { userInfo } } = getState() 
   try {
     console.log(`Bearer ${userInfo.token}`)
-    const { data } = await Axios.put(`/api/users/profile`, user, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+    const { data } = await Axios.put(`/api/users/profile2`, user, { headers: { Authorization: `Bearer ${userInfo.token}` } })
     dispatch({
       type: USER_UPDATE_PROFILE_SUCCESS,
       payload: data
@@ -124,4 +130,48 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
 }
 
 
+export const userList = () => async (dispatch, getState) => {
+  dispatch({
+    type: USER_LIST_REQUEST
+  })
+  const { userSignIn : { userInfo } } = getState() 
+  try {
+    const { data } = await Axios.get(`/api/users`, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+    dispatch({
+      type: USER_LIST_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: USER_LIST_FAIL,
+      payload: error.response && error.response.data.message 
+        ? error.response.data.message
+        : error.message
+    })
+  }
+}
+
+
+export const userEdit = (user) => async (dispatch, getState) => {
+  dispatch({
+    type: USER_EDIT_REQUEST,
+    payload: user
+  })
+  const { userSignIn : { userInfo } } = getState() 
+  console.log(`Bearer ${userInfo.token}`)
+  try {
+    const { data } = await Axios.put(`/api/users/${user._id}`, user, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+    dispatch({
+      type: USER_EDIT_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: USER_EDIT_FAIL,
+      payload: error.response && error.response.data.message 
+        ? error.response.data.message
+        : error.message
+    })
+  }
+}
 
