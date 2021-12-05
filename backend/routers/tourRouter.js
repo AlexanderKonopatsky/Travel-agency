@@ -4,8 +4,16 @@ const tourRouter = express.Router()
 const { isAuth, isAdmin } = require('../utils')
 
 tourRouter.get('/', async (req, res) => {
-  const tours = await Tour.find({})
+  const category = req.query.category
+  const categoryFilter = category ? { category } : {}
+  const tours = await Tour.find({ ...categoryFilter })
   res.send(tours)
+})
+
+tourRouter.get('/categories', async (req, res) => {
+  const categories = await Tour.find().distinct('category')
+  res.send(categories)
+
 })
 
 tourRouter.get('/:id', async (req, res) => {
@@ -16,6 +24,7 @@ tourRouter.get('/:id', async (req, res) => {
     res.status(404).send({message: 'Tour not Found'})
   }
 })
+
 
 tourRouter.get('/seed', async (req, res) => {
   const createdTours = await Tour.insertMany(data.tours)
@@ -39,6 +48,7 @@ tourRouter.post('/', isAuth, isAdmin, async (req, res) => {
 })
 
 tourRouter.put('/:id', isAuth, isAdmin, async (req, res) => {
+  
   const tourId = req.params.id
   const tour = await Tour.findById(tourId)
   if (tour) {

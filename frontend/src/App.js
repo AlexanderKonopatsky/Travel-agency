@@ -21,10 +21,12 @@ import UserListPage from './pages/UserListPage'
 import UserEditPage from './pages/UserEditPage'
 import SearchPage from './pages/SearchPage'
 
+
 function App() {
   return (
 
       <Router>
+  
         <Navbar></Navbar>
         <Switch>
           <Route path="/" exact component={Home}/>

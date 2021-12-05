@@ -16,8 +16,11 @@ import {
   TOUR_DELETE_FAIL,
   TOUR_SEARCH_FAIL,
   TOUR_SEARCH_REQUEST,
-  TOUR_SEARCH_RESET,
-  TOUR_SEARCH_SUCCESS
+  TOUR_SEARCH_SUCCESS,
+  TOUR_LIST_CATEGORY_FAIL,
+  TOUR_LIST_CATEGORY_REQUEST,
+  TOUR_LIST_CATEGORY_RESET,
+  TOUR_LIST_CATEGORY_SUCCESS,
 } from '../constants/tourConstants'
 import Axios from 'axios'
 
@@ -143,6 +146,26 @@ export const searchTours = (title) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: TOUR_SEARCH_FAIL,
+      payload: error.response && error.response.data.message 
+        ? error.response.data.message
+        : error.message
+    })
+  }
+}
+
+export const listTourCategories = () => async (dispatch) => {
+  dispatch({
+    type: TOUR_LIST_CATEGORY_REQUEST,
+  })
+  try {
+    const { data } = await Axios.get(`/api/tours/categories/`)
+    dispatch({
+      type: TOUR_LIST_CATEGORY_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: TOUR_LIST_CATEGORY_FAIL,
       payload: error.response && error.response.data.message 
         ? error.response.data.message
         : error.message

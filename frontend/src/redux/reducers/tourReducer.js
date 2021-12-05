@@ -20,7 +20,11 @@ import {
   TOUR_SEARCH_FAIL,
   TOUR_SEARCH_REQUEST,
   TOUR_SEARCH_RESET,
-  TOUR_SEARCH_SUCCESS
+  TOUR_SEARCH_SUCCESS,
+  TOUR_LIST_CATEGORY_FAIL,
+  TOUR_LIST_CATEGORY_REQUEST,
+  TOUR_LIST_CATEGORY_RESET,
+  TOUR_LIST_CATEGORY_SUCCESS,
   } from '../constants/tourConstants';
 
 export const tourListReducer = (state = { loading: true, tours: []}, action) => {
@@ -110,6 +114,20 @@ export const tourSearchReducer = ( state = {}, action) => {
       return state
   }
 }
+
+export const listTourCategoriesReducer = ( state = {}, action) => {
+  switch (action.type) {
+    case TOUR_LIST_CATEGORY_REQUEST:
+      return { loading: true }
+    case TOUR_LIST_CATEGORY_SUCCESS:
+      return { loading: false, categories: action.payload}
+    case TOUR_LIST_CATEGORY_FAIL:
+      return { loading: false, error: action.payload}
+    default:
+      return state
+  }
+}
+
 
 
 
