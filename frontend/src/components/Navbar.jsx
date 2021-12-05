@@ -1,20 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { signOut } from '../redux/actions/userActions'
+import { listTourCategories } from '../redux/actions/tourActions'
 import { Button } from './Button'
 import SearchBar from './SearchBar'
+import Sidebar from './Sidebar'
 import './Navbar.css'
 
 
 function Navbar(props) {
 
 
-  const [click, setClick] = useState(false);
+  const [click, setClick] = useState(false)
+  const [sideBarIsOpen, setSideBarIsOpen] = useState(false)
 
-  const handleClick = () => setClick(!click);
-  const closeMobileMenu = () => setClick(false);
+  const handleClick = () => setClick(!click)
+  const closeMobileMenu = () => setClick(false)
 
   const cart = useSelector(state => state.cart)
   const { cartItems } = cart
@@ -23,8 +26,12 @@ function Navbar(props) {
   const { userInfo } = userSignIn
 
 
-
+  
   const dispatch = useDispatch()
+
+
+
+
 
   const signOutHandler = () => {
     dispatch(signOut())
@@ -58,6 +65,9 @@ function Navbar(props) {
 
     <>
       <nav className='navbar'>
+
+
+        <Sidebar/>
         <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
           Tour Agency
           <i className="fas fa-globe-americas icon" />
