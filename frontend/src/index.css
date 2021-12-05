@@ -468,7 +468,7 @@ button.close-sidebar {
 
 
 .nav_item {
-
+  background: #1b1a1a;
   height: 80px;
   display: flex;
   justify-content: flex-start;

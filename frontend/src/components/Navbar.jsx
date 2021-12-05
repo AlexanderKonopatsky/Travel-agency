@@ -25,13 +25,11 @@ function Navbar(props) {
   const userSignIn = useSelector(state => state.userSignIn)
   const { userInfo } = userSignIn
 
-  const listTourCategory = useSelector(state => state.listTourCategory)
-  const { categories, loading: loadingCategories, error: errorCategories } = listTourCategory
 
+  
   const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(listTourCategories())
-  }, [dispatch])
+
+
 
 
 
@@ -69,7 +67,7 @@ function Navbar(props) {
       <nav className='navbar'>
 
 
-      <Sidebar/>
+        <Sidebar/>
         <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
           Tour Agency
           <i className="fas fa-globe-americas icon" />

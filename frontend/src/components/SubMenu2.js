@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import * as SiIcons from 'react-icons/si'
 
 
-
-const SubMenu = ({ item, categories }) => {
+const SubMenu2 = ({ item }) => {
   const [subnav, setSubnav] = useState(false);
 
   const showSubnav = () => setSubnav(!subnav);
 
   return (
     <>
-      <Link className="sidebar_link" to={item.path} onClick={item.subNav && showSubnav}>
+      <Link className="sidebar_link"  to={item.path} onClick={item.subNav && showSubnav}>
         <div>
           {item.icon}
           <span className="sidebar_label">{item.title}</span>
@@ -26,11 +24,11 @@ const SubMenu = ({ item, categories }) => {
         </div>
       </Link>
       {subnav &&
-        categories.map((item, index) => {
+        item.subNav.map((item, index) => {
           return (
-            <Link className="Dropdown_Link" to={item} key={index}>
-              <SiIcons.SiYourtraveldottv />
-              <span className="sidebar_label">{item}</span>
+            <Link className="Dropdown_Link" to={item.path} key={index}>
+              {item.icon}
+              <span className="sidebar_label">{item.title}</span>
             </Link>
           );
         })}
@@ -38,4 +36,4 @@ const SubMenu = ({ item, categories }) => {
   );
 };
 
-export default SubMenu;
+export default SubMenu2;
