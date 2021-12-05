@@ -16,7 +16,11 @@ import {
   TOUR_DELETE_FAIL,
   TOUR_DELETE_SUCCESS,
   TOUR_DELETE_REQUEST,
-  TOUR_DELETE_RESET
+  TOUR_DELETE_RESET,
+  TOUR_SEARCH_FAIL,
+  TOUR_SEARCH_REQUEST,
+  TOUR_SEARCH_RESET,
+  TOUR_SEARCH_SUCCESS
   } from '../constants/tourConstants';
 
 export const tourListReducer = (state = { loading: true, tours: []}, action) => {
@@ -92,7 +96,20 @@ export const tourDeleteReducer = ( state = {}, action) => {
   }
 }
 
-
+export const tourSearchReducer = ( state = {}, action) => {
+  switch (action.type) {
+    case TOUR_SEARCH_REQUEST:
+      return { loading: true }
+    case TOUR_SEARCH_SUCCESS:
+      return { loading: false, tours: action.payload}
+    case TOUR_SEARCH_FAIL:
+      return { loading: false, error: action.payload}
+    case TOUR_SEARCH_RESET: 
+      return {}
+    default:
+      return state
+  }
+}
 
 
 
