@@ -4,15 +4,16 @@ import { SearchIcon } from "@material-ui/icons/Search";
 import { CloseIcon } from "@material-ui/icons/Close";
 import Axios from "axios"
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
-function SearchBar({ placeholder }) {
-
+function SearchBar(props, { placeholder }) {
+  let history = useHistory();
   const [tours, setTours] = useState([])
 
   const getTours = (title) => {
     axios.get(`/api/tours/search/${title}`).then(res => setTours(res.data))
   }
-
+  
   useEffect(() => {
     getTours()
   }, [])
@@ -20,22 +21,34 @@ function SearchBar({ placeholder }) {
   const [filteredData, setFilteredData] = useState([]);
   const [wordEntered, setWordEntered] = useState("");
 
+
+
   const handleFilter = (event) => {
-    const searchWord = event.target.value;
-    setWordEntered(searchWord);
+    const searchWord = event.target.value
+    setWordEntered(searchWord)
     if (searchWord.length > 1) {
-/*       const newFilter = data.filter((value) => {
+/*    const newFilter = data.filter((value) => {
         return value.title.toLowerCase().includes(searchWord.toLowerCase());
       }); */
       getTours(searchWord)
       console.log(tours)
       if (searchWord === "") {
-        setFilteredData([]);
+        setFilteredData([])
       } else {
-        setFilteredData(tours);
+        setFilteredData(tours)
       }
     }
+    if (searchWord.length === 0) {
+      clearInput()
+    }
 
+  }
+
+  const handleEnter = (event) => {
+    if (event.keyCode === 13) {
+      history.push(`/search/${event.target.value}`)
+      clearInput()
+    }
   };
 
   const clearInput = () => {
@@ -55,6 +68,7 @@ function SearchBar({ placeholder }) {
           placeholder={placeholder}
           value={wordEntered}
           onChange={handleFilter}
+          onKeyDown={handleEnter}
         />
 
         <i class="fas fa-window-close" onClick={clearInput}></i>
@@ -63,14 +77,16 @@ function SearchBar({ placeholder }) {
       {filteredData.length !== 0 && (
         <div className="dataResult">
           {filteredData.slice(0, 15).map((value, key) => {
+            let hrefData = `/tour/${value._id}`
             return (
-              <a className="dataItem" href={value.link} target="_blank" rel="noreferrer">
+              <a className="dataItem" href={hrefData} target="_blank" rel="noreferrer">
                 <p>{value.title} </p>
               </a>
             );
           })}
         </div>
       )}
+      {filteredData.length === 0 }
     </div>
   );
 }

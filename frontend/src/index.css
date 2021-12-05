@@ -341,3 +341,48 @@ button{
 
 
 
+
+.header_text_search {
+  padding-top: 80px;
+  padding-bottom: 50px;
+  font-size: 48px;
+  line-height: 1.1;
+  color: #1a1a1a;
+  font-family: "Times New Roman", Serif;
+  font-weight: normal;
+  margin: 0;
+}
+
+a {
+  color: #013d48;
+  text-decoration: none;
+}
+
+.href_search_result {
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+.href_search_result:hover {
+  text-decoration: underline;
+}
+
+.search_text_body {
+  color: #404040;
+  font-family: "Proxima Nova", Sans-Serif;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.search_div {
+  padding-bottom: 80px;
+  background-color: #f4f0ed;
+  min-height: 700px;
+}
+
+.header_section_ {
+  padding-top: 150px;
+  text-align: center;
+  max-width: 350px;
+  margin: auto;
+}

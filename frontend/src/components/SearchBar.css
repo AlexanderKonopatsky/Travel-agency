@@ -64,6 +64,11 @@ a {
   text-decoration: none;
 }
 
+.dataItem:hover {
+  background-color: #126472;
+  color: white;
+}
+
 #clearBtn {
   cursor: pointer;
 }

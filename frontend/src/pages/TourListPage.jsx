@@ -55,8 +55,8 @@ function TourListScreen(props) {
         <button type="button" className="primary" onClick={createHandler}>
           Create Tour
         </button>
-        { loadingDelete && <LoadingBox></LoadingBox>}
-                  {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
+        {loadingDelete && <LoadingBox></LoadingBox>}
+        {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
       </div>
       {loadingCreate && <LoadingBox></LoadingBox>}
       {errorCreate && <MessageBox variant="danger">{errorCreate}</MessageBox>}
