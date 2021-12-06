@@ -6,7 +6,6 @@ import MessageBox from './MessageBox'
 import LoadingBox from './LoadingBox'
 import { useDispatch, useSelector } from 'react-redux';
 import { listTour } from '../redux/actions/tourActions'
-import HorizontalScroll from 'react-scroll-horizontal'
 import { gsap } from "gsap";
 
 
@@ -17,20 +16,27 @@ function Cards() {
   const tourList = useSelector((state) => state.tourList)
   const { loading, error, tours } = tourList
 
+
   const [scrollX1, setscrollX1] = useState(0);
   const [scrolEnd1, setscrolEnd1] = useState(false);
 
   const [scrollX2, setscrollX2] = useState(0);
   const [scrolEnd2, setscrolEnd2] = useState(false);
+
+  /*   const listTourByCountryBelarus = useSelector((state) => state.listTourByCountryBelarus)
+    const { loading: loadingToursByCountry, error: errorToursByCountry, tours : toursByCountry } = listTourByCountryBelarus */
   //---------------------------
 
   let scrl = useRef(null);
   let scrl2 = useRef(null);
 
 
+
   useEffect(() => {
     dispatch(listTour())
   }, [dispatch])
+
+
 
 
   //Slide click
@@ -123,10 +129,13 @@ function Cards() {
                     )}
                     <ul className="scroll_ul" ref={scrl} onScroll={scrollCheck1}>
                       {
-                        tours.map(tour => (
-                          <CardItem key={tour._id} tour={tour} />
-                        ))
-                      }
+                        tours.map(tour => {
+                          if (tour.country === 'Belarus') {
+                            return <CardItem key={tour._id} tour={tour} />
+                          } else {
+                            return false
+                          }
+                      })}
                     </ul>
                     {!scrolEnd1 && (
                       <button
@@ -157,11 +166,14 @@ function Cards() {
                       </button>
                     )}
                     <ul className="scroll_ul" ref={scrl2} onScroll={scrollCheck2}>
-                      {
-                        tours.map(tour => (
-                          <CardItem key={tour._id} tour={tour} />
-                        ))
-                      }
+                    {
+                        tours.map(tour => {
+                          if (tour.country === 'Russia') {
+                            return <CardItem key={tour._id} tour={tour} />
+                          } else {
+                            return false
+                          }
+                      })}
                     </ul>
                     {!scrolEnd2 && (
                       <button

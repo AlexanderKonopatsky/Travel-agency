@@ -41,7 +41,8 @@ tourRouter.post('/', isAuth, isAdmin, async (req, res) => {
     additionalInfo: "The Tower of London is one of Londons most famous landmarks. Known for...",
     price: 853,
     rating: 3,
-    numReviews: 12
+    numReviews: 12,
+    country: 'Russia'
   })
   const createdTour = await tour.save()
   res.send({ message: 'Tour created', tour: createdTour})

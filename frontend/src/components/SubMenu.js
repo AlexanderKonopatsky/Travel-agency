@@ -27,8 +27,9 @@ const SubMenu = ({ item, categories }) => {
       </Link>
       {subnav &&
         categories.map((item, index) => {
+          let href = `/category/${item}`
           return (
-            <Link className="Dropdown_Link" to={item} key={index}>
+            <Link className="Dropdown_Link" to={href} key={index}>
               <SiIcons.SiYourtraveldottv />
               <span className="sidebar_label">{item}</span>
             </Link>

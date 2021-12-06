@@ -20,6 +20,7 @@ import OrderListAdminPage from './pages/orderListAdminPage'
 import UserListPage from './pages/UserListPage'
 import UserEditPage from './pages/UserEditPage'
 import SearchPage from './pages/SearchPage'
+import TourCategoryPage from './pages/TourCategoryPage'
 
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
           <AdminRoute path="/userList" component={UserListPage}></AdminRoute>
           <AdminRoute path="/user/:id/edit" component={UserEditPage}></AdminRoute>
           <Route path="/orderHistory/list" exact component={OrderHistoryPage}/>
+          <Route path="/category/:category" exact component={TourCategoryPage}/> 
         </Switch>
         <Footer></Footer>
       </Router>

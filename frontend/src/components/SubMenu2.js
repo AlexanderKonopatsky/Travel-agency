@@ -10,7 +10,7 @@ const SubMenu2 = ({ item }) => {
 
   return (
     <>
-      <Link className="sidebar_link"  to={item.path} onClick={item.subNav && showSubnav}>
+      <div className="sidebar_link" onClick={item.subNav && showSubnav}>
         <div>
           {item.icon}
           <span className="sidebar_label">{item.title}</span>
@@ -22,7 +22,7 @@ const SubMenu2 = ({ item }) => {
             ? item.iconClosed
             : null}
         </div>
-      </Link>
+      </div>
       {subnav &&
         item.subNav.map((item, index) => {
           return (

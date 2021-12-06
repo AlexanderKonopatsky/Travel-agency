@@ -147,9 +147,9 @@ const Sidebar = () => {
         </div>
         <SidebarNav sidebar={sidebar}>
           <div className="div_sidebar_wrap">
-            <Link className="nav_icon_link" to='#'>
+            <div className="nav_icon_link" to='#'>
               <AiIcons.AiOutlineClose onClick={showSidebar} />
-            </Link>
+            </div>
             {SidebarData.map((item, index) => {
               return <SubMenu item={item} key={index} categories={categories} />;
             })}
