@@ -85,6 +85,26 @@ tourRouter.get('/search/:title', async (req, res) => {
   res.send(tours)
 })
 
+
+tourRouter.post('/:id/comments', isAuth, async (req, res) => {
+  const tourId = req.params.id
+  const tour = await Tour.findById(tourId)
+  if (tour) {
+    const comment = {
+      user: req.user._id,
+      comment: req.body.comment,
+      ratting: Number(req.body.rating)
+    }
+    tour.comments.push(comment)
+    tour.numReviews = tour.comments.length
+    const updatedTour = await tour.save()
+    res.status(201).send({ message: 'Comment created', comment: updatedTour.comments[updatedTour.comments.length - 1]})
+  } else {
+    res.status(404).send({ message: 'Tour not found' })
+  }
+})
+
+
 module.exports = tourRouter
 
 

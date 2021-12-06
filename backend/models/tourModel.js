@@ -1,5 +1,17 @@
 const { Schema, model } = require('mongoose')
 
+
+const commentsSchema = new Schema(
+  {
+    user: { type: Schema.Types.ObjectId, ref: 'Users', required: true },
+    comment: { type: String, required: true },
+    rating: { type: Number, required: false },
+  },
+  {
+    timestamps: true,
+  }
+);
+
 const tourSchema = new Schema(
   {
     title: { type: String, required: true },
@@ -12,6 +24,7 @@ const tourSchema = new Schema(
     rating: { type: Number, required: true },
     numReviews: { type: Number, required: true },
     country: { type: String, required: true },
+    comments: [commentsSchema],
   },
   {
     timestamps: true

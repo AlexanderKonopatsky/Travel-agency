@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux'
-import { detailsTour } from "../redux/actions/tourActions";
+import { detailsTour, commentCreate } from "../redux/actions/tourActions";
 import DatePicker from "react-datepicker";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import "react-datepicker/dist/react-datepicker.css";
 import '../components/MainSection.css';
+import { TOUR_COMMENT_CREATE_RESET } from '../redux/constants/tourConstants'
+import { Link } from 'react-router-dom';
 
 function Tour(props) {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(null);
+
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState('');
+
   const onChange = (dates) => {
     const [start, end] = dates;
     setStartDate(start);
@@ -21,13 +27,37 @@ function Tour(props) {
   const tourDetails = useSelector(state => state.tourDetails)
   const { loading, error, tour } = tourDetails
 
+  const userSignIn = useSelector(state => state.userSignIn)
+  const { userInfo } = userSignIn
+
+  const tourCommentCreate = useSelector((state) => state.tourCommentCreate);
+  const { loading: loadingCommentCreate, error: errorCommentCreate, success: successCommentCreate, } = tourCommentCreate;
+
+
   useEffect(() => {
+    if (successCommentCreate) {
+      window.alert('Comment Submitted Successfully');
+      /*       setRating('');
+            setComment(''); */
+      dispatch({ type: TOUR_COMMENT_CREATE_RESET });
+    }
     dispatch(detailsTour(tourId))
-  }, [dispatch, tourId])
+  }, [dispatch, successCommentCreate, tourId])
 
   const addToCartHandler = () => {
     props.history.push(`/cart/${tourId}?startDate=${startDate}&endDate=${endDate}`)
   }
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    if (comment) {
+      dispatch(
+        commentCreate(tourId, { comment, user: userInfo._id })
+      );
+    } else {
+      alert('Please enter comment');
+    }
+  };
 
   return (
     <>
@@ -53,6 +83,7 @@ function Tour(props) {
                     </button>
                   </div>
                 </div>
+
               </div>
 
               <section className="main-section">
@@ -92,23 +123,108 @@ function Tour(props) {
                           {tour.desc}
                         </div>
                       </div>
+                    
+
+
+
+
+
                       <div className='head-text'>
-                        Tour Details
+                        Comments
                       </div>
                       <div className="box">
-                        <div className="box-head">
-                          Tour description
-                        </div>
-                        <div className="box-body">
-                          {tour.desc}
-                        </div>
-                        <div className="box-head">
-                          Tour description
-                        </div>
-                        <div className="box-body">
-                          {tour.desc}
+                        <h2 className="box-head">Comments</h2>
+                        {tour.comments.length === 0 && (
+                          <MessageBox>There is no comment</MessageBox>
+                        )}
+                        <ul>
+                          {tour.comments.map((comment) => (
+                            <li key={comment._id}>
+                              <strong>{comment.user}</strong>
+                              {/*                      <Rating rating={review.rating} caption=" "></Rating> */}
+                              <p>{comment.createdAt.substring(0, 10)}</p>
+                              <p>{comment.comment}</p>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+
+
+                      <div className='head-text'>
+                        Comments
+                      </div>
+                      <div className="box">
+                        <div>
+
+                          <ul>
+                            <li>
+                              {userInfo ? (
+                                <form className="form" onSubmit={submitHandler}>
+                                  <div className="box-head">
+                                     Write a comment
+                                  </div>
+                                  <div>
+                                    <label htmlFor="rating">Rating</label>
+                                    <select
+                                      id="rating"
+                                      value={rating}
+                                      onChange={(e) => setRating(e.target.value)}
+                                    >
+                                      <option value="">Select...</option>
+                                      <option value="1">1- Poor</option>
+                                      <option value="2">2- Fair</option>
+                                      <option value="3">3- Good</option>
+                                      <option value="4">4- Very good</option>
+                                      <option value="5">5- Excelent</option>
+                                    </select>
+                                  </div>
+                                  <div>
+                                    <label htmlFor="comment">Comment</label>
+                                    <textarea
+                                      id="comment"
+                                      value={comment}
+                                      onChange={(e) => setComment(e.target.value)}
+                                    ></textarea>
+                                  </div>
+                                  <div>
+                                    <label />
+                                    <button className="action-button-tour" type="submit">
+                                      Submit
+                                    </button>
+                                  </div>
+                                  <div>
+                                    {loadingCommentCreate && <LoadingBox></LoadingBox>}
+                                    {errorCommentCreate && (
+                                      <MessageBox variant="danger">
+                                        {errorCommentCreate}
+                                      </MessageBox>
+                                    )}
+                                  </div>
+                                </form>
+                              ) : (
+                                <MessageBox>
+                                  Please <Link to="/signin">Sign In</Link> to write a review
+                                </MessageBox>
+                              )}
+                            </li>
+                          </ul>
                         </div>
                       </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     </div>
                   </div>
                 </div>

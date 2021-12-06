@@ -17,12 +17,17 @@ import {
   TOUR_SEARCH_FAIL,
   TOUR_SEARCH_REQUEST,
   TOUR_SEARCH_SUCCESS,
+  TOUR_COMMENT_CREATE_REQUEST,
+  TOUR_COMMENT_CREATE_FAIL,
+  TOUR_COMMENT_CREATE_RESET,
+  TOUR_COMMENT_CREATE_SUCCESS,
   TOUR_LIST_CATEGORY_FAIL,
   TOUR_LIST_CATEGORY_REQUEST,
   TOUR_LIST_CATEGORY_SUCCESS,
   TOUR_LIST_BY_CATEGORY_REQUEST,
   TOUR_LIST_BY_CATEGORY_FAIL,
   TOUR_LIST_BY_CATEGORY_SUCCESS
+
 } from '../constants/tourConstants'
 import Axios from 'axios'
 
@@ -155,6 +160,25 @@ export const searchTours = (title) => async (dispatch, getState) => {
   }
 }
 
+
+
+
+
+export const commentCreate = (tourId, comment) => async (dispatch, getState) => {
+  dispatch({
+    type: TOUR_COMMENT_CREATE_REQUEST
+  })
+  const { userSignIn : { userInfo } } = getState() 
+  try {
+    const { data } = await Axios.post(`/api/tours/${tourId}/comments`, comment, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+    dispatch({
+      type: TOUR_COMMENT_CREATE_SUCCESS,
+      payload: data.comments
+    })
+  } catch (error) {
+    dispatch({
+      type: TOUR_COMMENT_CREATE_FAIL,
+
 export const listTourCategories = () => async (dispatch) => {
   dispatch({
     type: TOUR_LIST_CATEGORY_REQUEST,
@@ -168,12 +192,15 @@ export const listTourCategories = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: TOUR_LIST_CATEGORY_FAIL,
+
       payload: error.response && error.response.data.message 
         ? error.response.data.message
         : error.message
     })
   }
 }
+
+
 
 
 
@@ -197,3 +224,4 @@ export const listTourByCategory = (category) => async (dispatch) => {
     })
   } 
 }
+

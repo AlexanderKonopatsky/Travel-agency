@@ -387,6 +387,16 @@ a {
   margin: auto;
 }
 
+
+#comment  {
+  width: 100%;
+}
+
+#rating { 
+  width: 100%;
+}
+
+=======
 aside {
   position: fixed;
   width: 30rem;
@@ -498,3 +508,4 @@ button.close-sidebar {
 .cards__item__img2 {
   
 }
+
