@@ -178,6 +178,13 @@ export const commentCreate = (tourId, comment) => async (dispatch, getState) => 
   } catch (error) {
     dispatch({
       type: TOUR_COMMENT_CREATE_FAIL,
+      payload: error.response && error.response.data.message 
+      ? error.response.data.message
+      : error.message
+  })
+  }
+}
+
 
 export const listTourCategories = () => async (dispatch) => {
   dispatch({
