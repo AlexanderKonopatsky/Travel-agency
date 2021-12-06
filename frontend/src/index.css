@@ -386,3 +386,12 @@ a {
   max-width: 350px;
   margin: auto;
 }
+
+#comment  {
+  width: 100%;
+}
+
+#rating { 
+  width: 100%;
+}
+

@@ -20,7 +20,11 @@ import {
   TOUR_SEARCH_FAIL,
   TOUR_SEARCH_REQUEST,
   TOUR_SEARCH_RESET,
-  TOUR_SEARCH_SUCCESS
+  TOUR_SEARCH_SUCCESS,
+  TOUR_COMMENT_CREATE_REQUEST,
+  TOUR_COMMENT_CREATE_FAIL,
+  TOUR_COMMENT_CREATE_RESET,
+  TOUR_COMMENT_CREATE_SUCCESS,
   } from '../constants/tourConstants';
 
 export const tourListReducer = (state = { loading: true, tours: []}, action) => {
@@ -110,6 +114,25 @@ export const tourSearchReducer = ( state = {}, action) => {
       return state
   }
 }
+
+
+export const tourCommentCreateReducer = ( state = {}, action) => {
+  switch (action.type) {
+    case TOUR_COMMENT_CREATE_REQUEST:
+      return { loading: true }
+    case TOUR_COMMENT_CREATE_SUCCESS:
+      return { loading: false, success: true, comment: action.payload}
+    case TOUR_COMMENT_CREATE_FAIL:
+      return { loading: false, error: action.payload}
+    case TOUR_COMMENT_CREATE_RESET: 
+      return {}
+    default:
+      return state
+  }
+}
+
+
+
 
 
 
