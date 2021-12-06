@@ -21,6 +21,13 @@ import {
   TOUR_COMMENT_CREATE_FAIL,
   TOUR_COMMENT_CREATE_RESET,
   TOUR_COMMENT_CREATE_SUCCESS,
+  TOUR_LIST_CATEGORY_FAIL,
+  TOUR_LIST_CATEGORY_REQUEST,
+  TOUR_LIST_CATEGORY_SUCCESS,
+  TOUR_LIST_BY_CATEGORY_REQUEST,
+  TOUR_LIST_BY_CATEGORY_FAIL,
+  TOUR_LIST_BY_CATEGORY_SUCCESS
+
 } from '../constants/tourConstants'
 import Axios from 'axios'
 
@@ -156,6 +163,7 @@ export const searchTours = (title) => async (dispatch, getState) => {
 
 
 
+
 export const commentCreate = (tourId, comment) => async (dispatch, getState) => {
   dispatch({
     type: TOUR_COMMENT_CREATE_REQUEST
@@ -170,10 +178,50 @@ export const commentCreate = (tourId, comment) => async (dispatch, getState) => 
   } catch (error) {
     dispatch({
       type: TOUR_COMMENT_CREATE_FAIL,
+
+export const listTourCategories = () => async (dispatch) => {
+  dispatch({
+    type: TOUR_LIST_CATEGORY_REQUEST,
+  })
+  try {
+    const { data } = await Axios.get(`/api/tours/categories/`)
+    dispatch({
+      type: TOUR_LIST_CATEGORY_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: TOUR_LIST_CATEGORY_FAIL,
+
       payload: error.response && error.response.data.message 
         ? error.response.data.message
         : error.message
     })
   }
+}
+
+
+
+
+
+
+export const listTourByCategory = (category) => async (dispatch) => {
+  dispatch({
+    type: TOUR_LIST_BY_CATEGORY_REQUEST,
+    payload: category
+  })
+  try {
+    const { data } = await Axios.get(`/api/tours?category=${category}`)
+    dispatch({
+      type: TOUR_LIST_BY_CATEGORY_SUCCESS,
+      payload: data
+    })
+    console.log(data, '***********')
+  } catch (error) {
+    dispatch({
+      type: TOUR_LIST_BY_CATEGORY_FAIL,
+      payload: error.message
+    })
+  } 
 }
 

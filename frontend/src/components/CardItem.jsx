@@ -25,7 +25,7 @@ function CardItem(props) {
             </figure>
             <div className="cards_cont">
               {/* <div className='cards__item__info'> */}
-              <h3 className='cards__item__text'>{tour.title}</h3>
+              <h3 className='cards__item__text'>{tour.title} - {tour.country}</h3>
               {/*      </div> */}
               <p className="tour_card_description">{tour.desc}</p>
 
