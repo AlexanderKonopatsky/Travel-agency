@@ -75,6 +75,9 @@ function TourListScreen(props) {
               <th>ID</th>
               <th>NAME</th>
               <th>category</th>
+              <th>country</th>
+              <th>city</th>
+              <th>image</th>
               <th>label</th>
               <th>desc</th>
               <th>dop info</th>
@@ -92,6 +95,9 @@ function TourListScreen(props) {
                 <td>{tour._id}</td>
                 <td>{tour.title}</td>
                 <td>{tour.category}</td>
+                <td>{tour.country}</td>
+                <td>{tour.city}</td>
+                <td>{tour.image}</td>
                 <td>{tour.label}</td>
                 <td>{tour.desc}</td>
                 <td>{tour.additionalInfo}</td>

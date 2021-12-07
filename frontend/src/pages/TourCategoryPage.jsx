@@ -10,7 +10,9 @@ import CardItemCategory from '../components/CardItemCategory';
 
 function TourCategoryPage(props) {
   const category = props.match.params.category
-
+  const country = props.match.params.country
+  const city = props.match.params.city
+  console.log('ccccc', category,)
 
 
   const dispatch = useDispatch()
@@ -18,8 +20,14 @@ function TourCategoryPage(props) {
   const { loading, error, tours } = tourListByCategory
 
   useEffect(() => {
-    dispatch(listTourByCategory(category))
-  }, [category, dispatch])
+    if (category) {
+      dispatch(listTourByCategory(category, 'category'))
+    } else if (country) {
+      dispatch(listTourByCategory(country, 'country'))
+    } else if (city) {
+      dispatch(listTourByCategory(city, 'city'))
+    }
+  }, [category, city, country, dispatch])
 
 
 
@@ -35,7 +43,9 @@ function TourCategoryPage(props) {
                   <div className='grid__content__container'>
                     <div className='grid__content'>
                       <h1 className='text-center'>
-                        {category}
+                        {category && category}
+                        {country && country}
+                        {city && city}
                       </h1>
                     </div>
                   </div>
@@ -52,12 +62,12 @@ function TourCategoryPage(props) {
 
               <div className="card_container">
                 <div className="card-grid-columns">
-                
+
 
                   {tours &&
                     tours.map(tour => (
                       <div className="__tour-card">
-                      <CardItemCategory key={tour._id} tour={tour} />
+                        <CardItemCategory key={tour._id} tour={tour} />
                       </div>
                     ))
                   }

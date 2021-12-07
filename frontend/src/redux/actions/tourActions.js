@@ -212,18 +212,33 @@ export const listTourCategories = () => async (dispatch) => {
 
 
 
-export const listTourByCategory = (category) => async (dispatch) => {
+export const listTourByCategory = (category, typeReq) => async (dispatch) => {
   dispatch({
     type: TOUR_LIST_BY_CATEGORY_REQUEST,
     payload: category
   })
   try {
-    const { data } = await Axios.get(`/api/tours?category=${category}`)
-    dispatch({
-      type: TOUR_LIST_BY_CATEGORY_SUCCESS,
-      payload: data
-    })
-    console.log(data, '***********')
+    if (typeReq === 'category') {
+      const { data } = await Axios.get(`/api/tours?category=${category}`)
+      dispatch({
+        type: TOUR_LIST_BY_CATEGORY_SUCCESS,
+        payload: data
+      })
+    }
+    if (typeReq === 'country') {
+      const { data } = await Axios.get(`/api/tours?country=${category}`)
+      dispatch({
+        type: TOUR_LIST_BY_CATEGORY_SUCCESS,
+        payload: data
+      })
+    }
+    if (typeReq === 'city') {
+      const { data } = await Axios.get(`/api/tours?city=${category}`)
+      dispatch({
+        type: TOUR_LIST_BY_CATEGORY_SUCCESS,
+        payload: data
+      })
+    }
   } catch (error) {
     dispatch({
       type: TOUR_LIST_BY_CATEGORY_FAIL,

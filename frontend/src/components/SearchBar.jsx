@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./SearchBar.css";
 import { SearchIcon } from "@material-ui/icons/Search";
 import { CloseIcon } from "@material-ui/icons/Close";
-import Axios from "axios"
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
@@ -10,8 +9,8 @@ function SearchBar(props, { placeholder }) {
   let history = useHistory();
   const [tours, setTours] = useState([])
 
-  const getTours = (title) => {
-    axios.get(`/api/tours/search/${title}`).then(res => setTours(res.data))
+  const getTours = async (title) => {
+    await axios.get(`/api/tours/search/${title}`).then(res => setTours(res.data))
   }
   
   useEffect(() => {

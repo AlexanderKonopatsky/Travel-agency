@@ -5,7 +5,7 @@ import * as SiIcons from 'react-icons/si'
 
 
 
-const SubMenu = ({ item, categories }) => {
+const SubMenu = ({ item, list, path }) => {
   const [subnav, setSubnav] = useState(false);
 
   const showSubnav = () => setSubnav(!subnav);
@@ -26,8 +26,8 @@ const SubMenu = ({ item, categories }) => {
         </div>
       </Link>
       {subnav &&
-        categories.map((item, index) => {
-          let href = `/category/${item}`
+        list.map((item, index) => {
+          let href = `/${path}/${item}`
           return (
             <Link className="Dropdown_Link" to={href} key={index}>
               <SiIcons.SiYourtraveldottv />

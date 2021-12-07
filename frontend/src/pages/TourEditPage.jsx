@@ -16,6 +16,8 @@ function TourEditPage(props) {
   const [label, setLabel] = useState('')
   const [desc, setDesc] = useState('')
   const [additionalInfo, setAdditionalInfo] = useState('')
+  const [country, setCountry] = useState('')
+  const [city, setCity] = useState('')
 
   const [loadingUpload, setLoadingUpload] = useState(false)
   const [errorUpload, setErrorUpload] = useState('')
@@ -61,26 +63,30 @@ function TourEditPage(props) {
     if (!tour || tour._id !== tourId) {
       dispatch({ type: TOUR_UPDATE_RESET })
       dispatch(detailsTour(tourId))
-    } else {
-      setTitle(tour.title)
-      setPrice(tour.price)
+    } else if (tour) {
+      setTitle(title || tour.title)
+      setPrice(price || tour.price)
       setImage(tour.image)
-      setCategory(tour.category)
-      setLabel(tour.label)
-      setDesc(tour.desc)
-      setAdditionalInfo(tour.additionalInfo)
+      setCategory(category || tour.category)
+      setLabel(label || tour.label)
+      setDesc(desc || tour.desc)
+      setAdditionalInfo(additionalInfo || tour.additionalInfo)
+      setCountry(country || tour.country)
+      setCity(city || tour.city)
     }
-  }, [dispatch, props.history, success, tour, tourId])
+  }, [additionalInfo, category, city, country, desc, dispatch, image, label, price, props.history, success, title, tour, tourId])
 
 
 
 
   const submitHandler = (e) => {
     e.preventDefault();
+    console.log(country, 'country')
     dispatch(
+
       updateTour({
         _id: tourId,
-        title, price, image, category, label, desc, additionalInfo
+        title, price, image, category, label, desc, additionalInfo, country, city
       })
     )
   }
@@ -123,11 +129,7 @@ function TourEditPage(props) {
                     {errorUpdate && (
                       <MessageBox variant="danger">{errorUpdate}</MessageBox>
                     )}
-                    {success && (
-                      <MessageBox variant="success">
-                        Tour Updated Successfully
-                      </MessageBox>
-                    )}
+
                     <div className='row'>
 
                       <div className='form-box'>
@@ -153,7 +155,7 @@ function TourEditPage(props) {
                           <span className='form-label'>
                             Image
                           </span>
-                          <input className="form-input"  type="file" id="fileUpdate" onChange={uploadFileHandler} />
+                          <input className="form-input" type="file" id="fileUpdate" onChange={uploadFileHandler} />
                           {loadingUpload && <LoadingBox></LoadingBox>}
                           {errorUpload && (
                             <MessageBox variant="danger">{errorUpload}</MessageBox>
@@ -182,6 +184,24 @@ function TourEditPage(props) {
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
+                            Country
+                          </span>
+                          <input className="form-input" value={country} type="text" onChange={e => setCountry(e.target.value)} />
+                        </label>
+                      </div>
+
+                      <div className='form-box'>
+                        <label className="form-box__field" >
+                          <span className='form-label'>
+                            City
+                          </span>
+                          <input className="form-input" value={city} type="text" onChange={e => setCity(e.target.value)} />
+                        </label>
+                      </div>
+
+                      <div className='form-box'>
+                        <label className="form-box__field" >
+                          <span className='form-label'>
                             Description
                           </span>
                           <input className="form-input" value={desc} type="text" onChange={e => setDesc(e.target.value)} />
@@ -196,7 +216,11 @@ function TourEditPage(props) {
                           <textarea className="form-input" value={additionalInfo} type="text" onChange={e => setAdditionalInfo(e.target.value)} ></textarea>
                         </label>
                       </div>
-
+                      {success && (
+                        <MessageBox variant="success">
+                          Tour Updated Successfully
+                        </MessageBox>
+                      )}
                       <button className='btn_auth' type="submit" >
                         UPDATE
                       </button>
