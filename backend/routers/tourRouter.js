@@ -32,7 +32,7 @@ tourRouter.get('/city', async (req, res) => {
 })
 
 tourRouter.get('/:id', async (req, res) => {
-  const tour = await Tour.findById(req.params.id)
+  const tour = await Tour.findById(req.params.id).populate('comments.user')
   if (tour) {
     res.send(tour)
   } else {
@@ -113,10 +113,12 @@ tourRouter.post('/:id/comments', isAuth, async (req, res) => {
     const comment = {
       user: req.user._id,
       comment: req.body.comment,
-      ratting: Number(req.body.rating)
+      rating: Number(req.body.rating)
     }
     tour.comments.push(comment)
     tour.numReviews = tour.comments.length
+    tour.rating = (tour.comments.reduce((a, c) =>  c.rating + a, 0 ) / tour.comments.length).toFixed(2)
+    console.log(tour)
     const updatedTour = await tour.save()
     res.status(201).send({ message: 'Comment created', comment: updatedTour.comments[updatedTour.comments.length - 1]})
   } else {

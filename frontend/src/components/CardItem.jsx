@@ -29,7 +29,7 @@ function CardItem(props) {
               {/*      </div> */}
               <p className="tour_card_description">{tour.desc}</p>
 
-              <Rating rating={tour.rating} numReviews={tour.numReviews} />
+              <span><Rating rating={tour.rating} numReviews={tour.numReviews} /> comments {tour.numReviews}</span>
 
             </div>
 

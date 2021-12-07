@@ -16,6 +16,7 @@ function Tour(props) {
   const [endDate, setEndDate] = useState(null);
 
   const [rating, setRating] = useState(0);
+  const [updateRating, setUpdateRating] = useState(0);
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState('');
   const [commentsCreated, setCommentsCreated] = useState(false);
@@ -39,7 +40,11 @@ function Tour(props) {
 
   const getComments = async (tourId) => {
     const data = await Axios.get(`/api/tours/${tourId}/comments`)
-    setComments(data.data.reverse())
+    const tourInfo = await Axios.get(`/api/tours/${tourId}`)
+    setComments(tourInfo.data.comments.reverse())
+    console.log('rating', tourInfo.data.rating)
+    setUpdateRating(tourInfo.data.rating)
+    /*  setComments(data.data.reverse()) */
   }
 
   useEffect(() => {
@@ -64,9 +69,10 @@ function Tour(props) {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    console.log('comment', comment)
     if (comment && rating) {
       dispatch(
-        commentCreate(tourId, { comment, user: userInfo._id })
+        commentCreate(tourId, { comment, rating, user: userInfo._id })
       );
     } else {
       alert('Please enter comment and rating');
@@ -97,7 +103,6 @@ function Tour(props) {
                     </button>
                   </div>
                 </div>
-
               </div>
 
               <section className="main-section">
@@ -135,7 +140,7 @@ function Tour(props) {
                         </div>
                         <div className="box-body">
                           {tour.desc}
-                          <Rating rating={tour.rating} numReviews={tour.numReviews} />
+                          <Rating rating={updateRating && updateRating} numReviews={updateRating && updateRating} /> {updateRating && updateRating}
                         </div>
                       </div>
 
@@ -167,6 +172,11 @@ function Tour(props) {
                                       Comment Submitted Successfully
                                     </MessageBox>
                                   )}
+                                  {errorCommentCreate && (
+                                    <MessageBox variant="danger">
+                                      {errorCommentCreate}
+                                    </MessageBox>
+                                  )}
                                   <div>
                                     <label htmlFor="rating">Rating</label>
                                     <select
@@ -191,18 +201,14 @@ function Tour(props) {
                                     ></textarea>
                                   </div>
                                   <div>
-                                    <label />
+
                                     <button className="action-button-tour" type="submit">
                                       Submit
                                     </button>
                                   </div>
                                   <div>
                                     {loadingCommentCreate && <LoadingBox></LoadingBox>}
-                                    {errorCommentCreate && (
-                                      <MessageBox variant="danger">
-                                        {errorCommentCreate}
-                                      </MessageBox>
-                                    )}
+
                                   </div>
                                 </form>
                               ) : (
@@ -232,10 +238,17 @@ function Tour(props) {
                         <ul>
                           {comments && comments.map((comment) => (
                             <li key={comment._id}>
-                              <div className="card__name">{comment.user.firstName} {comment.user.lastName}</div>
+                              <div className="card__name">{comment.user.firstName} {comment.user.lastName}
+
+
+                              </div>
+                              <p>Comment: {comment.comment}</p>
                               {/*                      <Rating rating={review.rating} caption=" "></Rating> */}
-                              <p>{comment.createdAt.substring(0, 10)}</p>
-                              <p>{comment.comment}</p>
+                              <p>{comment.createdAt.substring(0, 10)}
+                                <Rating rating={comment.rating} numReviews={comment.rating} />
+                              </p>
+
+
                               <div className="text-divider__divider"></div>
                             </li>
                           ))}

@@ -1,66 +1,65 @@
 import React from "react";
+import * as BsIcons from 'react-icons/bs'
 
 export default function Rating(props) {
   const { rating, numReviews } = props
 
   return (
     <div className="rating star-rating">
+  
+ 
+      
       <span>
-        <i
-          className={
+        {
             rating >= 1
-              ? 'fa fa-star'
+              ?    <BsIcons.BsStarFill />
               : rating >= 0.5
-                ? 'far fa-star-half-o'
-                : 'fa fa-star-o'
+                ?      <BsIcons.BsStarHalf />
+                : <BsIcons.BsStar />
           }
-        ></i>
+
       </span>
       <span>
-        <i
-          className={
+      {
             rating >= 2
-              ? 'fa fa-star'
+              ?     <BsIcons.BsStarFill />
               : rating >= 1.5
-                ? 'fa fa-star-half-o'
-                : 'fa fa-star-o'
+                ?     <BsIcons.BsStarHalf />
+                : <BsIcons.BsStar />
           }
-        ></i>
+
       </span>
       <span>
-        <i
-          className={
+{
             rating >= 3
-              ? 'fa fa-star'
+              ?     <BsIcons.BsStarFill />
               : rating >= 2.5
-                ? 'fa fa-star-half-o'
-                : 'fa fa-star-o'
+                ?      <BsIcons.BsStarHalf />
+                :<BsIcons.BsStar />
           }
-        ></i>
+
       </span>
       <span>
-        <i
-          className={
+{
             rating >= 4
-              ? 'fa fa-star'
+              ?    <BsIcons.BsStarFill />
               : rating >= 3.5
-                ? 'fa fa-star-half-o'
-                : 'fa fa-star-o'
+                ?      <BsIcons.BsStarHalf />
+                : <BsIcons.BsStar />
           }
-        ></i>
+
       </span>
       <span>
-        <i
-          className={
+{
             rating >= 5
-              ? 'fa fa-star'
+              ? <BsIcons.BsStarFill />
               : rating >= 4.5
-                ? 'far fa-star-half-o'
-                : 'fa fa-star-o'
+                ?      <BsIcons.BsStarHalf />
+                :<BsIcons.BsStar />
           }
-        ></i>
+
       </span>
-      <span>{numReviews}</span>
+      <span></span>
     </div>
   )
 }
