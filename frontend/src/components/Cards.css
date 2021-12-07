@@ -42,7 +42,6 @@
   margin: 0 1rem;
   border-radius: 10px;
   background-color: white;
-  box-shadow: 1px 1px 1px 0 rgb(53 39 39);
   min-width: 350px;
 }
 
@@ -50,7 +49,7 @@
   display: flex;
   flex-flow: column;
   width: 100%;
-  box-shadow: 0 6px 20px rgba(56, 125, 255, 0.17);
+  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
   filter: drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017));
   border-radius: 10px;
   overflow: hidden;
