@@ -8,6 +8,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import '../components/MainSection.css';
 import { TOUR_COMMENT_CREATE_RESET } from '../redux/constants/tourConstants'
 import { Link } from 'react-router-dom';
+import Axios from "axios"
+import Rating from '../components/rating'
 
 function Tour(props) {
   const [startDate, setStartDate] = useState(new Date());
@@ -15,6 +17,8 @@ function Tour(props) {
 
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
+  const [comments, setComments] = useState('');
+  const [commentsCreated, setCommentsCreated] = useState(false);
 
   const onChange = (dates) => {
     const [start, end] = dates;
@@ -33,16 +37,26 @@ function Tour(props) {
   const tourCommentCreate = useSelector((state) => state.tourCommentCreate);
   const { loading: loadingCommentCreate, error: errorCommentCreate, success: successCommentCreate, } = tourCommentCreate;
 
+  const getComments = async (tourId) => {
+    const data = await Axios.get(`/api/tours/${tourId}/comments`)
+    setComments(data.data.reverse())
+  }
+
+  useEffect(() => {
+    dispatch(detailsTour(tourId))
+    getComments(tourId)
+  }, [dispatch, tourId])
 
   useEffect(() => {
     if (successCommentCreate) {
-      window.alert('Comment Submitted Successfully');
-      /*       setRating('');
-            setComment(''); */
+      setRating('');
+      setComment('');
       dispatch({ type: TOUR_COMMENT_CREATE_RESET });
+      getComments(tourId)
+      setCommentsCreated(true)
     }
-    dispatch(detailsTour(tourId))
   }, [dispatch, successCommentCreate, tourId])
+
 
   const addToCartHandler = () => {
     props.history.push(`/cart/${tourId}?startDate=${startDate}&endDate=${endDate}`)
@@ -50,12 +64,12 @@ function Tour(props) {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (comment) {
+    if (comment && rating) {
       dispatch(
         commentCreate(tourId, { comment, user: userInfo._id })
       );
     } else {
-      alert('Please enter comment');
+      alert('Please enter comment and rating');
     }
   };
 
@@ -121,33 +135,16 @@ function Tour(props) {
                         </div>
                         <div className="box-body">
                           {tour.desc}
+                          <Rating rating={tour.rating} numReviews={tour.numReviews} />
                         </div>
                       </div>
-                    
 
 
 
 
 
-                      <div className='head-text'>
-                        Comments
-                      </div>
-                      <div className="box">
-                        <h2 className="box-head">Comments</h2>
-                        {tour.comments.length === 0 && (
-                          <MessageBox>There is no comment</MessageBox>
-                        )}
-                        <ul>
-                          {tour.comments.map((comment) => (
-                            <li key={comment._id}>
-                              <strong>{comment.user}</strong>
-                              {/*                      <Rating rating={review.rating} caption=" "></Rating> */}
-                              <p>{comment.createdAt.substring(0, 10)}</p>
-                              <p>{comment.comment}</p>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+
+
 
 
 
@@ -162,8 +159,14 @@ function Tour(props) {
                               {userInfo ? (
                                 <form className="form" onSubmit={submitHandler}>
                                   <div className="box-head">
-                                     Write a comment
+                                    Write a comment
                                   </div>
+                                  {console.log('commentsCreated', commentsCreated)}
+                                  {commentsCreated && (
+                                    <MessageBox variant="success">
+                                      Comment Submitted Successfully
+                                    </MessageBox>
+                                  )}
                                   <div>
                                     <label htmlFor="rating">Rating</label>
                                     <select
@@ -204,7 +207,7 @@ function Tour(props) {
                                 </form>
                               ) : (
                                 <MessageBox>
-                                  Please <Link to="/signin">Sign In</Link> to write a review
+                                  Please <Link to="/signin">Sign In</Link> to write a comment
                                 </MessageBox>
                               )}
                             </li>
@@ -218,10 +221,26 @@ function Tour(props) {
 
 
 
-
-
-
-
+                      <div className='head-text'>
+                        Comments
+                      </div>
+                      <div className="box">
+                        <h2 className="box-head">Comments</h2>
+                        {comments.length === 0 && (
+                          <MessageBox>There is no comment</MessageBox>
+                        )}
+                        <ul>
+                          {comments && comments.map((comment) => (
+                            <li key={comment._id}>
+                              <div className="card__name">{comment.user.firstName} {comment.user.lastName}</div>
+                              {/*                      <Rating rating={review.rating} caption=" "></Rating> */}
+                              <p>{comment.createdAt.substring(0, 10)}</p>
+                              <p>{comment.comment}</p>
+                              <div className="text-divider__divider"></div>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
 
 
 

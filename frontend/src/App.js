@@ -48,6 +48,8 @@ function App() {
           <AdminRoute path="/user/:id/edit" component={UserEditPage}></AdminRoute>
           <Route path="/orderHistory/list" exact component={OrderHistoryPage}/>
           <Route path="/category/:category" exact component={TourCategoryPage}/> 
+          <Route path="/city/:city" exact component={TourCategoryPage}/> 
+          <Route path="/country/:country" exact component={TourCategoryPage}/> 
         </Switch>
         <Footer></Footer>
       </Router>

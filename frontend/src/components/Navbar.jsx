@@ -109,7 +109,7 @@ function Navbar(props) {
             userInfo ? (
               <div className="dropdown">
                 <li className='nav-item'>
-                  <Button onClick={closeMobileMenu} text={userInfo.firstName} link='login'></Button>
+                  <Button onClick={closeMobileMenu} text={userInfo.firstName} link='/login'></Button>
                   <i className="fa fa-caret-down"></i>
                   <ul className="dropdown-content">
                     <li className="li-navbar">
@@ -134,7 +134,7 @@ function Navbar(props) {
                     <Button onClick={closeMobileMenu} text='Log in' link='login' />
                   </li>
                   <li className='nav-item'>
-                    <Button onClick={closeMobileMenu} text='Sign up' link='signUp' />
+                    <Button onClick={closeMobileMenu} text='Sign up' link='/signUp' />
                   </li>
                 </>
               )

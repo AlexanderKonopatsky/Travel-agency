@@ -1,4 +1,4 @@
-data = {
+/* data = {
   users: [
     {
       firstName: 'admin',
@@ -52,4 +52,4 @@ data = {
       numReviews: 21
     },
   ]
-}
+} */

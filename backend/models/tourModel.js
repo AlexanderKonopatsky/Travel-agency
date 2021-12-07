@@ -24,6 +24,7 @@ const tourSchema = new Schema(
     rating: { type: Number, required: true },
     numReviews: { type: Number, required: true },
     country: { type: String, required: true },
+    city: { type: String, required: true },
     comments: [commentsSchema],
   },
   {

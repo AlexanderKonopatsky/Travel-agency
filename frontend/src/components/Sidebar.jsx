@@ -4,14 +4,18 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import * as FaIcons from 'react-icons/fa'
 import * as AiIcons from 'react-icons/ai'
-import SubMenu from './SubMenu'
-import SubMenu2 from './SubMenu2'
+import SubMenu from './SubMenu.jsx'
+import SubMenu2 from './SubMenu2.jsx'
 import { IconContext } from 'react-icons/lib'
 import * as IoIcons from 'react-icons/io'
 import * as RiIcons from 'react-icons/ri'
 import * as BiIcons from 'react-icons/bi'
 import * as SiIcons from 'react-icons/si'
-import { listTourCategories } from '../redux/actions/tourActions'
+import * as GrIcons from 'react-icons/gr'
+import * as MdIcons from 'react-icons/md'
+import { listTourCategories, listTourCountry } from '../redux/actions/tourActions'
+
+import Axios from "axios"
 
 const SidebarData = [
   {
@@ -20,47 +24,34 @@ const SidebarData = [
     icon: <BiIcons.BiCategory />,
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowUpSFill />,
-
-    subNav: [
-           /*  {
-              title: 'Business Travel',
-              path: '/category/Business_travel',
-              icon: <SiIcons.SiYourtraveldottv />
-            } */
-
-    ]
-  },
-  /* {
-    title: 'Messages',
-    path: '/messages',
-    icon: <FaIcons.FaEnvelopeOpenText />,
-
-    iconClosed: <RiIcons.RiArrowDownSFill />,
-    iconOpened: <RiIcons.RiArrowUpSFill />,
-
-    subNav: [
-      {
-        title: 'Message 1',
-        path: '/messages/message1',
-        icon: <IoIcons.IoIosPaper />
-      },
-      {
-        title: 'Message 2',
-        path: '/messages/message2',
-        icon: <IoIcons.IoIosPaper />
-      }
-    ]
-  },
-  {
-    title: 'Support',
-    path: '/support',
-    icon: <IoIcons.IoMdHelpCircle />
-  } */
+    subNav: []
+  }
 ];
 
+const SidebarDataCountry = [
+  {
+    title: 'Country',
+    path: '/',
+    icon: <BiIcons.BiCategoryAlt   />,
+    iconClosed: <RiIcons.RiArrowDownSFill />,
+    iconOpened: <RiIcons.RiArrowUpSFill />,
+    subNav: []
+  }
+];
+
+const SidebarDataCity = [
+  {
+    title: 'Cities',
+    path: '/',
+    icon: <MdIcons.MdOutlineLocationCity />,
+    iconClosed: <RiIcons.RiArrowDownSFill />,
+    iconOpened: <RiIcons.RiArrowUpSFill />,
+    subNav: []
+  }
+];
 
 const SidebarData2 = [
-   {
+  {
     title: 'Messages',
     path: '/messages',
     icon: <FaIcons.FaEnvelopeOpenText />,
@@ -85,25 +76,9 @@ const SidebarData2 = [
     title: 'Support',
     path: '/support',
     icon: <IoIcons.IoMdHelpCircle />
-  } 
+  }
 ];
 
-/* const Nav = styled.div`
-  background: #15171c;
-  height: 80px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-`; */
-
-const NavIcon = styled(Link)`
-  margin-left: 2rem;
-  font-size: 2rem;
-  height: 80px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-`;
 
 const SidebarNav = styled.nav`
   background: #15171c;
@@ -121,6 +96,8 @@ const SidebarNav = styled.nav`
 
 const Sidebar = () => {
   const [sidebar, setSidebar] = useState(false);
+  const [listCountry, setListCountry] = useState('');
+  const [listCity, setListCity] = useState('');
 
   const listTourCategory = useSelector(state => state.listTourCategory)
   const { categories, loading: loadingCategories, error: errorCategories } = listTourCategory
@@ -128,20 +105,29 @@ const Sidebar = () => {
 
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    dispatch(listTourCategories())
-  }, [dispatch])
+  /*   useEffect(() => {
+      dispatch(listTourCategories())
+    }, [dispatch]) */
 
   const showSidebar = () => {
     setSidebar(!sidebar)
   }
+
+  const getListField = async () => {
+    dispatch(listTourCategories())
+    const listCountry = await Axios.get('/api/tours/country')
+    setListCountry(listCountry.data.sort())
+    const listCity = await Axios.get('/api/tours/city')
+    setListCity(listCity.data.sort())
+  }
+
 
 
   return (
     <>
       <IconContext.Provider value={{ color: '#fff' }}>
         <div className="nav_item">
-          <Link className="nav_icon_link" to='#'>
+          <Link className="nav_icon_link" to='#' onClick={getListField}>
             <FaIcons.FaBars onClick={showSidebar} />
           </Link>
         </div>
@@ -151,7 +137,13 @@ const Sidebar = () => {
               <AiIcons.AiOutlineClose onClick={showSidebar} />
             </div>
             {SidebarData.map((item, index) => {
-              return <SubMenu item={item} key={index} categories={categories} />;
+              return <SubMenu item={item} key={index} list={categories} path="category"/>;
+            })}
+            {SidebarDataCountry.map((item, index) => {
+              return <SubMenu item={item} key={index} list={listCountry} path="country" />;
+            })}
+            {SidebarDataCity.map((item, index) => {
+              return <SubMenu item={item} key={index} list={listCity} path="city" />;
             })}
             {SidebarData2.map((item, index) => {
               return <SubMenu2 item={item} key={index} />;
