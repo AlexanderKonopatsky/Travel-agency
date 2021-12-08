@@ -30,7 +30,6 @@ function SearchBar(props, { placeholder }) {
         return value.title.toLowerCase().includes(searchWord.toLowerCase());
       }); */
       getTours(searchWord)
-      console.log(tours)
       if (searchWord === "") {
         setFilteredData([])
       } else {

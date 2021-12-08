@@ -129,6 +129,7 @@ function Cards() {
                     )}
                     <ul className="scroll_ul" ref={scrl} onScroll={scrollCheck1}>
                       {
+                   
                         tours.map(tour => {
                           if (tour.country === 'Belarus') {
                             return <CardItem key={tour._id} tour={tour} />

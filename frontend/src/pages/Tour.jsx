@@ -42,7 +42,6 @@ function Tour(props) {
     const data = await Axios.get(`/api/tours/${tourId}/comments`)
     const tourInfo = await Axios.get(`/api/tours/${tourId}`)
     setComments(tourInfo.data.comments.reverse())
-    console.log('rating', tourInfo.data.rating)
     setUpdateRating(tourInfo.data.rating)
     /*  setComments(data.data.reverse()) */
   }
@@ -69,7 +68,6 @@ function Tour(props) {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log('comment', comment)
     if (comment && rating) {
       dispatch(
         commentCreate(tourId, { comment, rating, user: userInfo._id })
@@ -166,7 +164,7 @@ function Tour(props) {
                                   <div className="box-head">
                                     Write a comment
                                   </div>
-                                  {console.log('commentsCreated', commentsCreated)}
+         
                                   {commentsCreated && (
                                     <MessageBox variant="success">
                                       Comment Submitted Successfully

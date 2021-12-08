@@ -66,7 +66,6 @@ userRouter.get('/:id', isAuth, async (req, res) => {
 
 userRouter.put('/profile', isAuth, async (req, res) => {
   const user = await User.findById(req.user._id)
-  console.log(req.body)
   if (user) {
     user.firstName = req.body.firstName
     user.lastName = req.body.lastName
@@ -88,9 +87,6 @@ userRouter.put('/profile', isAuth, async (req, res) => {
 
 userRouter.put('/profile2', isAuth, isAdmin, async (req, res) => {
   const user = await User.findById(req.user._id)
-  console.log(user)
-  console.log(req.body)
-  console.log('profile2')
   if (user) {
     user.firstName = req.body.firstName
     user.lastName = req.body.lastName
@@ -107,7 +103,6 @@ userRouter.get('/', isAuth, isAdmin, async (req, res) => {
 
 userRouter.put('/:id', isAuth, isAdmin,  async (req, res) => {
   const user = await User.findById(req.params.id)
-  console.log(req.body)
   if (user) {
     user.firstName = req.body.firstName || user.firstname;
     user.lastName = req.body.lastName || user.lastName;

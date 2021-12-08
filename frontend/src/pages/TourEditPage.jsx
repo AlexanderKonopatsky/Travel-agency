@@ -26,8 +26,6 @@ function TourEditPage(props) {
   const { userInfo } = userSignIn
 
   const uploadFileHandler = async (e) => {
-    console.log('--------------')
-    console.log(e.target.files[0])
     const file = e.target.files[0]
     const bodyFromData = new FormData()
     bodyFromData.append('image', file)
@@ -81,9 +79,7 @@ function TourEditPage(props) {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(country, 'country')
     dispatch(
-
       updateTour({
         _id: tourId,
         title, price, image, category, label, desc, additionalInfo, country, city

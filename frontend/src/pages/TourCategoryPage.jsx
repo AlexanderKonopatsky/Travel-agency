@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux'
+import { Link, useParams } from 'react-router-dom';
 import { listTourByCategory } from "../redux/actions/tourActions";
 import DatePicker from "react-datepicker";
 import LoadingBox from "../components/LoadingBox";
@@ -7,29 +8,37 @@ import MessageBox from "../components/MessageBox";
 import "react-datepicker/dist/react-datepicker.css";
 import '../components/MainSection.css';
 import CardItemCategory from '../components/CardItemCategory';
+import queryString from 'query-string'
+import Axios from "axios"
 
 function TourCategoryPage(props) {
+  const params = new URLSearchParams(props.location.search);
+  const pageNumber = params.get('page'); // bar
+  const next = params.get('next'); // bar
   const category = props.match.params.category
   const country = props.match.params.country
   const city = props.match.params.city
-  console.log('ccccc', category,)
-
-
+  const searchType = category || country || city
   const dispatch = useDispatch()
   const tourListByCategory = useSelector(state => state.tourListByCategory)
-  const { loading, error, tours } = tourListByCategory
+  const { loading, error, tours, page, pages } = tourListByCategory
+
+  const [newTours, setnewTours] = useState([])
 
   useEffect(() => {
-    if (category) {
-      dispatch(listTourByCategory(category, 'category'))
+ if (category) {
+      dispatch(listTourByCategory({ category, typeReq: 'category', pageNumber }))
     } else if (country) {
-      dispatch(listTourByCategory(country, 'country'))
+      dispatch(listTourByCategory({ country, typeReq: 'country', pageNumber }))
     } else if (city) {
-      dispatch(listTourByCategory(city, 'city'))
+      dispatch(listTourByCategory({ city, typeReq: 'city', pageNumber }))
     }
-  }, [category, city, country, dispatch])
+  }, [category, city, country, dispatch, next, pageNumber])
 
-
+/*   const paginationSubmit = async () => {
+    const resp = await Axios.get(`/api/tours?country=Russia&page=${pageNumber}`)
+    setnewTours(tours.data.tours)
+  } */
 
   return (
     <>
@@ -72,87 +81,22 @@ function TourCategoryPage(props) {
                     ))
                   }
 
-                  {/*                   <div className="__tour-card"></div>
-                  <div className="__tour-card"></div>
-                  <div className="__tour-card"></div>
-                  <div className="__tour-card"></div>
-                  <div className="__tour-card"></div>
-                  <div className="__tour-card"></div>  */}
+
+                </div>
+                <div className="row center pagination">
+                  {[...Array(pages).keys()].map((x) => (
+                    <Link
+                      className={x + 1 === page ? 'active' : ''}
+                      key={x + 1}
+                      to={`/country/${searchType}?page=${x + 1}`}
+                      
+                    >
+                      {x + 1}
+                    </Link>
+                  ))}
 
                 </div>
               </div>
-
-
-
-              {/*               <div className="container" >
-              <div class='tour-card card-grid--3-columns__card'>
-                {tours &&
-                  tours.map(tour => {
-                    return <CardItemCategory key={tour._id} tour={tour} />
-                  })
-                }
-                </div>
-
-              </div> */}
-
-              {/* <section className="main-section">
-                <div className="main-container">
-                  <div className="grid-section">
-                    <div className="grid-sidebar">
-                      <div className='head-text'>
-                        Book a Tour
-                      </div>
-                      <div className="grid-with-sidebar">
-                        <DatePicker
-                          selected={startDate}
-                          onChange={onChange}
-                          startDate={startDate}
-                          endDate={endDate}
-                          selectsRange
-                          inline
-                        />
-                        <input type="submit" value="See Available Tours" class="action-button-tour" />
-                        <input onClick={addToCartHandler} type="submit" value="Add tour to cart" class="action-button-tour" />
-
-                      </div>
-                    </div>
-                    <div>
-
-                    </div>
-
-                    <div className="grid-main-column">
-                      <div className='head-text'>
-                        Tour Details
-                      </div>
-                      <div className="box">
-                        <div className="box-head">
-                          Tour description
-                        </div>
-                        <div className="box-body">
-                          {tour.desc}
-                        </div>
-                      </div>
-                      <div className='head-text'>
-                        Tour Details
-                      </div>
-                      <div className="box">
-                        <div className="box-head">
-                          Tour description
-                        </div>
-                        <div className="box-body">
-                          {tour.desc}
-                        </div>
-                        <div className="box-head">
-                          Tour description
-                        </div>
-                        <div className="box-body">
-                          {tour.desc}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </section> */}
 
             </>
           )
