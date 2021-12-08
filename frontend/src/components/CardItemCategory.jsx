@@ -6,6 +6,7 @@ function CardItemCategory(props) {
 
   const { tour, currentId } = props
 
+
   return (
     <>
       <a className='cards__item__link' href={`/tour/${tour._id}`}>

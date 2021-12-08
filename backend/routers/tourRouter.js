@@ -5,6 +5,20 @@ const { isAuth, isAdmin } = require('../utils')
 
 
 tourRouter.get('/', async (req, res) => {
+  const pageSize = 3
+  const currentPage = Number(req.query.page) || 1
+  const category = req.query.category
+  const country = req.query.country
+  const city = req.query.city
+  const categoryFilter = category ? { category } : {}
+  const countryFilter = country ? { country } : {}
+  const cityFilter = city ? { city } : {}
+  const countTours = await Tour.countDocuments({ ...categoryFilter, ...countryFilter, ...cityFilter  })
+  const tours = await Tour.find({ ...categoryFilter, ...countryFilter, ...cityFilter  }).skip(pageSize * (currentPage - 1)).limit(pageSize)
+  res.send({ tours, pages: Math.ceil(countTours / pageSize) })
+})
+
+tourRouter.get('/home', async (req, res) => {
   const category = req.query.category
   const country = req.query.country
   const city = req.query.city
@@ -12,7 +26,7 @@ tourRouter.get('/', async (req, res) => {
   const countryFilter = country ? { country } : {}
   const cityFilter = city ? { city } : {}
   const tours = await Tour.find({ ...categoryFilter, ...countryFilter, ...cityFilter  })
-  res.send(tours)
+  res.send({tours})
 })
 
 tourRouter.get('/categories', async (req, res) => {
@@ -79,7 +93,6 @@ tourRouter.put('/:id', isAuth, isAdmin, async (req, res) => {
     tour.price = req.body.price;
     tour.country = req.body.country;
     tour.city = req.body.city;
-    console.log(tour)
     const updatedTour = await tour.save()
     res.send({ message: 'Tour updated', tour: updatedTour})
   } else {
@@ -118,7 +131,6 @@ tourRouter.post('/:id/comments', isAuth, async (req, res) => {
     tour.comments.push(comment)
     tour.numReviews = tour.comments.length
     tour.rating = (tour.comments.reduce((a, c) =>  c.rating + a, 0 ) / tour.comments.length).toFixed(2)
-    console.log(tour)
     const updatedTour = await tour.save()
     res.status(201).send({ message: 'Comment created', comment: updatedTour.comments[updatedTour.comments.length - 1]})
   } else {

@@ -108,7 +108,6 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
   })
   const { userSignIn : { userInfo } } = getState() 
   try {
-    console.log(`Bearer ${userInfo.token}`)
     const { data } = await Axios.put(`/api/users/profile2`, user, { headers: { Authorization: `Bearer ${userInfo.token}` } })
     dispatch({
       type: USER_UPDATE_PROFILE_SUCCESS,
@@ -158,7 +157,6 @@ export const userEdit = (user) => async (dispatch, getState) => {
     payload: user
   })
   const { userSignIn : { userInfo } } = getState() 
-  console.log(`Bearer ${userInfo.token}`)
   try {
     const { data } = await Axios.put(`/api/users/${user._id}`, user, { headers: { Authorization: `Bearer ${userInfo.token}` } })
     dispatch({

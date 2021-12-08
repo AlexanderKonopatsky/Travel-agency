@@ -33,7 +33,8 @@ import {
   TOUR_LIST_CATEGORY_SUCCESS,
   TOUR_LIST_BY_CATEGORY_REQUEST,
   TOUR_LIST_BY_CATEGORY_FAIL,
-  TOUR_LIST_BY_CATEGORY_SUCCESS
+  TOUR_LIST_BY_CATEGORY_SUCCESS,
+  TOUR_LIST_BY_CATEGORY_RESET
 
   } from '../constants/tourConstants';
 
@@ -50,18 +51,7 @@ export const tourListReducer = (state = { loading: true, tours: []}, action) => 
   }
 } 
 
-export const tourListByCategoryReducer = (state = { loading: true, tours: []}, action) => {
-  switch (action.type) {
-    case TOUR_LIST_BY_CATEGORY_REQUEST:
-      return { loading: true}
-    case TOUR_LIST_BY_CATEGORY_SUCCESS:
-      return { loading: false, tours: action.payload}
-    case TOUR_LIST_BY_CATEGORY_FAIL:
-      return { loading: false, error: action.payload}
-    default:
-      return state
-  }
-}
+
 
 export const tourDetailsReducer = ( state = { loading: true}, action) => {
   switch (action.type) {
@@ -149,7 +139,20 @@ export const listTourCategoriesReducer = ( state = {}, action) => {
   }
 }
 
-
+export const tourListByCategoryReducer = (state = { loading: true, tours: []}, action) => {
+  switch (action.type) {
+    case TOUR_LIST_BY_CATEGORY_REQUEST:
+      return { loading: true}
+    case TOUR_LIST_BY_CATEGORY_SUCCESS:
+      return { loading: false, tours: action.payload.tours, page: action.payload.page, pages: action.payload.pages }
+    case TOUR_LIST_BY_CATEGORY_FAIL:
+      return { loading: false, error: action.payload}
+    case TOUR_LIST_BY_CATEGORY_RESET:
+      return { }
+    default:
+      return state
+  }
+}
 
 export const tourCommentCreateReducer = ( state = {}, action) => {
   switch (action.type) {

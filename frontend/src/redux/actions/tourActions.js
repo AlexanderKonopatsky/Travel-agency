@@ -36,10 +36,10 @@ export const listTour = () => async (dispatch) => {
     type: TOUR_LIST_REQUEST
   })
   try {
-    const { data } = await Axios.get('api/tours')
+    const { data } = await Axios.get('api/tours/home')
     dispatch({
       type: TOUR_LIST_SUCCESS,
-      payload: data
+      payload: data.tours
     })
   } catch (error) {
     dispatch({
@@ -176,7 +176,7 @@ export const commentCreate = (tourId, comment) => async (dispatch, getState) => 
       payload: data.comments
     })
   } catch (error) {
-    dispatch({
+    dispatch({  
       type: TOUR_COMMENT_CREATE_FAIL,
       payload: error.response && error.response.data.message 
       ? error.response.data.message
@@ -212,31 +212,33 @@ export const listTourCategories = () => async (dispatch) => {
 
 
 
-export const listTourByCategory = (category, typeReq) => async (dispatch) => {
+export const listTourByCategory = ({category = '', country = '', city = '', typeReq = '', pageNumber = ''}) => async (dispatch) => {
   dispatch({
     type: TOUR_LIST_BY_CATEGORY_REQUEST,
     payload: category
   })
   try {
     if (typeReq === 'category') {
-      const { data } = await Axios.get(`/api/tours?category=${category}`)
+      const { data } = await Axios.get(`/api/tours?category=${category}&page=${pageNumber}`)
+  
       dispatch({
         type: TOUR_LIST_BY_CATEGORY_SUCCESS,
-        payload: data
+        payload: {tours : data.tours }
       })
     }
     if (typeReq === 'country') {
-      const { data } = await Axios.get(`/api/tours?country=${category}`)
+
+      const { data } = await Axios.get(`/api/tours?country=${country}&page=${pageNumber}`)
       dispatch({
         type: TOUR_LIST_BY_CATEGORY_SUCCESS,
-        payload: data
+        payload: {tours : data.tours, page : pageNumber, pages: data.pages }
       })
     }
     if (typeReq === 'city') {
-      const { data } = await Axios.get(`/api/tours?city=${category}`)
+      const { data } = await Axios.get(`/api/tours?city=${city}&page=${pageNumber}`)
       dispatch({
         type: TOUR_LIST_BY_CATEGORY_SUCCESS,
-        payload: data
+        payload: {tours : data.tours }
       })
     }
   } catch (error) {
