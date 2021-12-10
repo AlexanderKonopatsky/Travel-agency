@@ -7,14 +7,29 @@ const { isAuth, isAdmin } = require('../utils')
 tourRouter.get('/', async (req, res) => {
   const pageSize = 3
   const currentPage = Number(req.query.page) || 1
+  const priceFrom = req.query.priceFrom || 0
+  const priceTo = req.query.priceTo || 100000
+  const startDate = req.query.startDate
+  const endDate = req.query.endDate
+  const rating = req.query.rating || 0
   const category = req.query.category
   const country = req.query.country
   const city = req.query.city
   const categoryFilter = category ? { category } : {}
   const countryFilter = country ? { country } : {}
   const cityFilter = city ? { city } : {}
+  const ratingFilter = rating ? { city } : {}
   const countTours = await Tour.countDocuments({ ...categoryFilter, ...countryFilter, ...cityFilter  })
-  const tours = await Tour.find({ ...categoryFilter, ...countryFilter, ...cityFilter  }).skip(pageSize * (currentPage - 1)).limit(pageSize)
+  const tours = await Tour.find({
+    
+    ...categoryFilter,
+    ...countryFilter, 
+    ...cityFilter,
+     rating: {$gt : rating},  
+    price: {$gt : priceFrom, $lt: priceTo}
+
+   }).skip(pageSize * (currentPage - 1)).limit(pageSize)
+
   res.send({ tours, pages: Math.ceil(countTours / pageSize) })
 })
 
@@ -25,7 +40,7 @@ tourRouter.get('/home', async (req, res) => {
   const categoryFilter = category ? { category } : {}
   const countryFilter = country ? { country } : {}
   const cityFilter = city ? { city } : {}
-  const tours = await Tour.find({ ...categoryFilter, ...countryFilter, ...cityFilter  })
+  const tours = await Tour.find({ ...categoryFilter, ...countryFilter, ...cityFilter})
   res.send({tours})
 })
 
