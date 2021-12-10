@@ -61,18 +61,19 @@ tourRouter.get('/seed', async (req, res) => {
 })
 
 tourRouter.post('/', isAuth, isAdmin, async (req, res) => {
+
   const tour = new Tour({
-    title: '',
+    title: '111',
     image: '/images/img-2.jpg',
-    category: "",
-    label :"",
-    desc:"",
-    additionalInfo: "",
+    category: "111",
+    label :"111",
+    desc:"111",
+    additionalInfo: "111",
     price: 0,
     rating: 0,
     numReviews: 0,
-    country: '',
-    city: ''
+    country: '111',
+    city: '111'
   })
   const createdTour = await tour.save()
   res.send({ message: 'Tour created', tour: createdTour})
@@ -82,10 +83,10 @@ tourRouter.put('/:id', isAuth, isAdmin, async (req, res) => {
   
   const tourId = req.params.id
   const tour = await Tour.findById(tourId)
-
+  console.log('put', req.body.image)
   if (tour) {
     tour.title = req.body.title;
-    tour.image = '\\' + req.body.image;
+    tour.image =  req.body.image;
     tour.category = req.body.category;
     tour.label = req.body.label;
     tour.desc = req.body.desc;
@@ -94,6 +95,7 @@ tourRouter.put('/:id', isAuth, isAdmin, async (req, res) => {
     tour.country = req.body.country;
     tour.city = req.body.city;
     const updatedTour = await tour.save()
+    console.log(tour)
     res.send({ message: 'Tour updated', tour: updatedTour})
   } else {
     res.status(404).send({ message: 'Tour not found' })
