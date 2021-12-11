@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, {  useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { listTourByCategory } from "../redux/actions/tourActions";
-import DatePicker from "react-datepicker";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import "react-datepicker/dist/react-datepicker.css";
 import '../components/MainSection.css';
 import CardItemCategory from '../components/CardItemCategory';
-import queryString from 'query-string'
-import Axios from "axios"
+
 
 function TourCategoryPage(props) {
   const params = new URLSearchParams(props.location.search);
@@ -23,7 +21,6 @@ function TourCategoryPage(props) {
   const tourListByCategory = useSelector(state => state.tourListByCategory)
   const { loading, error, tours, page, pages } = tourListByCategory
 
-  const [newTours, setnewTours] = useState([])
 
   useEffect(() => {
  if (category) {

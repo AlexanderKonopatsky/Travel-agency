@@ -88,7 +88,7 @@ function AdvancedSearch(props) {
     const object = {
       startDate, endDate, sliderValuePriceFrom, sliderValuePriceTo, categoryValue, countryValue, cityValue, sliderValueDuration, ratingValue, pageNumber: 1
     }
-      props.history.push(`/advanceSearch?priceFrom=${object.sliderValuePriceFrom}&priceTo=${object.sliderValuePriceTo}&category=${object.categoryValue}&country=${object.countryValue}&city=${object.cityValue}&duration=${object.sliderValueDuration}&rating=${object.ratingValue}&startDate=${object.startDate}&endDate=${object.endDate}`)
+    props.history.push(`/advancedSearchPage?priceFrom=${object.sliderValuePriceFrom}&priceTo=${object.sliderValuePriceTo}&category=${object.categoryValue}&country=${object.countryValue}&city=${object.cityValue}&duration=${object.sliderValueDuration}&rating=${object.ratingValue}&startDate=${object.startDate}&endDate=${object.endDate}`)
     console.log('!Object.keys(obj).length', Object.keys(obj).length)
     
   }
@@ -113,8 +113,9 @@ function AdvancedSearch(props) {
         </ul>
 
         <fieldset className={currentStep === 1 ? '' : 'hideFieldset'} >
+        <h3 class="fs-subtitle">This is step 1</h3>
           <h2 class="fs-title">Select range price</h2>
-          <h3 class="fs-subtitle">This is step 1</h3>
+
 
           <h1 class="fs-subtitle">Set a range of days</h1>
           <DatePicker
@@ -136,8 +137,9 @@ function AdvancedSearch(props) {
 
 
         <fieldset className={currentStep === 2 ? '' : 'hideFieldset'} >
+        <h3 class="fs-subtitle">This is step 2</h3>
           <h2 class="fs-title">Select range price</h2>
-          <h3 class="fs-subtitle">This is step 2</h3>
+      
 
           <h1 class="fs-subtitle">Set a price range</h1>
           <Range
@@ -155,8 +157,9 @@ function AdvancedSearch(props) {
 
 
         <fieldset className={currentStep === 3 ? '' : 'hideFieldset'} >
+        <h3 class="fs-subtitle">This is step 3</h3>
           <h2 class="fs-title">Сhoose a category</h2>
-          <h3 class="fs-subtitle">This is step 3</h3>
+   
 
           <Dropdown type="text" options={listCategory} value={listCategory[0]} onChange={changeCategory} placeholder="Select an option" />
 
@@ -170,8 +173,9 @@ function AdvancedSearch(props) {
 
 
         <fieldset className={currentStep === 4 ? '' : 'hideFieldset'} >
+        <h3 class="fs-subtitle">This is step 4</h3>
           <h2 class="fs-title">Сhoose a country</h2>
-          <h3 class="fs-subtitle">This is step 3</h3>
+        
 
           <Dropdown type="text" options={listCountry} value={listCountry[0]} onChange={changeCountry} placeholder="Select an option" />
 
@@ -185,8 +189,9 @@ function AdvancedSearch(props) {
 
 
         <fieldset className={currentStep === 5 ? '' : 'hideFieldset'} >
+        <h3 class="fs-subtitle">This is step 5</h3>
           <h2 class="fs-title">Сhoose a city</h2>
-          <h3 class="fs-subtitle">This is step 5</h3>
+
 
           <Dropdown type="text" options={listCity} value={listCity[0]} onChange={changeCity} placeholder="Select an option" />
 

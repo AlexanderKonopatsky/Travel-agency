@@ -26,8 +26,11 @@ import {
   TOUR_LIST_CATEGORY_SUCCESS,
   TOUR_LIST_BY_CATEGORY_REQUEST,
   TOUR_LIST_BY_CATEGORY_FAIL,
-  TOUR_LIST_BY_CATEGORY_SUCCESS
-
+  TOUR_LIST_BY_CATEGORY_SUCCESS,
+  TOUR_ADVANCED_SEARCH_REQUEST,
+  TOUR_ADVANCED_SEARCH_FAIL,
+  TOUR_ADVANCED_SEARCH_RESET,
+  TOUR_ADVANCED_SEARCH_SUCCESS
 } from '../constants/tourConstants'
 import Axios from 'axios'
 
@@ -244,8 +247,33 @@ export const listTourByCategory = ({category = '', country = '', city = '', type
   } catch (error) {
     dispatch({
       type: TOUR_LIST_BY_CATEGORY_FAIL,
-      payload: error.message
+      payload: error.response && error.response.data.message 
+        ? error.response.data.message
+        : error.message
     })
-  } 
+  }
 }
 
+
+export const listTourAdvancedSearch = (obj) => async (dispatch) => {
+  dispatch({
+    type: TOUR_ADVANCED_SEARCH_REQUEST,
+    payload: obj
+  })
+  try {
+
+      const { data } = await Axios.get(`/api/tours?category=${obj.category}`)
+      dispatch({
+        type: TOUR_ADVANCED_SEARCH_SUCCESS,
+        payload: {tours : data.tours, page : obj.pageNumber, pages: data.pages }
+      })
+
+  } catch (error) {
+    dispatch({
+      type: TOUR_ADVANCED_SEARCH_FAIL,
+      payload: error.response && error.response.data.message 
+        ? error.response.data.message
+        : error.message
+    })
+  }
+}

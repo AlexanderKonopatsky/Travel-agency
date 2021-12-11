@@ -21,7 +21,8 @@ import UserListPage from './pages/UserListPage'
 import UserEditPage from './pages/UserEditPage'
 import SearchPage from './pages/SearchPage'
 import TourCategoryPage from './pages/TourCategoryPage'
-
+import AdvancedSearch from './pages/AdvancedSearch'
+import TourAdvanceSearchPage from './pages/TourAdvanceSearchPage'
 
 function App() {
   return (
@@ -50,6 +51,8 @@ function App() {
           <Route path="/category/:category" exact component={TourCategoryPage}/> 
           <Route path="/city/:city" exact component={TourCategoryPage}/> 
           <Route path="/country/:country" exact component={TourCategoryPage}/> 
+          <Route path="/advancedSearch" exact component={AdvancedSearch}/> 
+           <Route path="/advancedSearchPage" exact component={TourAdvanceSearchPage}/> 
         </Switch>
         <Footer></Footer>
       </Router>

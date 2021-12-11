@@ -21,7 +21,7 @@ function TourAdvanceSearchPage(props) {
   const rating = params.get('rating');
 
 
-  
+  console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
 
   const dispatch = useDispatch()
   const tourListAdvanceSearch = useSelector(state => state.tourListAdvanceSearch)
