@@ -21,12 +21,10 @@ import {
   TOUR_SEARCH_REQUEST,
   TOUR_SEARCH_RESET,
   TOUR_SEARCH_SUCCESS,
-
   TOUR_COMMENT_CREATE_REQUEST,
   TOUR_COMMENT_CREATE_FAIL,
   TOUR_COMMENT_CREATE_RESET,
   TOUR_COMMENT_CREATE_SUCCESS,
-
   TOUR_LIST_CATEGORY_FAIL,
   TOUR_LIST_CATEGORY_REQUEST,
   TOUR_LIST_CATEGORY_RESET,
@@ -34,8 +32,11 @@ import {
   TOUR_LIST_BY_CATEGORY_REQUEST,
   TOUR_LIST_BY_CATEGORY_FAIL,
   TOUR_LIST_BY_CATEGORY_SUCCESS,
-  TOUR_LIST_BY_CATEGORY_RESET
-
+  TOUR_LIST_BY_CATEGORY_RESET,
+  TOUR_ADVANCED_SEARCH_REQUEST,
+  TOUR_ADVANCED_SEARCH_FAIL,
+  TOUR_ADVANCED_SEARCH_RESET,
+  TOUR_ADVANCED_SEARCH_SUCCESS,
   } from '../constants/tourConstants';
 
 export const tourListReducer = (state = { loading: true, tours: []}, action) => {
@@ -170,6 +171,21 @@ export const tourCommentCreateReducer = ( state = {}, action) => {
 }
 
 
+
+export const tourListAdvancedSearchReducer = (state = { loading: true, tours: []}, action) => {
+  switch (action.type) {
+    case TOUR_ADVANCED_SEARCH_REQUEST:
+      return { loading: true}
+    case TOUR_ADVANCED_SEARCH_SUCCESS:
+      return { loading: false, tours: action.payload.tours, page: action.payload.page, pages: action.payload.pages }
+    case TOUR_ADVANCED_SEARCH_FAIL:
+      return { loading: false, error: action.payload}
+    case TOUR_ADVANCED_SEARCH_RESET:
+      return { }
+    default:
+      return state
+  }
+}
 
 
 

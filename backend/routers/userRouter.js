@@ -5,6 +5,29 @@ const { generateJsonToken } = require('../utils')
 const { isAuth, isAdmin } = require('../utils')
 
 const userRouter = express.Router()
+const regEmail = require('../emails/registration')
+/* const nodemailer = require('nodemailer') */
+
+/* var api_key = '7005f37e-28b69f03';
+var domain = 'sandboxmail.mailgun.org';
+var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain}); */
+/* 
+const smtpTransport = nodemailer.createTransport({
+  host: 'smtp-relay.sendinblue.com',
+  port: 587,
+  auth: {
+      user: process.env.USER_SENDINBLUE, 
+      pass: process.env.PASSWORD_SENDINBLUE
+  }
+})
+ */
+/* const mailgun = () =>
+  mg({
+      : process.env.MAILGUN_API_KEY,
+    domain: process.env.MAILGUN_DOMIAN,
+  });
+ */
+
 
 userRouter.get('/seed', async (req, res) => {
 /*   await User.remove({}) */
@@ -26,6 +49,23 @@ userRouter.post('/signin', async (req, res) => {
         isAdmin: user.isAdmin,
         token: generateJsonToken(user)
       })
+/*    await smtpTransport.sendMail(regEmail('alexander.konopatscky@gmail.com')) */
+/* 
+      var data = {
+        from: 'Excited User <me@samples.mailgun.org>',
+        to: 'vkowalex@gmail.com',
+        subject: 'Hello',
+        text: 'Testing some Mailgun awesomeness!'
+      }; */
+
+/*       mailgun.messages().send(data, 
+        (error, body) => {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log(body);
+          }
+        }); */
       return
     } else {
       res.status(401).send({ message: 'Invalid password' })
