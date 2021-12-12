@@ -25,17 +25,31 @@ commentRouter.post('/:id', isAuth, async (req, res) => {
   }
 })
 
-commentRouter.get('/:id', async (req, res) => {
+
+/* commentRouter.get('/tourId/:id', async (req, res) => {
+  console.log('13123123')
   const tourId = req.params.id
-  const tour = await Tour.findById(tourId).populate('comments.user')
+  const tour = await Tour.findById(tourId, { 'isActive' : true }).populate('comments.user')
   if (tour) {
     res.status(201).send(tour.comments)
   } else {
     res.status(404).send({ message: 'Tour not found' })
   }
+}) */
+
+
+commentRouter.get('/tourId/:id', async (req, res) => {
+  console.log('comment router')
+  const tour = await Tour.findById(req.params.id).populate('comments.user')
+  console.log(tour)
+  if (tour) {
+    res.send(tour)
+  } else {
+    res.status(404).send({message: 'Tour not Found'})
+  }
 })
 
-commentRouter.put('/:id/tourId/:tourId', async (req, res) => {
+commentRouter.put('/:id/tourId/:tourId',  async (req, res) => {
   const commentId = req.params.id
   const tourId = req.params.tourId
   const status = req.query.status
@@ -64,7 +78,7 @@ commentRouter.put('/:id/tourId/:tourId', async (req, res) => {
   }
 })
 
-commentRouter.delete('/:id/tourId/:tourId', async (req, res) => {
+commentRouter.delete('/:id/tourId/:tourId', isAuth, isAdmin, async (req, res) => {
   const commentId = req.params.id
   const tourId = req.params.tourId
   var commentIdObjectId = mongoose.Types.ObjectId(commentId);

@@ -265,8 +265,8 @@ function Tour(props) {
                           <MessageBox>There is no comment</MessageBox>
                         )}
                         <ul>
-      
-                        {comments && comments.filter(row => !deletedComment.includes(row._id)).map(comment => (
+                        {console.log(comments)}
+                        {comments && comments.filter(row => !deletedComment.includes(row._id) && row.isActive === true).map(comment => (
                 /*           {comments && comments.map((comment) => ( */
                             <li key={comment._id}>
                               <div className="card__name">{comment.user.firstName} {comment.user.lastName}
