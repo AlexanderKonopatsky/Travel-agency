@@ -89,17 +89,17 @@ tourRouter.get('/seed', async (req, res) => {
 tourRouter.post('/', isAuth, isAdmin, async (req, res) => {
 
   const tour = new Tour({
-    title: '111',
+    title: 'title',
     image: '/images/img-2.jpg',
-    category: "111",
-    label :"111",
-    desc:"111",
-    additionalInfo: "111",
+    category: "category",
+    label :"label",
+    desc:"desc",
+    additionalInfo: "additionalInfo",
     price: 0,
     rating: 0,
     numReviews: 0,
-    country: '111',
-    city: '111'
+    country: 'country',
+    city: 'city'
   })
   const createdTour = await tour.save()
   res.send({ message: 'Tour created', tour: createdTour})
@@ -120,6 +120,8 @@ tourRouter.put('/:id', isAuth, isAdmin, async (req, res) => {
     tour.price = req.body.price;
     tour.country = req.body.country;
     tour.city = req.body.city;
+    tour.imageGallery = req.body.uploadedImage
+    console.log(tour)
     const updatedTour = await tour.save()
     console.log(tour)
     res.send({ message: 'Tour updated', tour: updatedTour})

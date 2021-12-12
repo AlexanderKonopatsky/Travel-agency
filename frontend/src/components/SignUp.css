@@ -169,9 +169,10 @@ textarea {
   text-transform: uppercase;
   color: #404040;
   display: block;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 17px;
+  font-weight: 700;
   margin-bottom: 10px;
+  margin-top: 20px;
 }
 
 

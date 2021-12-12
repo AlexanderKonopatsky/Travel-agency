@@ -110,7 +110,7 @@ function Cards() {
           error ? (<MessageBox variant="danger">{error}</MessageBox>)
             : (
               <>
-
+              
                 <div>
                   <div className="head_text_tours">Best in Belarus</div>
 
@@ -128,14 +128,14 @@ function Cards() {
                     )}
                     <ul className="scroll_ul" ref={scrl} onScroll={scrollCheck1}>
                       {
-                   
+
                         tours.map(tour => {
                           if (tour.country === 'Belarus') {
                             return <CardItem key={tour._id} tour={tour} />
                           } else {
                             return false
                           }
-                      })}
+                        })}
                     </ul>
                     {!scrolEnd1 && (
                       <button
@@ -166,14 +166,14 @@ function Cards() {
                       </button>
                     )}
                     <ul className="scroll_ul" ref={scrl2} onScroll={scrollCheck2}>
-                    {
+                      {
                         tours.map(tour => {
                           if (tour.country === 'Russia') {
                             return <CardItem key={tour._id} tour={tour} />
                           } else {
                             return false
                           }
-                      })}
+                        })}
                     </ul>
                     {!scrolEnd2 && (
                       <button

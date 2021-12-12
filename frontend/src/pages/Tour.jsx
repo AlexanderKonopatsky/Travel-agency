@@ -11,6 +11,8 @@ import { Link } from 'react-router-dom';
 import Axios from "axios"
 import Rating from '../components/rating'
 import { commentUpdateStatus } from '../redux/actions/tourActions'
+import { SliderData } from '../components/SliderData';
+import ImageSlider from "../components/ImageSlider"
 
 function Tour(props) {
   const dispatch = useDispatch()
@@ -97,6 +99,12 @@ function Tour(props) {
 
 
 
+
+
+
+
+
+
   return (
     <>
       {loading ? (<LoadingBox></LoadingBox>)
@@ -113,13 +121,13 @@ function Tour(props) {
                       </h1>
                       <br />  <br />
                       <div className="text-divider__divider"></div>
-                      <br />  <br />
+                      <br />
                       <h3 className='text-center2'>
                         {tour.desc}
                       </h3>
-                      <br />  <br />
+                      <br />
                       <div className="text-divider__divider"></div>
-                      <br />  <br />
+                      <br />
                       <h2 className='text-center2'>
                         <Rating rating={updateRating && updateRating} numReviews={updateRating && updateRating} />
                       </h2>
@@ -171,6 +179,8 @@ function Tour(props) {
                         </div>
                         <div className="box-body">
                           {tour.desc}
+                          {tour.additionalInfo}
+                          <ImageSlider slides={tour.imageGallery} />
 
                         </div>
                       </div>
@@ -259,17 +269,17 @@ function Tour(props) {
 
 
                       <div className='head-text'>
-                        Comments 
+                        Comments
                       </div>
                       <div className="box">
-                        <h2 className="box-head">Comments {numComments && ' - total ' + numComments }</h2>
+                        <h2 className="box-head">Comments {numComments && ' - total ' + numComments}</h2>
                         {comments.length === 0 && (
                           <MessageBox>There is no comment</MessageBox>
                         )}
                         <ul>
-      
-                        {comments && comments.filter(row => !deletedComment.includes(row._id) && (row.isActive)).map(comment => (
-                /*           {comments && comments.map((comment) => ( */
+
+                          {comments && comments.filter(row => !deletedComment.includes(row._id) && (row.isActive)).map(comment => (
+                            /*           {comments && comments.map((comment) => ( */
                             <li key={comment._id}>
                               <div className="card__name">{comment.user.firstName} {comment.user.lastName}
 
@@ -290,7 +300,7 @@ function Tour(props) {
                               }
 
                               <div className="text-divider__divider"></div>
-                              <br/> 
+                              <br />
                             </li>
                           ))}
                         </ul>
@@ -305,44 +315,44 @@ function Tour(props) {
 
 
 
-                      {userInfo.isAdmin && <> 
-                      <div className='head-text'>
-                        Disabled comments 
-                      </div>
-                      <div className="box">
-                        <h2 className="box-head">Disabled comments  </h2>
-                        {comments.length === 0 && (
-                          <MessageBox>There is no comment</MessageBox>
-                        )}
-                        <ul>
-      
-                        {comments && comments.filter(row => !deletedComment.includes(row._id) && (!row.isActive)).map(comment => (
-                /*           {comments && comments.map((comment) => ( */
-                            <li key={comment._id}>
-                              <div className="card__name">{comment.user.firstName} {comment.user.lastName}
+                      {userInfo.isAdmin && <>
+                        <div className='head-text'>
+                          Disabled comments
+                        </div>
+                        <div className="box">
+                          <h2 className="box-head">Disabled comments  </h2>
+                          {comments.length === 0 && (
+                            <MessageBox>There is no comment</MessageBox>
+                          )}
+                          <ul>
+
+                            {comments && comments.filter(row => !deletedComment.includes(row._id) && (!row.isActive)).map(comment => (
+                              /*           {comments && comments.map((comment) => ( */
+                              <li key={comment._id}>
+                                <div className="card__name">{comment.user.firstName} {comment.user.lastName}
 
 
-                              </div>
-                              <p>Comment: {comment.comment}</p>
-                              {/*                      <Rating rating={review.rating} caption=" "></Rating> */}
-                              <p>Status: {comment.isActive.toString()}</p>
-                              <p>{comment.createdAt.substring(0, 10)}
-                                <Rating rating={comment.rating} numReviews={comment.rating} />
-                              </p>
-                              {userInfo && userInfo.isAdmin &&
-                                <div className="btn-remove-comment">
-                                  <button className="btn-remove" type="button" onClick={(e) => submitUpdateStatusComment(comment._id, 'disable')}>disable</button>
-                                  <button className="btn-remove" type="button" onClick={(e) => submitUpdateStatusComment(comment._id, 'enable')}>enable</button>
-                                  <button className="btn-remove" type="button" onClick={(e) => submitDeleteComment(comment._id)}>delete</button>
                                 </div>
-                              }
+                                <p>Comment: {comment.comment}</p>
+                                {/*                      <Rating rating={review.rating} caption=" "></Rating> */}
+                                <p>Status: {comment.isActive.toString()}</p>
+                                <p>{comment.createdAt.substring(0, 10)}
+                                  <Rating rating={comment.rating} numReviews={comment.rating} />
+                                </p>
+                                {userInfo && userInfo.isAdmin &&
+                                  <div className="btn-remove-comment">
+                                    <button className="btn-remove" type="button" onClick={(e) => submitUpdateStatusComment(comment._id, 'disable')}>disable</button>
+                                    <button className="btn-remove" type="button" onClick={(e) => submitUpdateStatusComment(comment._id, 'enable')}>enable</button>
+                                    <button className="btn-remove" type="button" onClick={(e) => submitDeleteComment(comment._id)}>delete</button>
+                                  </div>
+                                }
 
-                              <div className="text-divider__divider"></div>
-                              <br/> 
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                                <div className="text-divider__divider"></div>
+                                <br />
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
                       </>}
 
 

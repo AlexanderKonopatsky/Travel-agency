@@ -13,8 +13,10 @@
     padding-bottom: 30px;
     grid-gap: 30px;
     grid-template-columns: 1fr 280px;
-    margin-left: 14%;
-    margin-right: 13%;
+    margin-left: 7%;
+    margin-right: 7%;
+    max-width: 1500px;
+    margin: 0 auto;
 }
 
 

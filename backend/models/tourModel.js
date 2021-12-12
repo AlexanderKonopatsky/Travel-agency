@@ -27,7 +27,7 @@ const tourSchema = new Schema(
     country: { type: String, required: true },
     city: { type: String, required: true },
     comments: [commentsSchema],
-    pictures: [
+    imageGallery: [
       {
           type: String,
           required: false,

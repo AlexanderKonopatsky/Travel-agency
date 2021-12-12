@@ -22,9 +22,13 @@ function TourEditPage(props) {
   const [city, setCity] = useState('')
   const [listCountry, setListCountry] = useState('')
   const [country, setCountry] = useState('')
+  const [uploadedImage, setUploadedImage] = useState([])
 
   const [loadingUpload, setLoadingUpload] = useState(false)
   const [errorUpload, setErrorUpload] = useState('')
+
+  const [loadingUploadGallery, setLoadingUploadGallery] = useState(false)
+  const [errorUploadGallery, setErrorUploadGallery] = useState('')
 
   const userSignIn = useSelector(state => state.userSignIn)
   const { userInfo } = userSignIn
@@ -48,7 +52,28 @@ function TourEditPage(props) {
   }
 
 
-
+  const uploadFileHandlerGallery = async (e) => {
+    const file = e.target.files[0]
+    const bodyFromData = new FormData()
+    bodyFromData.append('image', file)
+    setLoadingUploadGallery(true)
+    try {
+      let { data } = await Axios.post('/api/uploads', bodyFromData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${userInfo.token}`
+        }
+      })
+      if (data[0] !== '\\') {
+        data = '\\' + data  
+      }
+      setUploadedImage(arr => [...uploadedImage, data])
+      setLoadingUploadGallery(false)
+    } catch (error) {
+      setErrorUploadGallery(error.message)
+      setLoadingUploadGallery(false)
+    }
+  }
 
 
 
@@ -80,7 +105,7 @@ function TourEditPage(props) {
     await dispatch(
       updateTour({
         _id: tourId,
-        title, price, image, category, label, desc, additionalInfo, country, city
+        title, price, image, category, label, desc, additionalInfo, country, city, uploadedImage
       })
     )
     console.log('image', image)
@@ -184,7 +209,7 @@ function TourEditPage(props) {
                           <div className='form-box'>
                             <label className="form-box__field" >
                               <span className='form-label'>
-                                Image
+                                Main Image
                               </span>
                               <input className="form-input" type="file" id="fileUpdate" onChange={uploadFileHandler} />
                               {loadingUpload && <LoadingBox></LoadingBox>}
@@ -193,6 +218,30 @@ function TourEditPage(props) {
                               )}
                             </label>
                           </div>
+{/*  */}
+
+                          <div className='form-box'>
+                            <label className="form-box__field" >
+                              <span className='form-label'>
+                                Image gallery
+                              </span>
+                              <input className="form-input" type="file" id="fileUpdate" onChange={uploadFileHandlerGallery} />
+                              {loadingUploadGallery && <LoadingBox></LoadingBox>}
+                              {errorUploadGallery && (
+                                <MessageBox variant="danger">{errorUploadGallery}</MessageBox>
+                              )}
+                            </label>
+                            <span className='form-label'>
+                     
+                              </span>
+                              <ul>
+                                {uploadedImage && uploadedImage.map(image => (
+                                  <li>{image}</li>
+                                ))}
+                              </ul>
+                          </div>
+
+
 
                           <div className='form-box'>
                             <label className="form-box__field" >

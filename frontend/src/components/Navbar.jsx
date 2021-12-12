@@ -131,7 +131,7 @@ function Navbar(props) {
               : (
                 <>
                   <li className='nav-item'>
-                    <Button onClick={closeMobileMenu} text='Log in' link='login' />
+                    <Button onClick={closeMobileMenu} text='Log in' link='/login' />
                   </li>
                   <li className='nav-item'>
                     <Button onClick={closeMobileMenu} text='Sign up' link='/signUp' />
@@ -143,7 +143,7 @@ function Navbar(props) {
           {userInfo && userInfo.isAdmin && (
             <div className="dropdown">
               <li className='nav-item'>
-                <Button onClick={closeMobileMenu} text='Admin' link='login'></Button>
+                <Button onClick={closeMobileMenu} text='Admin' link='/login'></Button>
                 <i className="fa fa-caret-down"></i>
                 <ul className="dropdown-content-admin">
                   <li className="li-navbar">
