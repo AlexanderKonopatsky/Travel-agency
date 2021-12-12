@@ -61,7 +61,7 @@ export function Form(props) {
 
         <div className="booking">
           <div className="booking__section">
-            <div className="booking__section__top">
+            <div className="booking__section__top_city">
               {console.log('listCity', listCity)}
               <Dropdown type="text" options={listCity && listCity} value={listCity && listCity[0]} onChange={changeCityHandler}  placeholder="Select an option" />
             </div>
@@ -88,6 +88,7 @@ export function Form(props) {
           <div className="booking__section">
             <div className="booking__section__top">
               <div className="booking__pax-container">
+
                 <button onClick={decrement} className="form-incrementer__btn" data-decrement="" type="button">
                   <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="#1a1a1a">
                     <g transform="translate(3.603 3)">
@@ -117,6 +118,7 @@ export function Form(props) {
             </div>
             <div className="booking__section__bottom">
               <label className="label">Participants</label>
+              
             </div>
           </div>
           <div className="booking__section">

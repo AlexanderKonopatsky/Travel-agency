@@ -5,12 +5,9 @@
   .booking__container {
     display: flex;
     justify-content: center;
-/*     left: 0; */
     position: absolute;
-   /*  right: 5%; */
     top: 520px;
     width: 100%;
-/*     max-width: 1170px; */
     margin-left: auto;
     margin-right: auto;
   }
@@ -50,50 +47,126 @@
     width: 212px;
   }
 
-
-
-
-
-
-
-
-
+  .booking__section__top_city {
+    margin-top: 30px;
+    justify-content: center;
+    text-align: center;
+    width: 212px;
+  }
 
   .booking__action {
       flex: 0 0 0;
-    /*   flex-basis: 187px; */
   }
 
   .booking__input {
     text-align: center;
     font-size: 24px;
-}
-/* 
-  .booking__btn::after {
+  }
 
-    transform: rotate(270deg);
-    left: 0;
-    bottom: 0;
-    margin: 0;
-} */
 
 }
 
 
-/* .booking__btn::after {
-  position: absolute;
-  bottom: 43px;
-  left: -215px;
-  right: 0;
-  margin: auto;
-  width: 16px;
-  border: 16px solid transparent;
-  border-bottom-color: black;
-  content: "";
-  -webkit-transition: border-bottom-color 150ms linear;
-  transition: border-bottom-color 150ms linear;
 
-} */
+
+
+
+
+
+
+@media screen and (max-width: 991px) {
+  .booking__container {
+
+    box-shadow: none;
+    min-width: 290px;
+    border-radius: 4px;
+    background-color: white;
+    position: absolute;
+    z-index: 5;
+    top: 582px;
+    transform: translate(-50%, -50%);
+    left: 50%;
+}
+
+  .booking__section {
+    display: -ms-flexbox;
+    display: flex;
+    flex: 0 0 100%;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    align-items: center;
+    border: 1px solid #c2c2c2;
+    height: 60px;
+  }
+
+  .booking__section__top {
+    display: flex;
+    flex: 0 1 auto;
+    align-items: center;
+    justify-content: flex-end;
+    height: 60px;
+    padding-right: 20px;
+  }
+  
+  .booking__section__bottom {
+    text-align: left;
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+    padding-left: 20px;
+  }
+
+
+  .booking {
+    width: 750px;
+    margin: 0 auto;
+    box-shadow: 0 2px 3px 0 rgb(53, 39, 39); 
+  }
+
+  .booking__section__top_city {
+    display: flex;
+    flex: 0 1 auto;
+    align-items: center;
+    justify-content: flex-end;
+    height: 60px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-right: 53px;
+  }
+
+
+  .booking-bar__pax-container {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+  .form-incrementer__btn {
+    display: inline-block;
+  }
+
+  
+.booking__pax-container {
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  margin-right: -40px;
+}
+
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
