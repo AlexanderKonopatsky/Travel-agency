@@ -294,7 +294,7 @@ export const commentUpdateStatus = (commentId, tourId, status) => async (dispatc
   })
   const { userSignIn : { userInfo } } = getState() 
   try {
-    const { data } = await Axios.put(`/api/comments/${commentId}/tourId/${tourId}?status=${status}`, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+    const { data } = await Axios.put(`/api/comments/${commentId}/tourId/${tourId}?status=${status}`, {}, { headers: { Authorization: `Bearer ${userInfo.token}` } })
     dispatch({
       type: TOUR_COMMENT_UPDATE_STATUS_SUCCESS,
       payload: data

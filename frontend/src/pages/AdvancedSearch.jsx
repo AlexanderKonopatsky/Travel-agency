@@ -51,10 +51,13 @@ function AdvancedSearch(props) {
   const handleNextStep = e => setCurrentStep(currentStep + 1)
   const handlePrevStep = e => setCurrentStep(currentStep - 1)
   const changeCategory = data => setCategory(data.label)
-  const changeCountry = data => setCountry(data.label)
   const changeCity = data => setCity(data.label)
   
-
+  const changeCountry = async (data) => {
+    setCountry(data.value)
+    const listCityUpdate = await Axios.get(`/api/tours/cityInTheCountry?country=${data.value}`)
+    setListCity(listCityUpdate.data)
+  }
 
   const getData = async () => {
     const listCategory = await Axios.get('/api/tours/categories')

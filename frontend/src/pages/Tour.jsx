@@ -24,7 +24,7 @@ function Tour(props) {
   const [comments, setComments] = useState('');
   const [commentsCreated, setCommentsCreated] = useState(false);
   const [deletedComment, setDeletedComment] = useState([])
-  const [numComments, setNumComments] = useState('')
+  let [numComments, setNumComments] = useState('')
 
   const tourDetails = useSelector(state => state.tourDetails)
   const { loading, error, tour } = tourDetails
@@ -74,6 +74,8 @@ function Tour(props) {
   const submitDeleteComment = (commentId) => {
     dispatch(commentDelete(commentId, tourId))
     setDeletedComment(arr => [...deletedComment, commentId])
+    let countActiveComments = numComments - 1
+    setNumComments(countActiveComments)
   }
 
 
@@ -266,7 +268,7 @@ function Tour(props) {
                         )}
                         <ul>
       
-                        {comments && comments.filter(row => !deletedComment.includes(row._id)).map(comment => (
+                        {comments && comments.filter(row => !deletedComment.includes(row._id) && (row.isActive)).map(comment => (
                 /*           {comments && comments.map((comment) => ( */
                             <li key={comment._id}>
                               <div className="card__name">{comment.user.firstName} {comment.user.lastName}
@@ -293,6 +295,63 @@ function Tour(props) {
                           ))}
                         </ul>
                       </div>
+
+
+
+
+
+
+
+
+
+
+                      {userInfo.isAdmin && <> 
+                      <div className='head-text'>
+                        Disabled comments 
+                      </div>
+                      <div className="box">
+                        <h2 className="box-head">Disabled comments  </h2>
+                        {comments.length === 0 && (
+                          <MessageBox>There is no comment</MessageBox>
+                        )}
+                        <ul>
+      
+                        {comments && comments.filter(row => !deletedComment.includes(row._id) && (!row.isActive)).map(comment => (
+                /*           {comments && comments.map((comment) => ( */
+                            <li key={comment._id}>
+                              <div className="card__name">{comment.user.firstName} {comment.user.lastName}
+
+
+                              </div>
+                              <p>Comment: {comment.comment}</p>
+                              {/*                      <Rating rating={review.rating} caption=" "></Rating> */}
+                              <p>Status: {comment.isActive.toString()}</p>
+                              <p>{comment.createdAt.substring(0, 10)}
+                                <Rating rating={comment.rating} numReviews={comment.rating} />
+                              </p>
+                              {userInfo && userInfo.isAdmin &&
+                                <div className="btn-remove-comment">
+                                  <button className="btn-remove" type="button" onClick={(e) => submitUpdateStatusComment(comment._id, 'disable')}>disable</button>
+                                  <button className="btn-remove" type="button" onClick={(e) => submitUpdateStatusComment(comment._id, 'enable')}>enable</button>
+                                  <button className="btn-remove" type="button" onClick={(e) => submitDeleteComment(comment._id)}>delete</button>
+                                </div>
+                              }
+
+                              <div className="text-divider__divider"></div>
+                              <br/> 
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      </>}
+
+
+
+
+
+
+
+
 
 
 

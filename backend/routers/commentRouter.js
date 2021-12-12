@@ -35,7 +35,8 @@ commentRouter.get('/:id', async (req, res) => {
   }
 })
 
-commentRouter.put('/:id/tourId/:tourId', async (req, res) => {
+commentRouter.put('/:id/tourId/:tourId',  isAuth, isAdmin, async (req, res) => {
+  console.log('commetn router ')
   const commentId = req.params.id
   const tourId = req.params.tourId
   const status = req.query.status
@@ -56,7 +57,12 @@ commentRouter.put('/:id/tourId/:tourId', async (req, res) => {
     })
     tour.comments = arrComments
     if (status == 'enable') { tour.numReviews++ } else {  tour.numReviews--}
-    tour.rating = (activeTour.reduce((a, c) => c.rating + a, 0 ) / activeTour.length).toFixed(2)
+    if (tour.numReviews === 0) {
+      tour.rating = 0
+    } else {
+      tour.rating = (activeTour.reduce((a, c) => c.rating + a, 0 ) / activeTour.length).toFixed(2)
+    }
+
     await tour.save()
     res.send({ message : `Comment ${commentId} was ${status}`})
   } else {
@@ -64,11 +70,17 @@ commentRouter.put('/:id/tourId/:tourId', async (req, res) => {
   }
 })
 
-commentRouter.delete('/:id/tourId/:tourId', async (req, res) => {
+commentRouter.delete('/:id/tourId/:tourId', isAuth, isAdmin, async (req, res) => {
+
   const commentId = req.params.id
   const tourId = req.params.tourId
   var commentIdObjectId = mongoose.Types.ObjectId(commentId);
-  const deletedComment = await Tour.findByIdAndUpdate(tourId, {'$pull': { 'comments': {'_id': commentIdObjectId} }}); 
+  await Tour.findByIdAndUpdate(tourId, {'$pull': { 'comments': {'_id': commentIdObjectId },  }}); 
+  const tour = await Tour.findById(tourId)
+  if (tour.numReviews != 0) {
+    tour.numReviews--
+    await tour.save()
+  }
   res.send({ message: "Order deleted" })
 })
 

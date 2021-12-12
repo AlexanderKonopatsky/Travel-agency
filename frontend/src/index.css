@@ -687,8 +687,10 @@ body {
 	font-size: 18px;
 	color: #013d48;
 	background: white;
-	border-radius: 3px;
+  border-radius: 5px;
 	margin: 0 auto 5px auto;
+  border: 1px solid black;
+  
 }
 /*progressbar connectors*/
 #progressbar li:after {
@@ -698,8 +700,10 @@ body {
 	background: white;
 	position: absolute;
 	left: -50%;
-	top: 19px;
+  top: 16px;
 	z-index: -1; /*put it behind the numbers*/
+  height: 8px;
+  border: 0.1px solid black;
 }
 #progressbar li:first-child:after {
 	/*connector not needed before the first step*/
