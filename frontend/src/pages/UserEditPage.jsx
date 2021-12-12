@@ -5,6 +5,8 @@ import MessageBox from "../components/MessageBox";
 import { detailsUser, userEdit } from "../redux/actions/userActions";
 import { USER_EDIT_RESET, USER_DETAILS_RESET } from "../redux/constants/userConstants"
 import Axios from "axios"
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 
 
 function UserEditPage(props) {
@@ -24,8 +26,11 @@ function UserEditPage(props) {
 
   const dispatch = useDispatch()
 
+  const options = [
+    'true', 'false',
+  ];
 
-  
+
   useEffect(() => {
 
     if (!user /* || successUpdate */) {
@@ -40,7 +45,7 @@ function UserEditPage(props) {
       setIsAdmin(user.isAdmin)
 
     }
-  }, [dispatch, successUpdate, user, userId])
+  }, [dispatch, user, userId])
 
 
   const submitHandler = (e) => {
@@ -57,6 +62,9 @@ function UserEditPage(props) {
     props.history.push('/userList')
   }
 
+  const isActiveHandler = (data) => {
+    setIsActive(data.value)
+  }
 
   return (
     <div>
@@ -80,9 +88,7 @@ function UserEditPage(props) {
 
               <form className='form_for_new_user' onSubmit={submitHandler}>
 
-                {loadingDetails ? (
-                  <LoadingBox></LoadingBox>
-                ) : errorDetails ? (
+                { errorDetails ? (
                   <MessageBox variant="danger">{errorDetails}</MessageBox>
                 ) : (
                   <>
@@ -92,11 +98,13 @@ function UserEditPage(props) {
                     )}
                     {successUpdate && (
                       <MessageBox variant="success">
-                        User Updated Successfully
+                        {firstName.toUpperCase()} Updated Successfully
                       </MessageBox>
                     )}
                     <div className='row'>
-
+                    <div className='form-box'>
+                    {loadingDetails && <LoadingBox></LoadingBox>}
+                    </div>
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
@@ -124,28 +132,23 @@ function UserEditPage(props) {
                         </label>
                       </div>
 
-
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
                             IsAdmin
                           </span>
-                          <input className="form-input" value={isAdmin} onChange={e => setIsAdmin(e.target.value)} type="text" />
+                          <input disabled className="form-input" value={isAdmin} onChange={e => setIsAdmin(e.target.value)} type="text" />
                         </label>
                       </div>
 
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            IsActive
+                            IsActive - {isActive}
                           </span>
-                          <input className="form-input" value={isActive} onChange={e => setIsActive(e.target.value)} type="text" />
                         </label>
+                        <Dropdown type="text" options={options} value={String(isActive)} onChange={isActiveHandler} placeholder="Select an option" />
                       </div>
-
-
-
-
 
                       <button className='btn_auth' type="submit" >
                         UPDATE

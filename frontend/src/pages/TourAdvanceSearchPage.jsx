@@ -20,9 +20,6 @@ function TourAdvanceSearchPage(props) {
   const endDate = params.get('endDate');
   const rating = params.get('rating');
 
-
-  console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-
   const dispatch = useDispatch()
   const tourListAdvanceSearch = useSelector(state => state.tourListAdvanceSearch)
   const { loading, error, tours, page, pages } = tourListAdvanceSearch

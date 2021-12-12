@@ -128,6 +128,13 @@
   height: 20px;
 }
 
+.btn-remove-comment {
+  width: 100%;
+  height: 20px;
+  height: 52px;
+  margin-top: -45px;
+}
+
 
 button[disabled]{
   background: #b3acac;  

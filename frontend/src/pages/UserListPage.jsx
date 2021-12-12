@@ -25,10 +25,6 @@ function UserListPage(props) {
     props.history.push(`/user/${user._id}/edit`)
   }
 
-  const deleteUserHandler = (user) => {
-
-  }
-
 
   return (
     <>
@@ -71,15 +67,7 @@ function UserListPage(props) {
                     >
                       Edit
                     </button>
-                    <button
-                      type="button"
-                      className="btn_details_order"
-                      onClick={() => {
-                        deleteUserHandler(user)
-                      }}
-                    >
-                      Delete
-                    </button>
+
                   </td>
                 </tr>
               ))}

@@ -27,7 +27,6 @@ import {
   TOUR_COMMENT_CREATE_SUCCESS,
   TOUR_LIST_CATEGORY_FAIL,
   TOUR_LIST_CATEGORY_REQUEST,
-  TOUR_LIST_CATEGORY_RESET,
   TOUR_LIST_CATEGORY_SUCCESS,
   TOUR_LIST_BY_CATEGORY_REQUEST,
   TOUR_LIST_BY_CATEGORY_FAIL,
@@ -37,6 +36,15 @@ import {
   TOUR_ADVANCED_SEARCH_FAIL,
   TOUR_ADVANCED_SEARCH_RESET,
   TOUR_ADVANCED_SEARCH_SUCCESS,
+  TOUR_DETAILS_RESET,
+  TOUR_COMMENT_DELETE_FAIL,
+  TOUR_COMMENT_DELETE_REQUEST,
+  TOUR_COMMENT_DELETE_SUCCESS,
+  TOUR_COMMENT_DELETE_RESET,
+  TOUR_COMMENT_UPDATE_STATUS_REQUEST,
+  TOUR_COMMENT_UPDATE_STATUS_FAIL,
+  TOUR_COMMENT_UPDATE_STATUS_SUCCESS,
+  TOUR_COMMENT_UPDATE_STATUS_RESET
   } from '../constants/tourConstants';
 
 export const tourListReducer = (state = { loading: true, tours: []}, action) => {
@@ -62,6 +70,8 @@ export const tourDetailsReducer = ( state = { loading: true}, action) => {
       return { loading: false, tour: action.payload }
     case TOUR_DETAILS_FAIL:
       return { loading: false, error: action.payload}
+    case TOUR_DETAILS_RESET:
+        return { }
     default:
       return state
   }
@@ -169,6 +179,38 @@ export const tourCommentCreateReducer = ( state = {}, action) => {
       return state
   }
 }
+
+export const tourCommentUpdateStatusReducer = ( state = {}, action) => {
+  switch (action.type) {
+    case TOUR_COMMENT_UPDATE_STATUS_REQUEST:
+      return { loading: true }
+    case TOUR_COMMENT_UPDATE_STATUS_SUCCESS:
+      return { loading: false, success: true}
+    case TOUR_COMMENT_UPDATE_STATUS_FAIL:
+      return { loading: false, error: action.payload}
+    case TOUR_COMMENT_UPDATE_STATUS_RESET: 
+      return {}
+    default:
+      return state
+  }
+}
+
+
+export const tourCommentDeleteReducer = ( state = {}, action) => {
+  switch (action.type) {
+    case TOUR_COMMENT_DELETE_REQUEST:
+      return { loading: true }
+    case TOUR_COMMENT_DELETE_SUCCESS:
+      return { loading: false, success: true}
+    case TOUR_COMMENT_DELETE_FAIL:
+      return { loading: false, error: action.payload}
+    case TOUR_COMMENT_DELETE_RESET: 
+      return {}
+    default:
+      return state
+  }
+}
+
 
 
 

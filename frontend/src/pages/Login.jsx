@@ -9,7 +9,7 @@ function Login(props) {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
+  const [alert, setAlert] = useState('')
   const dispatch = useDispatch()
 
   const userSignIn = useSelector(state => state.userSignIn)
@@ -97,7 +97,7 @@ function Login(props) {
 
 
                   <button className='btn_auth' type="submit" >
-                    Log in with Email
+                    Log in with Email {alert && alert}
                   </button>
 
                 </div>

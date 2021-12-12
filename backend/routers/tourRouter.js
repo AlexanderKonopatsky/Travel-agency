@@ -30,6 +30,7 @@ tourRouter.get('/', async (req, res) => {
 
    }).skip(pageSize * (currentPage - 1)).limit(pageSize)
 
+  console.log(tours)
   res.send({ tours, pages: Math.ceil(countTours / pageSize) })
 })
 
@@ -50,8 +51,18 @@ tourRouter.get('/categories', async (req, res) => {
 })
 
 tourRouter.get('/country', async (req, res) => {
-  const country = await Tour.find().distinct('country')
+  const country = await Tour.find().distinct('country', )
   res.send(country)
+})
+
+tourRouter.get('/cityInTheCountry', async (req, res) => {
+  const country = req.query.country
+  if (country) {
+    const countryList = await Tour.find().distinct('city', { 'country' : country })
+    res.send(countryList)
+  } else {
+    res.send({ message: 'Set the country in the request parameter'})
+  }
 })
 
 
@@ -101,7 +112,7 @@ tourRouter.put('/:id', isAuth, isAdmin, async (req, res) => {
   console.log('put', req.body.image)
   if (tour) {
     tour.title = req.body.title;
-    tour.image =  req.body.image;
+    tour.image = req.body.image;
     tour.category = req.body.category;
     tour.label = req.body.label;
     tour.desc = req.body.desc;

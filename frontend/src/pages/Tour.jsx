@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux'
-import { detailsTour, commentCreate } from "../redux/actions/tourActions";
+import { detailsTour, commentCreate, commentDelete } from "../redux/actions/tourActions";
 import DatePicker from "react-datepicker";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
@@ -10,25 +10,22 @@ import { TOUR_COMMENT_CREATE_RESET } from '../redux/constants/tourConstants'
 import { Link } from 'react-router-dom';
 import Axios from "axios"
 import Rating from '../components/rating'
+import { commentUpdateStatus } from '../redux/actions/tourActions'
 
 function Tour(props) {
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(null);
+  const dispatch = useDispatch()
+  const tourId = props.match.params.id
 
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date().setDate(new Date().getDate() + 14));
   const [rating, setRating] = useState(0);
   const [updateRating, setUpdateRating] = useState(0);
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState('');
   const [commentsCreated, setCommentsCreated] = useState(false);
+  const [deletedComment, setDeletedComment] = useState([])
+  const [numComments, setNumComments] = useState('')
 
-  const onChange = (dates) => {
-    const [start, end] = dates;
-    setStartDate(start);
-    setEndDate(end);
-  };
-
-  const tourId = props.match.params.id
-  const dispatch = useDispatch()
   const tourDetails = useSelector(state => state.tourDetails)
   const { loading, error, tour } = tourDetails
 
@@ -38,13 +35,47 @@ function Tour(props) {
   const tourCommentCreate = useSelector((state) => state.tourCommentCreate);
   const { loading: loadingCommentCreate, error: errorCommentCreate, success: successCommentCreate, } = tourCommentCreate;
 
+
+  const onChange = (dates) => {
+    const [start, end] = dates;
+    setStartDate(start);
+    setEndDate(end);
+  };
+
+
   const getComments = async (tourId) => {
-    const data = await Axios.get(`/api/tours/${tourId}/comments`)
     const tourInfo = await Axios.get(`/api/tours/${tourId}`)
     setComments(tourInfo.data.comments.reverse())
     setUpdateRating(tourInfo.data.rating)
+    setNumComments(tourInfo.data.numReviews)
     /*  setComments(data.data.reverse()) */
   }
+
+  const addToCartHandler = () => {
+    props.history.push(`/cart/${tourId}?startDate=${startDate}&endDate=${endDate}`)
+  }
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    if (comment && rating) {
+      dispatch(
+        commentCreate(tourId, { comment, rating, user: userInfo._id })
+      );
+    } else {
+      alert('Please enter comment and rating');
+    }
+  };
+
+  const submitUpdateStatusComment = async (commentId, status) => {
+    await dispatch(commentUpdateStatus(commentId, tourId, status))
+    getComments(tourId)
+  }
+
+  const submitDeleteComment = (commentId) => {
+    dispatch(commentDelete(commentId, tourId))
+    setDeletedComment(arr => [...deletedComment, commentId])
+  }
+
 
   useEffect(() => {
     dispatch(detailsTour(tourId))
@@ -62,20 +93,7 @@ function Tour(props) {
   }, [dispatch, successCommentCreate, tourId])
 
 
-  const addToCartHandler = () => {
-    props.history.push(`/cart/${tourId}?startDate=${startDate}&endDate=${endDate}`)
-  }
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-    if (comment && rating) {
-      dispatch(
-        commentCreate(tourId, { comment, rating, user: userInfo._id })
-      );
-    } else {
-      alert('Please enter comment and rating');
-    }
-  };
 
   return (
     <>
@@ -91,6 +109,19 @@ function Tour(props) {
                       <h1 className='text-center'>
                         {tour.title}
                       </h1>
+                      <br />  <br />
+                      <div className="text-divider__divider"></div>
+                      <br />  <br />
+                      <h3 className='text-center2'>
+                        {tour.desc}
+                      </h3>
+                      <br />  <br />
+                      <div className="text-divider__divider"></div>
+                      <br />  <br />
+                      <h2 className='text-center2'>
+                        <Rating rating={updateRating && updateRating} numReviews={updateRating && updateRating} />
+                      </h2>
+
                     </div>
                   </div>
                 </div>
@@ -138,7 +169,7 @@ function Tour(props) {
                         </div>
                         <div className="box-body">
                           {tour.desc}
-                          <Rating rating={updateRating && updateRating} numReviews={updateRating && updateRating} /> {updateRating && updateRating}
+
                         </div>
                       </div>
 
@@ -164,7 +195,7 @@ function Tour(props) {
                                   <div className="box-head">
                                     Write a comment
                                   </div>
-         
+
                                   {commentsCreated && (
                                     <MessageBox variant="success">
                                       Comment Submitted Successfully
@@ -226,15 +257,17 @@ function Tour(props) {
 
 
                       <div className='head-text'>
-                        Comments
+                        Comments 
                       </div>
                       <div className="box">
-                        <h2 className="box-head">Comments</h2>
+                        <h2 className="box-head">Comments {numComments && ' - total ' + numComments }</h2>
                         {comments.length === 0 && (
                           <MessageBox>There is no comment</MessageBox>
                         )}
                         <ul>
-                          {comments && comments.map((comment) => (
+      
+                        {comments && comments.filter(row => !deletedComment.includes(row._id)).map(comment => (
+                /*           {comments && comments.map((comment) => ( */
                             <li key={comment._id}>
                               <div className="card__name">{comment.user.firstName} {comment.user.lastName}
 
@@ -242,12 +275,20 @@ function Tour(props) {
                               </div>
                               <p>Comment: {comment.comment}</p>
                               {/*                      <Rating rating={review.rating} caption=" "></Rating> */}
+                              <p>Status: {comment.isActive.toString()}</p>
                               <p>{comment.createdAt.substring(0, 10)}
                                 <Rating rating={comment.rating} numReviews={comment.rating} />
                               </p>
-
+                              {userInfo && userInfo.isAdmin &&
+                                <div className="btn-remove-comment">
+                                  <button className="btn-remove" type="button" onClick={(e) => submitUpdateStatusComment(comment._id, 'disable')}>disable</button>
+                                  <button className="btn-remove" type="button" onClick={(e) => submitUpdateStatusComment(comment._id, 'enable')}>enable</button>
+                                  <button className="btn-remove" type="button" onClick={(e) => submitDeleteComment(comment._id)}>delete</button>
+                                </div>
+                              }
 
                               <div className="text-divider__divider"></div>
+                              <br/> 
                             </li>
                           ))}
                         </ul>

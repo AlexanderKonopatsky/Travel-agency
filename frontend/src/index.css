@@ -56,9 +56,20 @@ code {
     overflow: hidden;
 }
 
-.text-center {
+.text-center  {
   color: white;
   font-size: 60px;
+  letter-spacing: -0.5px;
+  line-height: 1.05;
+  font-family: "Times New Roman", Serif;
+  font-weight: normal;
+  margin: 0;
+  text-align: center;
+}
+
+.text-center2  {
+  color: white;
+  font-size: 50px;
   letter-spacing: -0.5px;
   line-height: 1.05;
   font-family: "Times New Roman", Serif;
@@ -99,13 +110,13 @@ img {
 .grid__content__container {
     max-width: 585px;
     margin: auto;
-    margin-right: 0px;
+    margin-right: 100px;
 }
 
 .grid__content {
-    padding-right: 40px;
     color: white;
     margin: 0 auto;
+    margin-left: 100px;
 }
 
 .text--headline--neutral-white {
@@ -144,6 +155,16 @@ img {
     width: auto;
     object-fit: cover;
     object-position: center;
+    transition: all 0.2s ease-in-out;
+}
+
+
+.grid__image:hover {
+
+  opacity: 0.8;
+  background-color: rgba(0, 0, 0, 0.35); /* Фон блока при наведении */
+  transition: all 0.2s ease-in-out;
+  
 }
 
 img {
@@ -624,6 +645,7 @@ body {
 #msform .action-button:hover, #msform .action-button:focus {
 	box-shadow: 0 0 0 2px white, 0 0 0 3px #126472;
 }
+
 /*headings*/
 .fs-title {
 	font-size: 21px;
@@ -695,3 +717,5 @@ body {
 .hideFieldset {
   display: none;
 }
+
+

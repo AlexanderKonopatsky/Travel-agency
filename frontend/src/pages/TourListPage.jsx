@@ -9,7 +9,7 @@ import { TOUR_DELETE_RESET } from "../redux/constants/tourConstants"
 
 function TourListScreen(props) {
 
-
+  const [deletedTour, setDeletedTour] = useState([])
 
   const tourCreate = useSelector(state => state.tourCreate)
   const {
@@ -31,11 +31,11 @@ function TourListScreen(props) {
       dispatch({ type: TOUR_CREATE_RESET })
       props.history.push(`/tour/${createdTour._id}/edit`)
     }
-    if (successDelete) {
+/*     if (successDelete) {
       dispatch({ type: TOUR_DELETE_RESET })
-    }
+    } */
     dispatch(listTour())
-  }, [createdTour, dispatch, props.history, successCreate, successDelete])
+  }, [createdTour, dispatch, props.history, successCreate])
 
   const createHandler = () => {
     dispatch(createTour())
@@ -44,6 +44,7 @@ function TourListScreen(props) {
   const deleteHandler = (tour) => {
     if (window.confirm('Are you sure to delete?')) {
       dispatch(deleteTour(tour._id))
+      setDeletedTour(arr => [...deletedTour, tour._id])
     }
   }
   return (
@@ -90,7 +91,7 @@ function TourListScreen(props) {
             </tr>
           </thead>
           <tbody>
-            {tours.map((tour) => (
+          {tours.filter(row => !deletedTour.includes(row._id)).map(tour => (
               <tr key={tour._id}>
                 <td>{tour._id}</td>
                 <td>{tour.title}</td>

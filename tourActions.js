@@ -186,6 +186,29 @@ export const commentCreate = (tourId, comment) => async (dispatch, getState) => 
 }
 
 
+export const commentDelete2 = (commentId) => async (dispatch, getState) => {
+  dispatch({
+    type: TOUR_COMMENT_DELETE_REQUEST
+  })
+  const { userSignIn : { userInfo } } = getState() 
+  try {
+    const { data } = await Axios.post(`/api/comments/${commentId}`, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+    dispatch({
+      type: TOUR_COMMENT_DELETE_SUCCESS,
+      payload: data.
+    })
+  } catch (error) {
+    dispatch({  
+      type: TOUR_COMMENT_DELETE_FAIL,
+      payload: error.response && error.response.data.message 
+      ? error.response.data.message
+      : error.message
+  })
+  }
+}
+
+
+
 export const listTourCategories = () => async (dispatch) => {
   dispatch({
     type: TOUR_LIST_CATEGORY_REQUEST,
@@ -248,4 +271,8 @@ export const listTourByCategory = ({category = '', country = '', city = '', type
     })
   } 
 }
+
+
+
+
 

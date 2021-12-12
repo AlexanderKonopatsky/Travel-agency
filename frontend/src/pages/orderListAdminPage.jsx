@@ -7,7 +7,7 @@ import '../components/orderList.css'
 import { ORDER_DELETE_RESET } from '../redux/constants/orderConstants'
 
 function OrderListAdminPage(props) {
-
+  const [deletedOrder, setDeletedOrder] = useState([])
   const orderListAdmin = useSelector(state => state.orderListAdmin)
   const { orders, loading, error } = orderListAdmin
 
@@ -17,15 +17,21 @@ function OrderListAdminPage(props) {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (successDelete) {
+/*     if (successDelete) {
       dispatch({ type: ORDER_DELETE_RESET })
-    }
+    } */
     dispatch(listOrderAdmin())
-  }, [dispatch, successDelete])
+  }, [dispatch])
 
   const deleteHandler = (order) => {
     if (window.confirm('Are you sure to delete?')) {
       dispatch(deleteOrder(order._id))
+/*       setTimeout(() => { 
+        setDeletedOrder(arr => [...deletedOrder, order._id])
+        console.log(deletedOrder)
+      }, 100) */
+      
+      setDeletedOrder(arr => [...deletedOrder, order._id])
     }
   }
 
@@ -49,7 +55,8 @@ function OrderListAdminPage(props) {
               </tr>
             </thead>
             <tbody>
-              {orders.map((order) => (
+              {orders.filter(row => !deletedOrder.includes(row._id)).map(order => (
+
                 <tr key={order._id}>
                   <td>{order._id}</td>
                   <td>{order.createdAt.substring(0, 10)}</td>

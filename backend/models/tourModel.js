@@ -6,6 +6,7 @@ const commentsSchema = new Schema(
     user: { type: Schema.Types.ObjectId, ref: 'Users', required: true },
     comment: { type: String, required: true },
     rating: { type: Number, required: false },
+    isActive: { type: Boolean, default: true, required: false },
   },
   {
     timestamps: true,

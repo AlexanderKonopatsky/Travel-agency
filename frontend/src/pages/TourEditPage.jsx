@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import { detailsTour, updateTour } from "../redux/actions/tourActions";
-import { TOUR_UPDATE_RESET } from "../redux/constants/tourConstants"
+import { TOUR_UPDATE_RESET, TOUR_DETAILS_RESET } from "../redux/constants/tourConstants"
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 import Axios from "axios"
 
 
@@ -16,35 +18,16 @@ function TourEditPage(props) {
   const [label, setLabel] = useState('')
   const [desc, setDesc] = useState('')
   const [additionalInfo, setAdditionalInfo] = useState('')
-  const [country, setCountry] = useState('')
+  const [listCity, setListCity] = useState('')
   const [city, setCity] = useState('')
+  const [listCountry, setListCountry] = useState('')
+  const [country, setCountry] = useState('')
 
   const [loadingUpload, setLoadingUpload] = useState(false)
   const [errorUpload, setErrorUpload] = useState('')
 
   const userSignIn = useSelector(state => state.userSignIn)
   const { userInfo } = userSignIn
-
-  const uploadFileHandler = async (e) => {
-    const file = e.target.files[0]
-    const bodyFromData = new FormData()
-    bodyFromData.append('image', file)
-    setLoadingUpload(true)
-    try {
-      const { data } = await Axios.post('/api/uploads', bodyFromData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${userInfo.token}`
-        }
-      })
-      setImage(data)
-      setLoadingUpload(false)
-    } catch (error) {
-      setErrorUpload(error.message)
-      setLoadingUpload(false)
-    }
-  }
-
 
   const dispatch = useDispatch()
 
@@ -54,43 +37,92 @@ function TourEditPage(props) {
   const tourDetails = useSelector(state => state.tourDetails)
   const { loading: loadingDetails, error: errorDetails, tour } = tourDetails
 
-  useEffect(() => {
-    if (success) {
-      /*       props.history.push('/tourlist') */
+  const changeCityHandler = (data) => {
+    setCity(data.value)
+  }
+
+  const changeCountryHandler = async (data) => {
+    setCountry(data.value)
+    const listCityUpdate = await Axios.get(`/api/tours/cityInTheCountry?country=${data.value}`)
+    setListCity(listCityUpdate.data)
+  }
+
+
+
+
+
+
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0]
+    const bodyFromData = new FormData()
+    bodyFromData.append('image', file)
+    setLoadingUpload(true)
+    try {
+      let { data } = await Axios.post('/api/uploads', bodyFromData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${userInfo.token}`
+        }
+      })
+      if (data[0] !== '\\') {
+        data = '\\' + data  
+      }
+      setImage(data)
+      setLoadingUpload(false)
+    } catch (error) {
+      setErrorUpload(error.message)
+      setLoadingUpload(false)
     }
-    if (!tour || tour._id !== tourId) {
-      dispatch({ type: TOUR_UPDATE_RESET })
-      dispatch(detailsTour(tourId))
-    } else if (tour) {
-      setTitle(title || tour.title)
-      setPrice(price || tour.price)
-      setImage(tour.image)
-      setCategory(category || tour.category)
-      setLabel(label || tour.label)
-      setDesc(desc || tour.desc)
-      setAdditionalInfo(additionalInfo || tour.additionalInfo)
-      setCountry(country || tour.country)
-      setCity(city || tour.city)
-    }
-  }, [additionalInfo, category, city, country, desc, dispatch, image, label, price, props.history, success, title, tour, tourId])
+  }
 
-
-
-
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    dispatch(
+    await dispatch(
       updateTour({
         _id: tourId,
         title, price, image, category, label, desc, additionalInfo, country, city
       })
     )
+    console.log('image', image)
+    dispatch({ type: TOUR_DETAILS_RESET })
   }
 
   const backHandler = () => {
     props.history.push('/tourlist')
   }
 
+  const getData = async () => {
+    const listCity = await Axios.get('/api/tours/city')
+    setListCity(listCity.data.sort())
+    const listCountry = await Axios.get('/api/tours/country')
+    setListCountry(listCountry.data.sort())
+  }
+
+  useEffect(() => {
+    getData()
+    dispatch({ type: TOUR_UPDATE_RESET })
+  }, [dispatch])
+
+  useEffect(() => {
+    if (success) {
+      /*       props.history.push('/tourlist') */
+    /*   dispatch({ type: TOUR_UPDATE_RESET }) */
+    }
+    if (!tour || tour._id !== tourId) {
+     /*  dispatch({ type: TOUR_UPDATE_RESET }) */
+      dispatch(detailsTour(tourId))
+    } else if (tour) {
+      setTitle(tour.title)
+      setPrice(tour.price)
+      setImage(tour.image)
+      setCategory(tour.category)
+      setLabel(tour.label)
+      setDesc(tour.desc)
+      setAdditionalInfo(tour.additionalInfo)
+      setCountry(tour.country)
+      setCity(tour.city)
+    }
+  }, [dispatch, props.history, success, tour, tourId])
 
   return (
     <div>
@@ -115,117 +147,148 @@ function TourEditPage(props) {
 
               <form className='form_for_new_user' onSubmit={submitHandler}>
 
-                {loadingDetails ? (
-                  <LoadingBox></LoadingBox>
-                ) : errorDetails ? (
-                  <MessageBox variant="danger">{errorDetails}</MessageBox>
-                ) : (
-                  <>
-                    {loadingUpdate && <LoadingBox></LoadingBox>}
-                    {errorUpdate && (
-                      <MessageBox variant="danger">{errorUpdate}</MessageBox>
-                    )}
 
-                    <div className='row'>
+                <>
+                  {loadingUpdate && <LoadingBox></LoadingBox>}
+                  {errorUpdate && (
+                    <MessageBox variant="danger">{errorUpdate}</MessageBox>
+                  )}
 
-                      <div className='form-box'>
-                        <label className="form-box__field" >
-                          <span className='form-label'>
-                            Title
-                          </span>
-                          <input className="form-input" value={title} onChange={e => setTitle(e.target.value)} type="text" />
-                        </label>
-                      </div>
+                  <div className='row'>
+                    {loadingDetails &&
+                      <LoadingBox></LoadingBox>
+                    }
 
-                      <div className='form-box'>
-                        <label className="form-box__field" >
-                          <span className='form-label'>
-                            Price
-                          </span>
-                          <input className="form-input" value={price} onChange={e => setPrice(e.target.value)} type="text" />
-                        </label>
-                      </div>
+                    {errorDetails ?
+                      <MessageBox variant="danger">{errorDetails}</MessageBox> :
+                      (
+                        <>
+                          <div className='form-box'>
+                            <label className="form-box__field" >
+                              <span className='form-label'>
+                                Title
+                              </span>
+                              <input required className="form-input" value={title} onChange={e => setTitle(e.target.value)} type="text" />
+                            </label>
+                          </div>
 
-                      <div className='form-box'>
-                        <label className="form-box__field" >
-                          <span className='form-label'>
-                            Image
-                          </span>
-                          <input className="form-input" type="file" id="fileUpdate" onChange={uploadFileHandler} />
-                          {loadingUpload && <LoadingBox></LoadingBox>}
-                          {errorUpload && (
-                            <MessageBox variant="danger">{errorUpload}</MessageBox>
+                          <div className='form-box'>
+                            <label className="form-box__field" >
+                              <span className='form-label'>
+                                Price
+                              </span>
+                              <input className="form-input" value={price} onChange={e => setPrice(e.target.value)} type="text" />
+                            </label>
+                          </div>
+
+                          <div className='form-box'>
+                            <label className="form-box__field" >
+                              <span className='form-label'>
+                                Image
+                              </span>
+                              <input className="form-input" type="file" id="fileUpdate" onChange={uploadFileHandler} />
+                              {loadingUpload && <LoadingBox></LoadingBox>}
+                              {errorUpload && (
+                                <MessageBox variant="danger">{errorUpload}</MessageBox>
+                              )}
+                            </label>
+                          </div>
+
+                          <div className='form-box'>
+                            <label className="form-box__field" >
+                              <span className='form-label'>
+                                Category
+                              </span>
+                              <input className="form-input" value={category} type="text" onChange={e => setCategory(e.target.value)} />
+                            </label>
+                          </div>
+
+                          <div className='form-box'>
+                            <label className="form-box__field" >
+                              <span className='form-label'>
+                                Label
+                              </span>
+                              <input className="form-input" value={label} type="text" onChange={e => setLabel(e.target.value)} />
+                            </label>
+                          </div>
+
+
+
+                          <div className='form-box'>
+                            <label className="form-box__field" >
+                              <span className='form-label'>
+                                Select a country
+                              </span>
+                              
+                              <div>
+                                <Dropdown type="text" options={listCountry && listCountry} value={tour && tour.country} onChange={changeCountryHandler} placeholder="Select an option" />
+                         
+                              </div>
+
+                            </label>
+                          </div>
+
+                          <div className='form-box'>
+                            <label className="form-box__field" >
+                              <span className='form-label'>
+                                Country
+                              </span>
+                              <input className="form-input" value={country} type="text" onChange={e => setCountry(e.target.value)} />
+                            </label>
+                          </div>
+
+                          <div className='form-box'>
+                            <label className="form-box__field" >
+                              <span className='form-label'>
+                                Select a city
+                              </span>
+                              <Dropdown type="text" options={listCity && listCity} value={listCity ? listCity[0] : (tour && tour.city)} onChange={changeCityHandler} placeholder="Select an option" />
+                            </label>
+                          </div>
+
+                          <div className='form-box'>
+                            <label className="form-box__field" >
+                              <span className='form-label'>
+                                City
+                              </span>
+                              <input autofocus="autofocus" className="form-input" value={city} type="text" onChange={e => setCity(e.target.value)} />
+                            </label>
+                          </div>
+
+                          <div className='form-box'>
+                            <label className="form-box__field" >
+                              <span className='form-label'>
+                                Description
+                              </span>
+                              <input className="form-input" value={desc} type="text" onChange={e => setDesc(e.target.value)} />
+                            </label>
+                          </div>
+
+                          <div className='form-box'>
+                            <label className="form-box__field" >
+                              <span className='form-label'>
+                                additionalInfo
+                              </span>
+                              <textarea className="form-input" value={additionalInfo} type="text" onChange={e => setAdditionalInfo(e.target.value)} ></textarea>
+                            </label>
+                          </div>
+                          {success && (
+                            <MessageBox variant="success">
+                              Tour Updated Successfully
+                            </MessageBox>
                           )}
-                        </label>
-                      </div>
+                          <button className='btn_auth' type="submit" >
+                            UPDATE
+                          </button>
+                          <button className='btn_auth' type="submit" onClick={backHandler} >
+                            RETURN TO THE LIST OF TOURS
+                          </button>
+                        </>)
+                    }
 
-                      <div className='form-box'>
-                        <label className="form-box__field" >
-                          <span className='form-label'>
-                            Category
-                          </span>
-                          <input className="form-input" value={category} type="text" onChange={e => setCategory(e.target.value)} />
-                        </label>
-                      </div>
+                  </div>
+                </>
 
-                      <div className='form-box'>
-                        <label className="form-box__field" >
-                          <span className='form-label'>
-                            Label
-                          </span>
-                          <input className="form-input" value={label} type="text" onChange={e => setLabel(e.target.value)} />
-                        </label>
-                      </div>
-
-                      <div className='form-box'>
-                        <label className="form-box__field" >
-                          <span className='form-label'>
-                            Country
-                          </span>
-                          <input className="form-input" value={country} type="text" onChange={e => setCountry(e.target.value)} />
-                        </label>
-                      </div>
-
-                      <div className='form-box'>
-                        <label className="form-box__field" >
-                          <span className='form-label'>
-                            City
-                          </span>
-                          <input className="form-input" value={city} type="text" onChange={e => setCity(e.target.value)} />
-                        </label>
-                      </div>
-
-                      <div className='form-box'>
-                        <label className="form-box__field" >
-                          <span className='form-label'>
-                            Description
-                          </span>
-                          <input className="form-input" value={desc} type="text" onChange={e => setDesc(e.target.value)} />
-                        </label>
-                      </div>
-
-                      <div className='form-box'>
-                        <label className="form-box__field" >
-                          <span className='form-label'>
-                            additionalInfo
-                          </span>
-                          <textarea className="form-input" value={additionalInfo} type="text" onChange={e => setAdditionalInfo(e.target.value)} ></textarea>
-                        </label>
-                      </div>
-                      {success && (
-                        <MessageBox variant="success">
-                          Tour Updated Successfully
-                        </MessageBox>
-                      )}
-                      <button className='btn_auth' type="submit" >
-                        UPDATE
-                      </button>
-                      <button className='btn_auth' type="submit" onClick={backHandler} >
-                        RETURN TO THE LIST OF TOURS
-                      </button>
-                    </div>
-                  </>
-                )}
               </form>
 
             </div>

@@ -19,7 +19,6 @@ import {
   TOUR_SEARCH_SUCCESS,
   TOUR_COMMENT_CREATE_REQUEST,
   TOUR_COMMENT_CREATE_FAIL,
-  TOUR_COMMENT_CREATE_RESET,
   TOUR_COMMENT_CREATE_SUCCESS,
   TOUR_LIST_CATEGORY_FAIL,
   TOUR_LIST_CATEGORY_REQUEST,
@@ -29,8 +28,13 @@ import {
   TOUR_LIST_BY_CATEGORY_SUCCESS,
   TOUR_ADVANCED_SEARCH_REQUEST,
   TOUR_ADVANCED_SEARCH_FAIL,
-  TOUR_ADVANCED_SEARCH_RESET,
-  TOUR_ADVANCED_SEARCH_SUCCESS
+  TOUR_ADVANCED_SEARCH_SUCCESS,
+  TOUR_COMMENT_DELETE_FAIL,
+  TOUR_COMMENT_DELETE_REQUEST,
+  TOUR_COMMENT_DELETE_SUCCESS,
+  TOUR_COMMENT_UPDATE_STATUS_REQUEST,
+  TOUR_COMMENT_UPDATE_STATUS_SUCCESS,
+  TOUR_COMMENT_UPDATE_STATUS_FAIL
 } from '../constants/tourConstants'
 import Axios from 'axios'
 
@@ -223,7 +227,6 @@ export const listTourByCategory = ({category = '', country = '', city = '', type
   try {
     if (typeReq === 'category') {
       const { data } = await Axios.get(`/api/tours?category=${category}&page=${pageNumber}`)
-  
       dispatch({
         type: TOUR_LIST_BY_CATEGORY_SUCCESS,
         payload: {tours : data.tours }
@@ -261,8 +264,13 @@ export const listTourAdvancedSearch = (obj) => async (dispatch) => {
     payload: obj
   })
   try {
-
-      const { data } = await Axios.get(`/api/tours?category=${obj.category}`)
+      const category = obj.category ? `category=${obj.category}&` : ''
+      const city = obj.city ? `city=${obj.city}&` : ''
+      const country = obj.country ? `country=${obj.country}&` : ''
+      const priceFrom = obj.priceFro ? `priceFrom=${obj.priceFrom}&` : ''
+      const priceTo = obj.priceTo ? `priceTo=${obj.priceTo}&` : ''
+      const rating = obj.rating ? `rating=${obj.rating}&` : ''
+      const { data } = await Axios.get(`/api/tours?${category}${city}${country}${priceFrom}${priceTo}${rating}`)
       dispatch({
         type: TOUR_ADVANCED_SEARCH_SUCCESS,
         payload: {tours : data.tours, page : obj.pageNumber, pages: data.pages }
@@ -275,5 +283,50 @@ export const listTourAdvancedSearch = (obj) => async (dispatch) => {
         ? error.response.data.message
         : error.message
     })
+  }
+}
+
+
+
+export const commentUpdateStatus = (commentId, tourId, status) => async (dispatch, getState) => {
+  dispatch({
+    type: TOUR_COMMENT_UPDATE_STATUS_REQUEST
+  })
+  const { userSignIn : { userInfo } } = getState() 
+  try {
+    const { data } = await Axios.put(`/api/comments/${commentId}/tourId/${tourId}?status=${status}`, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+    dispatch({
+      type: TOUR_COMMENT_UPDATE_STATUS_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({  
+      type: TOUR_COMMENT_UPDATE_STATUS_FAIL,
+      payload: error.response && error.response.data.message 
+      ? error.response.data.message
+      : error.message
+  })
+  }
+}
+
+
+export const commentDelete = (commentId, tourId) => async (dispatch, getState) => {
+  dispatch({
+    type: TOUR_COMMENT_DELETE_REQUEST
+  })
+  const { userSignIn : { userInfo } } = getState() 
+  try {
+    const { data } = await Axios.delete(`/api/comments/${commentId}/tourId/${tourId}`, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+    dispatch({
+      type: TOUR_COMMENT_DELETE_SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    dispatch({  
+      type: TOUR_COMMENT_DELETE_FAIL,
+      payload: error.response && error.response.data.message 
+      ? error.response.data.message
+      : error.message
+  })
   }
 }

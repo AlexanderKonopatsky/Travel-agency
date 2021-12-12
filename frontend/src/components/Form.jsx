@@ -1,19 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './Form.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
+import Axios from "axios";
+import { useHistory } from "react-router-dom";
 
-export function Form() {
+export function Form(props) {
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
   const [count, setCount] = useState(2)
+  const [listCity, setListCity] = useState('')
+  const [city, setCity] = useState('')
 
-  const options = [
-    'Minsk', 'Moscow', 'Berlin', 'Paris',
-  ];
-  const defaultOption = options[0];
+  let history = useHistory();
+
 
 
   const decrement = () => {
@@ -25,15 +27,43 @@ export function Form() {
   }
 
 
+  const getData = async () => {
+    const listCity = await Axios.get('/api/tours/city')
+    setListCity(listCity.data.sort())
+  }
+
+/*   const changeCountryHandler = async (data) => {
+    const listCityUpdate = await Axios.get(`/api/tours/cityInTheCountry?country=${data.value}`)
+    setListCity(listCityUpdate.data)
+  } */
+
+  const changeCityHandler = (data) => {
+    setCity(data.value)
+  }
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    console.log(city || listCity[0])
+    console.log(startDate)
+    console.log(endDate)
+    console.log(count)
+    history.push(`/advancedSearchPage?city=${city || listCity[0]}&count=${count}`)
+  }
+
+  useEffect(() => {
+    getData()
+  }, [])
+
 
   return (
     <div className="booking__container">
-      <form action="/booking_bars" method="post">
+      <form  method="get" onSubmit={submitHandler}>
 
         <div className="booking">
           <div className="booking__section">
             <div className="booking__section__top">
-              <Dropdown type="text" options={options} value={defaultOption} placeholder="Select an option" />
+              {console.log('listCity', listCity)}
+              <Dropdown type="text" options={listCity && listCity} value={listCity && listCity[0]} onChange={changeCityHandler}  placeholder="Select an option" />
             </div>
             <div className="booking__section__bottom">
               <label className="label" for="city_id">City</label>
@@ -91,7 +121,7 @@ export function Form() {
           </div>
           <div className="booking__section">
 
-            <button name="button" type="submit" className="booking__btn">Find Tours</button>
+            <button name="button" type="submit"  className="booking__btn">Find Tours</button>
 
           </div>
         </div>
