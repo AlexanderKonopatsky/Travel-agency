@@ -2,23 +2,7 @@ const jwt = require('jsonwebtoken')
 const mg = require('mailgun-js')
 
 
-
-
 module.exports = {
-  generateJsonToken: function(user) {
-    return jwt.sign({
-        _id: user._id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        isAdmin: user.isAdmin
-      },
-      process.env.JWT_TOKEN || '73UCuYCi',
-      {
-        expiresIn: '30d'
-      }
-    )
-  },
   isAuth: function(req, res, next) {
     const authorization = req.headers.authorization
     if (authorization) {
@@ -62,6 +46,5 @@ module.exports = {
       domain: process.env.MAILGUN_DOMIAN,
     })
   }
-
 }
 

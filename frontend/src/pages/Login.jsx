@@ -49,8 +49,8 @@ function Login(props) {
 
   const passwordHandler =  (e) => {
      setPassword(e.target.value)
-    if (e.target.value.length < 8 || e.target.value.length > 30) {
-      setErrorPassword('Password length from 8 to 30 characters')
+    if (e.target.value.length < 4 || e.target.value.length > 30) {
+      setErrorPassword('Password length from 4 to 30 characters')
       if (!e.target.value)
         setErrorPassword('Password cannot be empty')
     } else {
@@ -132,7 +132,7 @@ function Login(props) {
 
                   < div className='text-divider'>
                     <div className='text-divider__divider'></div>
-                    <div className='text-divider__text'>Sign in with email</div>
+                    <div className='text-divider__text'>Log in with email</div>
                     <div className='text-divider__divider'></div>
                   </div>
 

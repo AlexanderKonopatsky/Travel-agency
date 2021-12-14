@@ -1,6 +1,6 @@
 const express = require('express')
 const multer = require('multer')
-const { isAuth } = require('../utils')
+const { isAuth, isAdmin } = require('../middleware/utils')
 
 const uploadRouter = express.Router()
 

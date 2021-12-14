@@ -318,7 +318,7 @@ function TourEditPage(props) {
                               <span className='form-label'>
                                 additionalInfo
                               </span>
-                              <textarea className="form-input" value={additionalInfo} type="text" onChange={e => setAdditionalInfo(e.target.value)} ></textarea>
+                              <textarea className="form-input-textarea" value={additionalInfo} type="text" onChange={e => setAdditionalInfo(e.target.value)} ></textarea>
                             </label>
                           </div>
                           {success && (

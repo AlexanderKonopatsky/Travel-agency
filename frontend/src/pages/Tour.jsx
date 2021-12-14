@@ -160,7 +160,7 @@ function Tour(props) {
                           selectsRange
                           inline
                         />
-                        <input type="submit" value="See Available Tours" class="action-button-tour" />
+                {/*         <input type="submit" value="See Available Tours" class="action-button-tour" /> */}
                         <input onClick={addToCartHandler} type="submit" value="Add tour to cart" class="action-button-tour" />
                         {/* <button className="primary block">Add to Cart</button> */}
                       </div>
@@ -254,7 +254,7 @@ function Tour(props) {
                                 </form>
                               ) : (
                                 <MessageBox>
-                                  Please <Link to="/signin">Sign In</Link> to write a comment
+                                  Please <Link to="/signUp">Sign In</Link> to write a comment
                                 </MessageBox>
                               )}
                             </li>
@@ -315,7 +315,7 @@ function Tour(props) {
 
 
 
-                      {userInfo.isAdmin && <>
+                      {userInfo && userInfo.isAdmin && <>
                         <div className='head-text'>
                           Disabled comments
                         </div>

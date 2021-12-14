@@ -7,7 +7,8 @@ const userSchema = new Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     isAdmin: { type: Boolean, default: false, required: true },
-    isActive: { type: Boolean, default: true, required: true }
+    isActive: { type: Boolean, default: true, required: true },
+    imageProfile: { type: String, required: false, default: "\\uploads\\1639313689176.jpg" },
   },
   {
     timestamps: true

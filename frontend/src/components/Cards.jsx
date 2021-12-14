@@ -110,7 +110,7 @@ function Cards() {
           error ? (<MessageBox variant="danger">{error}</MessageBox>)
             : (
               <>
-              
+
                 <div>
                   <div className="head_text_tours">Best in Belarus</div>
 
@@ -187,6 +187,25 @@ function Cards() {
                     )}
                   </div>
                 </div>
+
+
+                <div className="head_text_tours">Best in Sochi</div>
+                <ul className="scroll_ul" ref={scrl} onScroll={scrollCheck1}>
+                  {
+
+                    tours.map((tour, idx) => {
+                      if (tour) {
+                        if (tour.city === 'Sochi') {
+                          return <CardItem key={tour._id} tour={tour} />
+                        } else return
+                      } else {
+                        return false
+                      }
+                    })}
+                </ul>
+
+
+
               </>
 
             )

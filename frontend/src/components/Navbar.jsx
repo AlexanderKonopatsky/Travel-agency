@@ -91,11 +91,11 @@ function Navbar(props) {
             </Link>
           </li>
 
-          <li className='nav-item'>
+{/*           <li className='nav-item'>
             <Link to='/tour' className='nav-links' onClick={closeMobileMenu}>
               Tour
             </Link>
-          </li>
+          </li> */}
 
           <li className='nav-item'>
             <Link to='/cart' className='nav-links' onClick={closeMobileMenu}>
@@ -119,7 +119,7 @@ function Navbar(props) {
                       <button onClick={orderHistoryHandler} className="ul-user">Order history</button>
                     </li>
                     <li className="li-navbar">
-                      <button onClick={signOutHandler} className="ul-user">Sign Out</button>
+                      <button onClick={signOutHandler} className="ul-user">Logout</button>
                     </li>
 
 
@@ -146,9 +146,9 @@ function Navbar(props) {
                 <Button onClick={closeMobileMenu} text='Admin' link='/login'></Button>
                 <i className="fa fa-caret-down"></i>
                 <ul className="dropdown-content-admin">
-                  <li className="li-navbar">
+{/*                   <li className="li-navbar">
                     <button onClick={dashboardHandler} className="ul-user">Dashboard</button>
-                  </li>
+                  </li> */}
                   <li className="li-navbar">
                     <button onClick={tourListHandler} className="ul-user">Tour list</button>
                   </li>

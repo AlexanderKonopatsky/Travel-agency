@@ -1,7 +1,7 @@
 const express = require('express')
 const Tour = require('../models/tourModel')
 const commentRouter = express.Router()
-const { isAuth, isAdmin } = require('../utils')
+const { isAuth, isAdmin } = require('../middleware/utils')
 var mongoose = require('mongoose');
 
 

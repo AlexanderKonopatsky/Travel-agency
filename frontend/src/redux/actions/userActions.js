@@ -108,16 +108,16 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
   })
   const { userSignIn : { userInfo } } = getState() 
   try {
-    const { data } = await Axios.put(`/api/users/profile2`, user, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+    const { data } = await Axios.put(`/api/users/profile`, user, { headers: { Authorization: `Bearer ${userInfo.token}` } })
     dispatch({
       type: USER_UPDATE_PROFILE_SUCCESS,
       payload: data
     })
-    dispatch({
+   dispatch({
       type: USER_SIGNIN_SUCCESS,
       payload: data
     })
-    localStorage.setItem('userInfo', JSON.stringify(data))
+    localStorage.setItem('userInfo', JSON.stringify(data)) 
   } catch (error) {
     dispatch({
       type: USER_UPDATE_PROFILE_FAIL,

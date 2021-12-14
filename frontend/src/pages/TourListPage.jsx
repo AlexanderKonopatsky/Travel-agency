@@ -85,8 +85,8 @@ function TourListScreen(props) {
               <th>price</th>
               <th>rating</th>
               <th>numReviews</th>
-              <th>createdAt</th>
-              <th>updatedAt</th>
+{/*               <th>createdAt</th>
+              <th>updatedAt</th> */}
               <th>Buttons</th>
             </tr>
           </thead>
@@ -105,8 +105,8 @@ function TourListScreen(props) {
                 <td>{tour.price}</td>
                 <td>{tour.rating}</td>
                 <td>{tour.numReviews}</td>
-                <td>{tour.createdAt}</td>
-                <td>{tour.updatedAt}</td>
+{/*                 <td>{tour.createdAt}</td>
+                <td>{tour.updatedAt}</td> */}
                 <td>
                   <button
                     type="button"

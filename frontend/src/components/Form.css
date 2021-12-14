@@ -219,11 +219,12 @@
 
 .booking__input {
   border: none;
-  font-weight: normal;
+  font-weight:700;
   outline: none;
   width: 90%;
-  font-size: 16px;
+  font-size: 18px;
   text-align: center;
+  font-family: "Proxima Nova", Sans-Serif;
 }
 
 
@@ -249,10 +250,11 @@ label {
 
 .form-incrementer__input {
   border: none;
-  font-weight: normal;
+  font-weight: 700;
   outline: none;
   text-align: center;
   margin-left: 2px;
+  font-size: 21px;
 }
 
 

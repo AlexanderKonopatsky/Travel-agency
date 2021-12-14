@@ -287,11 +287,7 @@ img {
 
 .scroll2 {
   font-family: sans-serif;
-
   width: 1320px;
-  height: 550px;
-
-  
   display: flex;
   align-items: center;
   justify-content: center;
@@ -411,13 +407,30 @@ a {
 
 #comment  {
   width: 100%;
+  font-size: 18px;
+  font-family: "Times New Roman", Serif;
+  padding: 20px;
 }
 
 #rating { 
   width: 100%;
+  font-size: 18px;
+  font-family: "Times New Roman", Serif;
+  padding: 20px;
 }
 
-=======
+option {
+  font-size: 18px;
+  font-family: "Times New Roman", Serif;
+  padding: 20px;
+}
+
+input {
+
+  font-family: "Times New Roman", Serif;
+
+}
+
 aside {
   position: fixed;
   width: 30rem;

@@ -2,7 +2,7 @@ const express = require('express')
 const User = require('../models/userModel')
 const bcrypt = require('bcrypt')
 const { generateJsonToken } = require('../utils')
-const { isAuth, isAdmin } = require('../utils')
+const { isAuth, isAdmin } = require('../middleware/utils')
 
 const userRouter = express.Router()
 const regEmail = require('../emails/registration')
@@ -59,21 +59,27 @@ userRouter.post('/signin', async (req, res) => {
 })
 
 userRouter.post('/signUp', async (req, res) => {
-  const user = new User({
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8),
-  })
-  const createdUser = await user.save()
-  res.send({
-    _id: createdUser._id,
-    firstName: createdUser.firstName,
-    lastName: createdUser.lastName,
-    email: createdUser.email,
-    isAdmin: createdUser.isAdmin,
-    token: generateJsonToken(createdUser)
-  })
+  const user = await User.find({ email: req.body.email})
+  if (!user) {
+    const user = new User({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password: bcrypt.hashSync(req.body.password, 8),
+    })
+    const createdUser = await user.save()
+    res.send({
+      _id: createdUser._id,
+      firstName: createdUser.firstName,
+      lastName: createdUser.lastName,
+      email: createdUser.email,
+      isAdmin: createdUser.isAdmin,
+      token: generateJsonToken(createdUser)
+    })
+  } else {
+    res.status(401).send({ message : 'There is already a user with this mail' })
+  }
+
 })
 
 
@@ -90,9 +96,12 @@ userRouter.get('/:id', isAuth, async (req, res) => {
 userRouter.put('/profile', isAuth, async (req, res) => {
   const user = await User.findById(req.user._id)
   if (user) {
+    console.log('req.body.image', req.body.image)
     user.firstName = req.body.firstName
     user.lastName = req.body.lastName
     user.email = req.body.email
+    user.imageProfile = req.body.image ? req.body.image :  user.imageProfile
+    console.log('user', user)
     if (req.body.password) {
       user.password = bcrypt.hashSync(req.body.password, 8)
     }
@@ -103,6 +112,7 @@ userRouter.put('/profile', isAuth, async (req, res) => {
       lastName: updatedUser.lastName,
       email: updatedUser.email,
       isAdmin: updatedUser.isAdmin,
+      imageProfile: updatedUser.imageProfile, 
       token: generateJsonToken(updatedUser)
     })
   }
@@ -114,6 +124,7 @@ userRouter.put('/profile2', isAuth, isAdmin, async (req, res) => {
     user.firstName = req.body.firstName
     user.lastName = req.body.lastName
     user.email = req.body.email
+/*     user.imageProfile = req.body.image */
     const updatedUser = await user.save()
     res.send({ message: "User updated", user: updatedUser })
   }

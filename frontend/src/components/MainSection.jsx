@@ -35,7 +35,7 @@ export function MainSection(props) {
                 />
               </div>
               <div>
-                <input type="submit" value="See Available Tours" class="action-button-tour" />
+       {/*          <input type="submit" value="See Available Tours" class="action-button-tour" /> */}
                 <input type="submit" value="Add tour to cart" class="action-button-tour" />
                 {/* <button className="primary block">Add to Cart</button> */}
               </div>

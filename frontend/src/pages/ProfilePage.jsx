@@ -7,13 +7,16 @@ import '../components/orderList.css'
 import { detailsUser, updateUserProfile } from "../redux/actions/userActions";
 import '../components/Profile.css'
 import { USER_UPDATE_PROFILE_RESET } from "../redux/constants/userConstants";
+import Axios from "axios"
 
 function Profile(props) {
 
   const userSignIn = useSelector(state => state.userSignIn)
   const { userInfo } = userSignIn
 
-
+  const [loadingUpload, setLoadingUpload] = useState(false)
+  const [errorUpload, setErrorUpload] = useState('')
+  const [image, setImage] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
@@ -34,14 +37,14 @@ function Profile(props) {
 
   useEffect(() => {
     if (!user) {
-      dispatch({ type: USER_UPDATE_PROFILE_RESET})
+      dispatch({ type: USER_UPDATE_PROFILE_RESET })
       dispatch(detailsUser(userInfo._id))
     } else {
-      setFirstName(user.firstName)
-      setLastName(user.lastName)
-      setEmail(user.email)
+      setFirstName(firstName || user.firstName)
+      setLastName(lastName || user.lastName)
+      setEmail(email || user.email)
     }
-  }, [dispatch, userInfo, user])
+  }, [dispatch, userInfo, user, firstName, lastName, email])
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -52,8 +55,33 @@ function Profile(props) {
         _id: user._id,
         firstName,
         lastName,
-        email
+        email,
+        image
       }))
+    }
+  }
+
+
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0]
+    const bodyFromData = new FormData()
+    bodyFromData.append('image', file)
+    setLoadingUpload(true)
+    try {
+      let { data } = await Axios.post('/api/uploads', bodyFromData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${userInfo.token}`
+        }
+      })
+      if (data[0] !== '\\') {
+        data = '\\' + data
+      }
+      setImage(data)
+      setLoadingUpload(false)
+    } catch (error) {
+      setErrorUpload(error.message)
+      setLoadingUpload(false)
     }
   }
 
@@ -142,6 +170,19 @@ function Profile(props) {
                           </label>
                         </div>
 
+                        <div className='form-box'>
+                          <label className="form-box__field" >
+                            <span className='form-label'>
+                              Main Image
+                            </span>
+                            <input className="form-input" type="file" id="fileUpdate" onChange={uploadFileHandler} />
+                            {loadingUpload && <LoadingBox></LoadingBox>}
+                            {errorUpload && (
+                              <MessageBox variant="danger">{errorUpload}</MessageBox>
+                            )}
+                          </label>
+                        </div>
+
                         <button className='btn_auth' type="submit" >
                           UPDATE
                         </button>
@@ -158,20 +199,9 @@ function Profile(props) {
             <section className="grid-checkout-column">
               <h1 className="head-text">Info </h1>
               <div className="item-checkout">
-                Curiosity is contagious — get rewarded for sharing some. Send the code below to a friend, and when they book, you'll receive a $50 credit to your account, they'll get 10% off their first tour.
+                <img src={userInfo.imageProfile} alt="profile"></img>
               </div>
-              <div className="item-checkout">
-                Curiosity is contagious — get rewarded for sharing some. Send the code below to a friend, and when they book, you'll receive a $50 credit to your account, they'll get 10% off their first tour.
-              </div>
-              <div className="item-checkout">
-                Curiosity is contagious — get rewarded for sharing some. Send the code below to a friend, and when they book, you'll receive a $50 credit to your account, they'll get 10% off their first tour.
-              </div>
-              <div className="item-checkout">
-                Curiosity is contagious — get rewarded for sharing some. Send the code below to a friend, and when they book, you'll receive a $50 credit to your account, they'll get 10% off their first tour.
-              </div>
-              <div className="item-checkout">
-                Curiosity is contagious — get rewarded for sharing some. Send the code below to a friend, and when they book, you'll receive a $50 credit to your account, they'll get 10% off their first tour.
-              </div>
+
             </section>
 
             <div className='section_message'>

@@ -76,8 +76,8 @@ function SignUp(props) {
 
   const passwordHandler =  (e) => {
      setPassword(e.target.value)
-    if (e.target.value.length < 8 || e.target.value.length > 30) {
-      setErrorPassword('Password length from 8 to 30 characters')
+    if (e.target.value.length < 4 || e.target.value.length > 30) {
+      setErrorPassword('Password length from 4 to 30 characters')
       if (!e.target.value)
         setErrorPassword('Password cannot be empty')
     } else {
@@ -87,8 +87,8 @@ function SignUp(props) {
 
   const confirmPasswordHandler =  (e) => {
      setConfirmPassword(e.target.value)
-    if (e.target.value.length < 8 || e.target.value.length > 30) {
-      setErrorConfirmPassword('Confirm password length from 8 to 30 characters')
+    if (e.target.value.length < 4 || e.target.value.length > 30) {
+      setErrorConfirmPassword('Confirm password length from 4 to 30 characters')
       if (!e.target.value)
         setErrorConfirmPassword('Confirm password cannot be empty')
     } else {
@@ -207,7 +207,7 @@ function SignUp(props) {
                   <div className='form-box'>
                     <label className="form-box__field" >
                       <span className='form-label'>
-                        Latt Name
+                        Lats Name
                       </span>
                       <input name="lastname" className="form-input" value={lastName} onChange={lastNameHandler} onBlur={e => blurHandler(e)} type="text" required />
                     </label>

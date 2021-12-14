@@ -1,7 +1,7 @@
 const express = require('express')
 const Tour = require('../models/tourModel')
 const tourRouter = express.Router()
-const { isAuth, isAdmin } = require('../utils')
+const { isAuth, isAdmin } = require('../middleware/utils')
 
 
 tourRouter.get('/', async (req, res) => {
@@ -41,7 +41,7 @@ tourRouter.get('/home', async (req, res) => {
   const categoryFilter = category ? { category } : {}
   const countryFilter = country ? { country } : {}
   const cityFilter = city ? { city } : {}
-  const tours = await Tour.find({ ...categoryFilter, ...countryFilter, ...cityFilter})
+  const tours = await Tour.find({ ...categoryFilter, ...countryFilter, ...cityFilter}).select('_id title image category label desc additionalInfo price rating numReviews country city').sort({rating: -1})
   res.send({tours})
 })
 
@@ -98,8 +98,7 @@ tourRouter.post('/', isAuth, isAdmin, async (req, res) => {
     price: 0,
     rating: 0,
     numReviews: 0,
-    country: 'country',
-    city: 'city'
+    country: 'country'
   })
   const createdTour = await tour.save()
   res.send({ message: 'Tour created', tour: createdTour})

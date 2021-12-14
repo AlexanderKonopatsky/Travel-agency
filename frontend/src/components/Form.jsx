@@ -29,16 +29,25 @@ export function Form(props) {
 
   const getData = async () => {
     const listCity = await Axios.get('/api/tours/city')
-    setListCity(listCity.data.sort())
+    if (listCity) {
+      setListCity(listCity.data.sort())
+    } else {
+      setListCity(['Not found', 'sdfsdf'])
+    }
+
   }
 
-/*   const changeCountryHandler = async (data) => {
-    const listCityUpdate = await Axios.get(`/api/tours/cityInTheCountry?country=${data.value}`)
-    setListCity(listCityUpdate.data)
-  } */
+  /*   const changeCountryHandler = async (data) => {
+      const listCityUpdate = await Axios.get(`/api/tours/cityInTheCountry?country=${data.value}`)
+      setListCity(listCityUpdate.data)
+    } */
 
   const changeCityHandler = (data) => {
-    setCity(data.value)
+    if (listCity !== '') {
+      setCity(data.value)
+      console.log('0-i3984239423094')
+    }
+
   }
 
   const submitHandler = (e) => {
@@ -57,13 +66,13 @@ export function Form(props) {
 
   return (
     <div className="booking__container">
-      <form  method="get" onSubmit={submitHandler}>
+      <form method="get" onSubmit={submitHandler}>
 
         <div className="booking">
           <div className="booking__section">
             <div className="booking__section__top_city">
               {console.log('listCity', listCity)}
-              <Dropdown type="text" options={listCity && listCity} value={listCity && listCity[0]} onChange={changeCityHandler}  placeholder="Select an option" />
+              <Dropdown type="text" options={listCity && listCity} value={listCity && listCity[0]} onChange={changeCityHandler} placeholder="Select an option" />
             </div>
             <div className="booking__section__bottom">
               <label className="label" for="city_id">City</label>
@@ -118,12 +127,12 @@ export function Form(props) {
             </div>
             <div className="booking__section__bottom">
               <label className="label">Participants</label>
-              
+
             </div>
           </div>
           <div className="booking__section">
 
-            <button name="button" type="submit"  className="booking__btn">Find Tours</button>
+            <button name="button" type="submit" className="booking__btn">Find Tours</button>
 
           </div>
         </div>

@@ -29,8 +29,8 @@ function OrderHistoryPage(props) {
               <tr>
                 <th>ID</th>
                 <th>DATE</th>
-                <th>TOTAL</th>
-                <th>PAID</th>
+{/*                 <th>TOTAL</th>
+                <th>PAID</th> */}
 
                 <th>ACTIONS</th>
               </tr>
@@ -40,8 +40,8 @@ function OrderHistoryPage(props) {
                 <tr key={order._id}>
                   <td>{order._id}</td>
                   <td>{order.createdAt.substring(0, 10)}</td>
-                  <td>----</td>
-                  <td>{order.isPaid ? order.paidAt.substring(0, 10) : 'No'}</td>
+{/*                   <td>----</td>
+                  <td>{order.isPaid ? order.paidAt.substring(0, 10) : 'No'}</td> */}
                   <td>
                     <button
                       type="button"
