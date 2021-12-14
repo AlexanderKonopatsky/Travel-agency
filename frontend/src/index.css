@@ -784,3 +784,9 @@ body {
   transition-duration: 1s;
   transform: scale(1.08);
 }
+
+
+.error-validate {
+  color: red;
+  margin-top: 5px;
+}

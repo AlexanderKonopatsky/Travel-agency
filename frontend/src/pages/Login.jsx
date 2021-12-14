@@ -8,8 +8,18 @@ import '../components/SignUp.css'
 function Login(props) {
 
   const [email, setEmail] = useState('')
+  const [errorEmail, setErrorEmail] = useState('Email cannot be empty')
+  const [dirtyEmail, setDirtyEmail] = useState(false)
+
   const [password, setPassword] = useState('')
+  const [errorPassword, setErrorPassword] = useState('Password cannot be empty')
+  const [dirtyPassword, setDirtyPassword] = useState(false)
+
+  const [formValid, setFormValid] = useState(false)
+
+
   const [alert, setAlert] = useState('')
+  const [errorFirstName, setErrorFirstName] = useState('')
   const dispatch = useDispatch()
 
   const userSignIn = useSelector(state => state.userSignIn)
@@ -23,7 +33,43 @@ function Login(props) {
   const submitHandler = (e) => {
     e.preventDefault()
     dispatch(signIn(email, password))
+  }
 
+  const emailHandler = (e) => {
+    setEmail(e.target.value)
+    const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    if (!reg.test(String(e.target.value).toLowerCase())) {
+      setErrorEmail('Incorrect email')
+      if (!e.target.value)
+        setErrorEmail('Email cannot be empty')
+    } else {
+      setErrorEmail("")
+    }
+  }
+
+  const passwordHandler =  (e) => {
+     setPassword(e.target.value)
+    if (e.target.value.length < 8 || e.target.value.length > 30) {
+      setErrorPassword('Password length from 8 to 30 characters')
+      if (!e.target.value)
+        setErrorPassword('Password cannot be empty')
+    } else {
+      setErrorPassword("")
+    }
+  }
+
+    const blurHandler = (e) => {
+    console.log(e.target.name)
+    switch (e.target.name) {
+      case 'email':
+        setDirtyEmail(true)
+        break
+      case 'password':
+        setDirtyPassword(true)
+        break
+      default:
+        break
+    }
   }
 
   useEffect(() => {
@@ -31,6 +77,15 @@ function Login(props) {
       props.history.push(redirect)
     }
   }, [props.history, redirect, userInfo])
+
+
+  useEffect(() => {
+    if (errorEmail || errorPassword) {
+      setFormValid(false)
+    } else {
+      setFormValid(true)
+    }
+  }, [errorEmail, errorPassword])
 
   return (
     <>
@@ -44,7 +99,7 @@ function Login(props) {
                 </h1>
                 <p className='header_under'>
                   Don't have an account?
-                  <a href='login' className='link_login'>Sign up.</a>
+                  <a href='/signUp' className='link_login'>Sign up.</a>
                 </p>
               </div>
             </div>
@@ -60,7 +115,7 @@ function Login(props) {
               <form className='form_for_new_user' onSubmit={submitHandler}>
                 <div className='row1'>
 
-                  < div className='text-divider'>
+{/*                   < div className='text-divider'>
                     <div className='text-divider__divider'></div>
                     <div className='text-divider__text'>OAuth authorization</div>
                     <div className='text-divider__divider'></div>
@@ -73,30 +128,36 @@ function Login(props) {
 
                   <a className='btn_auth' href='/' data-facebook-login>
                     <span >Log in with Gmail</span>
-                  </a>
+                  </a> */}
 
                   < div className='text-divider'>
                     <div className='text-divider__divider'></div>
-                    <div className='text-divider__text'>or sign in with email</div>
+                    <div className='text-divider__text'>Sign in with email</div>
                     <div className='text-divider__divider'></div>
                   </div>
 
                   <div className='form-box'>
                     <label className="form-box__field" >
-                      <span className='form-label'>Email</span>
-                      <input className="form-input" type="email" onChange={e => setEmail(e.target.value)} required />
+                      <span className='form-label'>
+                        Email
+                      </span>
+                      <input name="email" className="form-input" value={email} type="email" onChange={emailHandler} onBlur={e => blurHandler(e)} required />
                     </label>
+                    {(dirtyEmail && errorEmail) && <p className="error-validate">{errorEmail}</p>}
                   </div>
 
                   <div className='form-box'>
                     <label className="form-box__field" >
-                      <span className='form-label'>Password</span>
-                      <input className="form-input" type="password" onChange={e => setPassword(e.target.value)} generateJsonToken />
+                      <span className='form-label'>
+                        Password
+                      </span>
+                      <input name="password" className="form-input" value={password} type="password" onChange={passwordHandler} onBlur={e => blurHandler(e)} required />
                     </label>
+                    {(dirtyPassword && errorPassword) && <p className="error-validate">{errorPassword}</p>}
                   </div>
 
 
-                  <button className='btn_auth' type="submit" >
+                  <button disabled={!formValid} className='btn_auth' type="submit" >
                     Log in with Email {alert && alert}
                   </button>
 

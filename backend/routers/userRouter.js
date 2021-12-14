@@ -49,23 +49,6 @@ userRouter.post('/signin', async (req, res) => {
         isAdmin: user.isAdmin,
         token: generateJsonToken(user)
       })
-/*    await smtpTransport.sendMail(regEmail('alexander.konopatscky@gmail.com')) */
-/* 
-      var data = {
-        from: 'Excited User <me@samples.mailgun.org>',
-        to: 'vkowalex@gmail.com',
-        subject: 'Hello',
-        text: 'Testing some Mailgun awesomeness!'
-      }; */
-
-/*       mailgun.messages().send(data, 
-        (error, body) => {
-          if (error) {
-            console.log(error);
-          } else {
-            console.log(body);
-          }
-        }); */
       return
     } else {
       res.status(401).send({ message: 'Invalid password' })
