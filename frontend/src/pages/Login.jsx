@@ -29,7 +29,6 @@ function Login(props) {
     ? props.location.search.split('=')[1]
     : '/';
 
-
   const submitHandler = (e) => {
     e.preventDefault()
     dispatch(signIn(email, password))
@@ -59,7 +58,6 @@ function Login(props) {
   }
 
     const blurHandler = (e) => {
-    console.log(e.target.name)
     switch (e.target.name) {
       case 'email':
         setDirtyEmail(true)

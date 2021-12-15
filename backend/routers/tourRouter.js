@@ -1,5 +1,7 @@
 const express = require('express')
 const Tour = require('../models/tourModel')
+const Category = require('../models/categoryModel')
+const Order = require('../models/orderModel')
 const tourRouter = express.Router()
 const { isAuth, isAdmin } = require('../middleware/utils')
 
@@ -11,7 +13,7 @@ tourRouter.get('/', async (req, res) => {
   const priceTo = req.query.priceTo || 100000
   const startDate = req.query.startDate
   const endDate = req.query.endDate
-  const rating = req.query.rating || 0
+  const rating = req.query.rating || -1
   const category = req.query.category
   const country = req.query.country
   const city = req.query.city
@@ -20,6 +22,7 @@ tourRouter.get('/', async (req, res) => {
   const cityFilter = city ? { city } : {}
   const ratingFilter = rating ? { city } : {}
   const countTours = await Tour.countDocuments({ ...categoryFilter, ...countryFilter, ...cityFilter  })
+
   const tours = await Tour.find({
     
     ...categoryFilter,
@@ -28,13 +31,13 @@ tourRouter.get('/', async (req, res) => {
      rating: {$gt : rating},  
     price: {$gt : priceFrom, $lt: priceTo}
 
-   }).skip(pageSize * (currentPage - 1)).limit(pageSize)
-
-  console.log(tours)
+   }).skip(pageSize * (currentPage - 1)).limit(pageSize).populate('categoryS')
   res.send({ tours, pages: Math.ceil(countTours / pageSize) })
 })
 
 tourRouter.get('/home', async (req, res) => {
+/*   const category2 = await Category.create({ categoryName: 'History', categoryDesc : 'Historical travel includes various kinds of destinations, from Stone Age cave paintings to Cold War installations of the late 20th century.'})
+  await category2.save() */
   const category = req.query.category
   const country = req.query.country
   const city = req.query.city
@@ -72,7 +75,7 @@ tourRouter.get('/city', async (req, res) => {
 })
 
 tourRouter.get('/:id', async (req, res) => {
-  const tour = await Tour.findById(req.params.id).populate('comments.user')
+  const tour = await Tour.findById(req.params.id).populate('comments.user').populate('categoryS')
   if (tour) {
     res.send(tour)
   } else {
@@ -105,10 +108,9 @@ tourRouter.post('/', isAuth, isAdmin, async (req, res) => {
 })
 
 tourRouter.put('/:id', isAuth, isAdmin, async (req, res) => {
-  
+  const categoryFrom = await Category.findOne({categoryName: req.body.category})
   const tourId = req.params.id
   const tour = await Tour.findById(tourId)
-  console.log('put', req.body.image)
   if (tour) {
     tour.title = req.body.title;
     tour.image = req.body.image;
@@ -119,10 +121,9 @@ tourRouter.put('/:id', isAuth, isAdmin, async (req, res) => {
     tour.price = req.body.price;
     tour.country = req.body.country;
     tour.city = req.body.city;
-    tour.imageGallery = req.body.uploadedImage
-    console.log(tour)
+    tour.imageGallery = req.body.uploadedImage.length !== 0 ? req.body.uploadedImage : tour.imageGallery,
+    tour.categoryS = categoryFrom._id
     const updatedTour = await tour.save()
-    console.log(tour)
     res.send({ message: 'Tour updated', tour: updatedTour})
   } else {
     res.status(404).send({ message: 'Tour not found' })
@@ -151,17 +152,34 @@ tourRouter.get('/search/:title', async (req, res) => {
 tourRouter.post('/:id/comments', isAuth, async (req, res) => {
   const tourId = req.params.id
   const tour = await Tour.findById(tourId)
+  let checkOrder = false
   if (tour) {
-    const comment = {
-      user: req.user._id,
-      comment: req.body.comment,
-      rating: Number(req.body.rating)
+    const orders = await Order.find({ userInfo : req.user._id }).select('orderItems')
+    if (orders) {
+      orders.map(order => {
+        order.orderItems.map(orderItem => {
+          if (String(orderItem._id) === tourId)
+          checkOrder = true
+        })
+      })
+      console.log(req.user.isAdmin)
+      if (checkOrder || req.user.isAdmin) {
+        const comment = {
+          user: req.user._id,
+          comment: req.body.comment,
+          rating: Number(req.body.rating)
+        }
+        tour.comments.push(comment)
+        tour.numReviews = tour.comments.length
+        tour.rating = (tour.comments.reduce((a, c) =>  c.rating + a, 0 ) / tour.comments.length).toFixed(2)
+        const updatedTour = await tour.save()
+        res.status(201).send({ message: 'Comment created', comment: updatedTour.comments[updatedTour.comments.length - 1]})
+      } else {
+        res.status(404).send({ message: 'You cannot write comments, because you have not ordered this tour' })
+      }
     }
-    tour.comments.push(comment)
-    tour.numReviews = tour.comments.length
-    tour.rating = (tour.comments.reduce((a, c) =>  c.rating + a, 0 ) / tour.comments.length).toFixed(2)
-    const updatedTour = await tour.save()
-    res.status(201).send({ message: 'Comment created', comment: updatedTour.comments[updatedTour.comments.length - 1]})
+
+    
   } else {
     res.status(404).send({ message: 'Tour not found' })
   }

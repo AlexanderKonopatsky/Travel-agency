@@ -96,12 +96,10 @@ userRouter.get('/:id', isAuth, async (req, res) => {
 userRouter.put('/profile', isAuth, async (req, res) => {
   const user = await User.findById(req.user._id)
   if (user) {
-    console.log('req.body.image', req.body.image)
     user.firstName = req.body.firstName
     user.lastName = req.body.lastName
     user.email = req.body.email
     user.imageProfile = req.body.image ? req.body.image :  user.imageProfile
-    console.log('user', user)
     if (req.body.password) {
       user.password = bcrypt.hashSync(req.body.password, 8)
     }

@@ -45,7 +45,6 @@ export function Form(props) {
   const changeCityHandler = (data) => {
     if (listCity !== '') {
       setCity(data.value)
-      console.log('0-i3984239423094')
     }
 
   }

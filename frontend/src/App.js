@@ -12,6 +12,7 @@ import CartPage from './pages/CartPage'
 import OrderPage from './pages/OrderPage'
 import Footer from './components/Footer'
 import Profile from './pages/ProfilePage'
+import CategoryEditPage from './pages/CategoryEditPage'
 import PrivateRoute from './components/PrivateRoute'
 import AdminRoute from './components/AdminRoute'
 import TourListPage from './pages/TourListPage'
@@ -23,12 +24,11 @@ import SearchPage from './pages/SearchPage'
 import TourCategoryPage from './pages/TourCategoryPage'
 import AdvancedSearch from './pages/AdvancedSearch'
 import TourAdvanceSearchPage from './pages/TourAdvanceSearchPage'
+/* import CategoryEditPage from './pages/TourCategoryPage' */
 
 function App() {
   return (
-
       <Router>
-  
         <Navbar></Navbar>
         <Switch>
           <Route path="/" exact component={Home}/>
@@ -43,6 +43,7 @@ function App() {
           <Route path="/tour/:id/edit" exact component={TourEditPage}/>
           <Route path="/orderHistory/list" exact component={OrderHistoryPage}/>
           <PrivateRoute path='/profile' component={Profile}></PrivateRoute>
+          <PrivateRoute path='/categorylist' component={CategoryEditPage}></PrivateRoute>
           <AdminRoute path="/tourlist" component={TourListPage}></AdminRoute>
           <AdminRoute path="/orderListAdmin" component={OrderListAdminPage}></AdminRoute>
           <AdminRoute path="/userList" component={UserListPage}></AdminRoute>
@@ -52,11 +53,11 @@ function App() {
           <Route path="/city/:city" exact component={TourCategoryPage}/> 
           <Route path="/country/:country" exact component={TourCategoryPage}/> 
           <Route path="/advancedSearch" exact component={AdvancedSearch}/> 
-           <Route path="/advancedSearchPage" exact component={TourAdvanceSearchPage}/> 
+          <Route path="/advancedSearchPage" exact component={TourAdvanceSearchPage}/> 
+{/*           <AdminRoute path="/categorylist" component={CategoryEditPage}></AdminRoute> */}
         </Switch>
         <Footer></Footer>
       </Router>
-
   )
 }
 

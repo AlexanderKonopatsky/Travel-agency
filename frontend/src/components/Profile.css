@@ -16,3 +16,13 @@
   font-weight: normal;
   margin: 0;
 }
+
+
+.grid-cart-category {
+  padding-top: 60px;
+  display: grid;
+  grid-gap: 30px;
+  grid-template-columns: 1fr 1fr;
+  margin: auto;
+  max-width: 1650px;
+}

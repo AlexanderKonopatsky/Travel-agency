@@ -10,11 +10,11 @@ function CardItemCategory(props) {
   return (
     <>
       <a className='cards__item__link' href={`/tour/${tour._id}`}>
-        <div className='tour-card__favorite'>
+{/*         <div className='tour-card__favorite'>
           <button aria-label='Add to favorites' className='favorite-toggle'>
             <i className="far fa-heart"></i>
           </button>
-        </div>
+        </div> */}
 
         <figure className='cards__item__pic-wrap' data-category={tour.label}>
           <img

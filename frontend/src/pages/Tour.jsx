@@ -174,14 +174,23 @@ function Tour(props) {
                         Tour Details
                       </div>
                       <div className="box">
+                       
                         <div className="box-head">
                           Tour description
                         </div>
                         <div className="box-body">
                           {tour.desc}
                           {tour.additionalInfo}
-                          <ImageSlider slides={tour.imageGallery} />
+          
 
+                        </div>
+
+                        <div className="box-head">
+                          Tour category - {tour.categoryS.categoryName}
+                        </div>
+                        <div className="box-body">
+                          {tour.categoryS.categoryDesc}
+                          <ImageSlider slides={tour.imageGallery} />
                         </div>
                       </div>
 

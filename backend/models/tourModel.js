@@ -13,6 +13,14 @@ const commentsSchema = new Schema(
   }
 );
 
+
+const categorySchema = new Schema(
+  {
+    categoryName: { type: String, required: true },
+    description: { type: String, required: true },
+  }
+)
+
 const tourSchema = new Schema(
   {
     title: { type: String, required: true },
@@ -27,6 +35,7 @@ const tourSchema = new Schema(
     country: { type: String, required: true },
     city: { type: String, required: false },
     comments: [commentsSchema],
+    categoryS: { type: Schema.Types.ObjectId, ref: 'Сategories', required: false },
     imageGallery: [
       {
           type: String,

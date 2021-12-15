@@ -1,5 +1,6 @@
 const express = require('express')
 const Tour = require('../models/tourModel')
+const User = require('../models/userModel')
 const commentRouter = express.Router()
 const { isAuth, isAdmin } = require('../middleware/utils')
 var mongoose = require('mongoose');
@@ -10,6 +11,7 @@ commentRouter.post('/:id', isAuth, async (req, res) => {
   const tourId = req.params.id
   const tour = await Tour.findById(tourId)
   if (tour) {
+    console.log('userid', req.user._id)
     const comment = {
       user: req.user._id,
       comment: req.body.comment,

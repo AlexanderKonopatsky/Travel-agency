@@ -49,8 +49,8 @@ function Navbar(props) {
     props.history.push('/tourlist')
   }
 
-  const dashboardHandler = () => {
-    props.history.push('/dashboard')
+  const categoryHandler = () => {
+    props.history.push('/categorylist')
   }
 
   const orderListHandler = () => {
@@ -146,9 +146,9 @@ function Navbar(props) {
                 <Button onClick={closeMobileMenu} text='Admin' link='/login'></Button>
                 <i className="fa fa-caret-down"></i>
                 <ul className="dropdown-content-admin">
-{/*                   <li className="li-navbar">
-                    <button onClick={dashboardHandler} className="ul-user">Dashboard</button>
-                  </li> */}
+                  <li className="li-navbar">
+                    <button onClick={categoryHandler} className="ul-user">Category list</button>
+                  </li>
                   <li className="li-navbar">
                     <button onClick={tourListHandler} className="ul-user">Tour list</button>
                   </li>
