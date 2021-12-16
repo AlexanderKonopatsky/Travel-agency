@@ -5,9 +5,7 @@ const categoryRouter = express.Router()
 const { isAuth, isAdmin } = require('../middleware/utils')
 
 
-
 categoryRouter.get('/', async (req, res) => {
-
   const categories = await Category.find({})
   res.send({ categories: categories})
 })

@@ -1,6 +1,5 @@
 const { Schema, model, mongoose } = require('mongoose')
 
-
 const orderSchema = new Schema({
   orderItems: [
     {

@@ -69,7 +69,7 @@ function TourAdvanceSearchPage(props) {
                   <div className='grid__content__container'>
                     <div className='grid__content'>
                       <h1 className='text-center'>
-                        {category && category}
+                      {category && tours[0].categoryS.categoryDesc}
                         {country && country}
                         {city && city}
                       </h1>
@@ -79,7 +79,7 @@ function TourAdvanceSearchPage(props) {
                 <div className='grid__section '>
                   <div className='grid__wrap'>
                     <button className='grid__gallery-button' >
-                      <img alt="" className="grid__image" src="/images/image__1629999624.png" />
+                    {category && <img alt="" className="grid__image" src={tours[0].categoryS.categoryImage} /> }
                     </button>
                   </div>
                 </div>

@@ -54,7 +54,6 @@ function App() {
           <Route path="/country/:country" exact component={TourCategoryPage}/> 
           <Route path="/advancedSearch" exact component={AdvancedSearch}/> 
           <Route path="/advancedSearchPage" exact component={TourAdvanceSearchPage}/> 
-{/*           <AdminRoute path="/categorylist" component={CategoryEditPage}></AdminRoute> */}
         </Switch>
         <Footer></Footer>
       </Router>

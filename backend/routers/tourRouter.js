@@ -4,6 +4,7 @@ const Category = require('../models/categoryModel')
 const Order = require('../models/orderModel')
 const tourRouter = express.Router()
 const { isAuth, isAdmin } = require('../middleware/utils')
+const ObjectId = require('mongodb').ObjectID;
 
 
 tourRouter.get('/', async (req, res) => {
@@ -28,7 +29,7 @@ tourRouter.get('/', async (req, res) => {
     ...categoryFilter,
     ...countryFilter, 
     ...cityFilter,
-     rating: {$gt : rating},  
+    rating: {$gt : rating},  
     price: {$gt : priceFrom, $lt: priceTo}
 
    }).skip(pageSize * (currentPage - 1)).limit(pageSize).populate('categoryS')
@@ -152,34 +153,22 @@ tourRouter.get('/search/:title', async (req, res) => {
 tourRouter.post('/:id/comments', isAuth, async (req, res) => {
   const tourId = req.params.id
   const tour = await Tour.findById(tourId)
-  let checkOrder = false
   if (tour) {
-    const orders = await Order.find({ userInfo : req.user._id }).select('orderItems')
-    if (orders) {
-      orders.map(order => {
-        order.orderItems.map(orderItem => {
-          if (String(orderItem._id) === tourId)
-          checkOrder = true
-        })
-      })
-      console.log(req.user.isAdmin)
-      if (checkOrder || req.user.isAdmin) {
-        const comment = {
-          user: req.user._id,
-          comment: req.body.comment,
-          rating: Number(req.body.rating)
-        }
-        tour.comments.push(comment)
-        tour.numReviews = tour.comments.length
-        tour.rating = (tour.comments.reduce((a, c) =>  c.rating + a, 0 ) / tour.comments.length).toFixed(2)
-        const updatedTour = await tour.save()
-        res.status(201).send({ message: 'Comment created', comment: updatedTour.comments[updatedTour.comments.length - 1]})
-      } else {
-        res.status(404).send({ message: 'You cannot write comments, because you have not ordered this tour' })
+    const checkOrder = await Order.find({  userInfo : req.user._id,  orderItems: tourId } )
+    if (checkOrder.length !== 0 || req.user.isAdmin) {
+      const comment = {
+        user: req.user._id,
+        comment: req.body.comment,
+        rating: Number(req.body.rating)
       }
+      tour.comments.push(comment)
+      tour.numReviews = tour.comments.length
+      tour.rating = (tour.comments.reduce((a, c) =>  c.rating + a, 0 ) / tour.comments.length).toFixed(2)
+      const updatedTour = await tour.save()
+      res.status(201).send({ message: 'Comment created', comment: updatedTour.comments[updatedTour.comments.length - 1]})
+    } else {
+      res.status(404).send({ message: 'You cannot write comments, because you have not ordered this tour' })
     }
-
-    
   } else {
     res.status(404).send({ message: 'Tour not found' })
   }

@@ -46,7 +46,6 @@ export function Form(props) {
     if (listCity !== '') {
       setCity(data.value)
     }
-
   }
 
   const submitHandler = (e) => {
@@ -135,8 +134,6 @@ export function Form(props) {
 
           </div>
         </div>
-
-
       </form>
     </div>
   );

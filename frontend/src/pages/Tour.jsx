@@ -60,9 +60,15 @@ function Tour(props) {
   const submitHandler = (e) => {
     e.preventDefault();
     if (comment && rating) {
-      dispatch(
-        commentCreate(tourId, { comment, rating, user: userInfo._id })
-      );
+      console.log(comment.length)
+      if (comment.length < 5000) {
+        dispatch(
+          commentCreate(tourId, { comment, rating, user: userInfo._id })
+        );
+      } else {
+        alert('Comment length cannot exceed 5000 characters');
+      }
+
     } else {
       alert('Please enter comment and rating');
     }
@@ -303,7 +309,7 @@ function Tour(props) {
                               {userInfo && userInfo.isAdmin &&
                                 <div className="btn-remove-comment">
                                   <button className="btn-remove" type="button" onClick={(e) => submitUpdateStatusComment(comment._id, 'disable')}>disable</button>
-                                  <button className="btn-remove" type="button" onClick={(e) => submitUpdateStatusComment(comment._id, 'enable')}>enable</button>
+                              {/*     <button className="btn-remove" type="button" onClick={(e) => submitUpdateStatusComment(comment._id, 'enable')}>enable</button> */}
                                   <button className="btn-remove" type="button" onClick={(e) => submitDeleteComment(comment._id)}>delete</button>
                                 </div>
                               }
@@ -350,7 +356,7 @@ function Tour(props) {
                                 </p>
                                 {userInfo && userInfo.isAdmin &&
                                   <div className="btn-remove-comment">
-                                    <button className="btn-remove" type="button" onClick={(e) => submitUpdateStatusComment(comment._id, 'disable')}>disable</button>
+                                   {/*  <button className="btn-remove" type="button" onClick={(e) => submitUpdateStatusComment(comment._id, 'disable')}>disable</button> */}
                                     <button className="btn-remove" type="button" onClick={(e) => submitUpdateStatusComment(comment._id, 'enable')}>enable</button>
                                     <button className="btn-remove" type="button" onClick={(e) => submitDeleteComment(comment._id)}>delete</button>
                                   </div>
