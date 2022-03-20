@@ -119,7 +119,6 @@ function CategoryEditPage(props) {
 
   const getDataCategory = async () => {
     const { data } = await Axios.get('/api/categories', { headers: { Authorization: `Bearer ${userInfo.token}` } })
-    console.log('category', data.categories)
     setCategories(data.categories)
   }
 

@@ -8,10 +8,13 @@ import { updateUserProfile } from "../redux/actions/userActions";
 import '../components/Profile.css'
 import { USER_UPDATE_PROFILE_RESET } from "../redux/constants/userConstants";
 import Axios from "axios"
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
+import { TOUR_UPDATE_RESET, TOUR_DETAILS_RESET } from "../redux/constants/tourConstants"
 
-import { createCountry } from "../redux/actions/countryActions";
+import { createCity } from "../redux/actions/cityActions";
 
-function CountryEditPage(props) {
+function CityEditPage(props) {
 
   const userSignIn = useSelector(state => state.userSignIn)
   const { userInfo } = userSignIn
@@ -19,19 +22,26 @@ function CountryEditPage(props) {
   const [loadingUpload, setLoadingUpload] = useState(false)
   const [errorUpload, setErrorUpload] = useState('')
   const [image, setImage] = useState('')
-  const [countryName, setCountryName] = useState('')
-  const [countryDesc, setCountryDesc] = useState('')
-  const [countryNameUpdate, setCountryNameUpdate] = useState('')
-  const [countryDescUpdate, setCountryDescUpdate] = useState('')
-
-  const [currentIdCountry, setCurrentIdCountry] = useState('')
-
-  const [deletedCountry, setDeletedCountry] = useState([])
-
+  const [cityName, setCityName] = useState('')
+  const [cityDesc, setCityDesc] = useState('')
+  const [cityNameUpdate, setCityNameUpdate] = useState('')
+  const [cityDescUpdate, setCityDescUpdate] = useState('')
+  const [cityCountryUpdate, setCityCountryUpdate] = useState('')
+  const [listCountry, setListCountry] = useState('')
+  const [country, setCountry] = useState('')
+  const [currentIdCity, setCurrentIdCity] = useState('')
+  const [deletedCity, setDeletedCity] = useState([])
   const [categories, setCategories] = useState('')
   const userDetails = useSelector(state => state.userDetails)
 
 
+  const getData = async () => {
+   const listCountry = await Axios.get('/api/country/countryName')
+   const arrCountry = listCountry.data.country.map(country => {
+      return country.countryName
+   })
+   setListCountry(arrCountry)
+}
 
   const { loading, error, user } = userDetails
 
@@ -44,39 +54,40 @@ function CountryEditPage(props) {
 
   const dispatch = useDispatch();
 
-
-
-  /*   const submitHandler = (e) => {
-      e.preventDefault();
-      dispatch(updateUserProfile({
-        _id: user._id,
-        firstName,
-        lastName,
-        email,
-        image
-      }))
-    } */
-
+  // CREATE
   const submitСategoryCreateHandler = (e) => {
     e.preventDefault();
-    dispatch(createCountry({
-      countryName,
-      countryDesc,
-      countryImage: image
+    dispatch(createCity({
+      cityName,
+      cityDesc,
+      cityImage: image, 
+      country
     }))
     getDataCategory()
   }
 
-  const submitСategoryUpdateHandler = async (country) => {
-    const updatedCountry = {
-      countryName : countryNameUpdate,
-      countryDesc : countryDescUpdate,
-      countryImage: image
+  // UPDATE
+  const submitСategoryUpdateHandler = async (city) => {
+
+
+    const updatedCity = {
+      cityName : cityNameUpdate,
+      cityDesc : cityDescUpdate,
+      cityImage: image,
+      country:  country 
     }
-    country.preventDefault();
-    const { data } = await Axios.put(`/api/country/${currentIdCountry}`, {updatedCountry}, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+    city.preventDefault();
+    const { data } = await Axios.put(`/api/city/${currentIdCity}`, {updatedCity}, { headers: { Authorization: `Bearer ${userInfo.token}` } })
     getDataCategory()
   }
+
+  const editCityHandler = (city) => {
+   setCountry('')
+   setCityNameUpdate(city.cityName)
+   setCityDescUpdate(city.cityDesc)
+   setCurrentIdCity(city._id)
+   setCityCountryUpdate(city.country.countryName)
+ }
 
 
 
@@ -103,26 +114,29 @@ function CountryEditPage(props) {
     }
   }
 
-  const deleteHandler = async (country) => {
+  const deleteHandler = async (city) => {
     if (window.confirm('Are you sure to delete?')) {
-      const { data } = await Axios.delete(`/api/country/${country._id}`, { headers: { Authorization: `Bearer ${userInfo.token}` } })
-      setDeletedCountry(arr => [...deletedCountry, country._id])
+      const { data } = await Axios.delete(`/api/city/${city._id}`, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+      setDeletedCity(arr => [...deletedCity, city._id])
     }
   }
 
-  const editCountryHandler = (country) => {
-    setCountryNameUpdate(country.countryName)
-    setCountryDescUpdate(country.countryDesc)
-    setCurrentIdCountry(country._id)
-  }
+
 
   const getDataCategory = async () => {
-    const { data } = await Axios.get('/api/country', { headers: { Authorization: `Bearer ${userInfo.token}` } })
-    setCategories(data.country)
+    const { data } = await Axios.get('/api/city', { headers: { Authorization: `Bearer ${userInfo.token}` } })
+    setCategories(data.city)
   }
+
+  
+
+  const changeCountryHandler = (data) => {
+   setCountry(data.value)
+ }
 
   useEffect(() => {
     getDataCategory()
+    getData()
   }, [])
 
   return (
@@ -135,7 +149,7 @@ function CountryEditPage(props) {
             <div className='col-xs-12'>
               <div className='header_section'>
                 <h1 className='header_text_profile'>
-                  Country page
+                  City page
                 </h1>
               </div>
             </div>
@@ -143,7 +157,7 @@ function CountryEditPage(props) {
 
           <div className="grid-cart-category">
             <section className="grid-main-column-cart">
-              <h1 className="head-text">Create country</h1>
+              <h1 className="head-text">Create city</h1>
               <div className="item-cart">
 
                 <form className='form_for_new_user' onSubmit={submitСategoryCreateHandler}>
@@ -162,25 +176,50 @@ function CountryEditPage(props) {
                       <div className='form-box'>
                         <label className="form-box__field" >
                            <span className='form-label'>
-                           The name of the country
+                           The name of the city
                           </span>
-                          <input className="form-input" value={countryName} onChange={e => setCountryName(e.target.value)} type="text" />
+                          <input className="form-input" value={cityName} onChange={e => setCityName(e.target.value)} type="text" />
                         </label>
                       </div>
 
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                           Country Description   
+                           City Description   
                           </span>
-                          <input className="form-input" value={countryDesc} onChange={e => setCountryDesc(e.target.value)} type="text" />
+                          <input className="form-input" value={cityDesc} onChange={e => setCityDesc(e.target.value)} type="text" />
                         </label>
                       </div>
+
+
+{/*                       <div className='form-box'>
+                        <label className="form-box__field" >
+                          <span className='form-label'>
+                           Country   
+                          </span>
+                          <input className="form-input" value={cityDesc} onChange={e => setCityDesc(e.target.value)} type="text" />
+                        </label>
+                      </div> */}
+
+
 
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                           Country image
+                           Country   
+                          </span>
+                          <div>
+                                <Dropdown type="text" options={listCountry && listCountry}  onChange={changeCountryHandler} placeholder="Select an option" />
+                              </div>
+                        </label>
+                      </div>
+
+
+
+                      <div className='form-box'>
+                        <label className="form-box__field" >
+                          <span className='form-label'>
+                           City image
                           </span>
                           <input className="form-input" type="file" id="fileUpdate" onChange={uploadFileHandler} />
                           {loadingUpload && <LoadingBox></LoadingBox>}
@@ -203,7 +242,7 @@ function CountryEditPage(props) {
 
 
 
-              <h1 className="head-text">Update country</h1>
+              <h1 className="head-text">Update city</h1>
               <div className="item-cart">
 
                 <form className='form_for_new_user' onSubmit={submitСategoryUpdateHandler}>
@@ -222,34 +261,45 @@ function CountryEditPage(props) {
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            Id country
+                            Id city
                           </span>
-                          <input className="form-input" value={currentIdCountry} onChange={e => setCountryNameUpdate(e.target.value)} type="text" />
+                          <input className="form-input" value={currentIdCity} onChange={e => setCityNameUpdate(e.target.value)} type="text" />
                         </label>
                       </div>
 
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            Name country
+                            Name city
                           </span>
-                          <input className="form-input" type="hidden"  value={countryNameUpdate} onChange={e => setCountryNameUpdate(e.target.value)}  type="text" />
+                          <input className="form-input" type="hidden"  value={cityNameUpdate} onChange={e => setCityNameUpdate(e.target.value)}  type="text" />
                         </label>
                       </div>
 
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            Description country
+                           Country   
                           </span>
-                          <input className="form-input" value={countryDescUpdate} onChange={e => setCountryDescUpdate(e.target.value)} type="text" />
+                          <div>
+                                <Dropdown type="text" options={listCountry && listCountry} value={cityCountryUpdate} onChange={changeCountryHandler} placeholder="Select an option" />
+                              </div>
                         </label>
                       </div>
 
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            Country Image
+                            Description city
+                          </span>
+                          <input className="form-input" value={cityDescUpdate} onChange={e => setCityDescUpdate(e.target.value)} type="text" />
+                        </label>
+                      </div>
+
+                      <div className='form-box'>
+                        <label className="form-box__field" >
+                          <span className='form-label'>
+                            City Image
                           </span>
                           <input className="form-input" type="file" id="fileUpdate" onChange={uploadFileHandler} />
                           {loadingUpload && <LoadingBox></LoadingBox>}
@@ -281,32 +331,34 @@ function CountryEditPage(props) {
                 <table className="table">
                   <thead>     
                     <tr>
-                      <th>countryName</th>
-                      <th>countryDesc</th>
-                      <th>countryImage</th>
+                      <th>cityName</th>
+                      <th>cityDesc</th>
+                      <th>cityImage</th>
+                      <th>country</th>
                       <th>btn</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {categories && categories.filter(row => !deletedCountry.includes(row._id)).map(country => (
+                    {categories && categories.filter(row => !deletedCity.includes(row._id)).map(city => (
                       /*           {categories && categories.map(category => ( */
-                        <tr key={country._id}>
-                        <td>{country.countryName}</td>
-                        <td>{country.countryDesc}</td>
-                        <td>{country.countryImage}</td>
+                        <tr key={city._id}>
+                        <td>{city.cityName}</td>
+                        <td>{city.cityDesc}</td>
+                        <td>{city.cityImage}</td>
+                        <td>{city.country.countryName}</td>
 
                         <td>
                           <button
                             type="button"
                             className="btn_details_admin"
-                            onClick={() => editCountryHandler(country)}
+                            onClick={() => editCityHandler(city)}
                           >
                             Edit
                           </button>
                           <button
                             type="button"
                             className="btn_details_admin"
-                            onClick={() => deleteHandler(country)}
+                            onClick={() => deleteHandler(city)}
                           >
                             Delete
                           </button>
@@ -327,4 +379,4 @@ function CountryEditPage(props) {
   )
 }
 
-export default CountryEditPage
+export default CityEditPage

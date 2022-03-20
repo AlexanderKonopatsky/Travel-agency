@@ -14,6 +14,7 @@ import Footer from './components/Footer'
 import Profile from './pages/ProfilePage'
 import CategoryEditPage from './pages/CategoryEditPage'
 import CountryEditPage from './pages/CountryEditPage'
+import CityEditPage from './pages/CityEditPage'
 import PrivateRoute from './components/PrivateRoute'
 import AdminRoute from './components/AdminRoute'
 import TourListPage from './pages/TourListPage'
@@ -46,6 +47,7 @@ function App() {
           <PrivateRoute path='/profile' component={Profile}></PrivateRoute>
           <PrivateRoute path='/categorylist' component={CategoryEditPage}></PrivateRoute>
           <PrivateRoute path='/countrylist' component={CountryEditPage}></PrivateRoute>
+          <PrivateRoute path='/citylist' component={CityEditPage}></PrivateRoute>
           <AdminRoute path="/tourlist" component={TourListPage}></AdminRoute>
           <AdminRoute path="/orderListAdmin" component={OrderListAdminPage}></AdminRoute>
           <AdminRoute path="/userList" component={UserListPage}></AdminRoute>

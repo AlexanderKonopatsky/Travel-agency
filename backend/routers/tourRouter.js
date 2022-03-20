@@ -2,10 +2,28 @@ const express = require('express')
 const Tour = require('../models/tourModel')
 const Category = require('../models/categoryModel')
 const Order = require('../models/orderModel')
+const City = require('../models/cityModel')
+const Country = require('../models/countryModel')
 const tourRouter = express.Router()
 const { isAuth, isAdmin } = require('../middleware/utils')
 const ObjectId = require('mongodb').ObjectID;
 
+
+tourRouter.get('/cityInTheCountry', async (req, res) => {
+   const country = req.query.country
+   let countryId = await Country.findOne({countryName : country}).select('_id')
+   console.log('countryId', countryId._id)
+   const ddd = await City.find({country : countryId._id}).select('cityName')
+   console.log('ddd', ddd)
+   let countryList = []
+    ddd.forEach(item => {
+      console.log('item', item)
+      countryList.push(item.cityName)
+   })
+   console.log(countryList)
+   res.send(countryList)
+  
+ })
 
 tourRouter.get('/', async (req, res) => {
   const pageSize = 3
@@ -59,7 +77,7 @@ tourRouter.get('/country', async (req, res) => {
   res.send(country)
 })
 
-tourRouter.get('/cityInTheCountry', async (req, res) => {
+tourRouter.get('/cityInTheCountry2', async (req, res) => {
   const country = req.query.country
   if (country) {
     const countryList = await Tour.find().distinct('city', { 'country' : country })
@@ -68,6 +86,8 @@ tourRouter.get('/cityInTheCountry', async (req, res) => {
     res.send({ message: 'Set the country in the request parameter'})
   }
 })
+
+
 
 
 tourRouter.get('/city', async (req, res) => {
