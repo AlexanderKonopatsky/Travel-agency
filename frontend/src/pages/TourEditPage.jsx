@@ -114,17 +114,23 @@ function TourEditPage(props) {
   }
 
   const getData = async () => {
-    const listCity = await Axios.get('/api/tours/city')
+ /*    const listCity = await Axios.get('/api/tours/city')
     setListCity(listCity.data.sort())
     const listCountry = await Axios.get('/api/tours/country')
-    setListCountry(listCountry.data.sort())
+    setListCountry(listCountry.data.sort()) */
+
+    const listCity2 = await Axios.get('/api/city/cityName')
+    const arrCity = listCity2.data.city.map(city => {
+      return city.cityName
+    })
+    setListCity(arrCity)
+
 
     const listCountry2 = await Axios.get('/api/country/countryName')
     const arrCountry = listCountry2.data.country.map(country => {
       return country.countryName
     })
     setListCountry(arrCountry)
-    console.log('!!!!!!!!!!!',arrCountry )
 
 
     const listCategory = await Axios.get('/api/categories/categoryName')
@@ -314,6 +320,19 @@ function TourEditPage(props) {
 {/*                           <div className='form-box'>
                             <label className="form-box__field" >
                               <span className='form-label'>
+                                Select a city
+                              </span>
+                              
+                              <div>
+                                <Dropdown type="text" options={listCity && listCity} value={tour && tour.city} onChange={changeCityHandler} placeholder="Select an option" />
+                              </div>
+
+                            </label>
+                          </div> */}
+
+{/*                       <div className='form-box'>
+                            <label className="form-box__field" >
+                              <span className='form-label'>
                                 Country
                               </span>
                               <input className="form-input" value={country} type="text" onChange={e => setCountry(e.target.value)} />
@@ -329,14 +348,14 @@ function TourEditPage(props) {
                             </label>
                           </div>
 
-                          <div className='form-box'>
+{/*                           <div className='form-box'>
                             <label className="form-box__field" >
                               <span className='form-label'>
                                 City
                               </span>
                               <input autofocus="autofocus" className="form-input" value={city} type="text" onChange={e => setCity(e.target.value)} />
                             </label>
-                          </div>
+                          </div> */}
 
                           <div className='form-box'>
                             <label className="form-box__field" >
