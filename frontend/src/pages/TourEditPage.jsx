@@ -55,7 +55,8 @@ function TourEditPage(props) {
     const changeCategoryHandler = async (data) => {
       setCategory(data.value)
   }
-  
+
+
 
 
   const uploadFileHandlerGallery = async (e) => {
@@ -106,17 +107,7 @@ function TourEditPage(props) {
     }
   }
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    await dispatch(
-      updateTour({
-        _id: tourId,
-        title, price, image, category, label, desc, additionalInfo, country, city, uploadedImage
-      })
-    )
-    console.log('image', image)
-    dispatch({ type: TOUR_DETAILS_RESET })
-  }
+
 
   const backHandler = () => {
     props.history.push('/tourlist')
@@ -127,13 +118,35 @@ function TourEditPage(props) {
     setListCity(listCity.data.sort())
     const listCountry = await Axios.get('/api/tours/country')
     setListCountry(listCountry.data.sort())
+
+    const listCountry2 = await Axios.get('/api/country/countryName')
+    const arrCountry = listCountry2.data.country.map(country => {
+      return country.countryName
+    })
+    setListCountry(arrCountry)
+    console.log('!!!!!!!!!!!',arrCountry )
+
+
     const listCategory = await Axios.get('/api/categories/categoryName')
- /*    setListCategory(listCategory.data.categories) */
-    console.log(listCategory.data.categories)
-    const newArr = listCategory.data.categories.map(category => {
+    const arrCategory = listCategory.data.categories.map(category => {
       return category.categoryName
     })
-    setListCategory(newArr)
+    setListCategory(arrCategory)
+  }
+
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+  
+
+    await dispatch(
+      updateTour({
+        _id: tourId,
+        title, price, image, category, label, desc, additionalInfo, country, city, uploadedImage
+      })
+    )
+    console.log('image', image, category)
+    dispatch({ type: TOUR_DETAILS_RESET })
   }
 
   useEffect(() => {
@@ -257,7 +270,7 @@ function TourEditPage(props) {
                           <div className='form-box'>
                             <label className="form-box__field" >
                               <span className='form-label'>
-                                CategoryC
+                                Category
                               </span>
                               <div>
                                 <Dropdown type="text" options={listCategory && listCategory} value={category } onChange={changeCategoryHandler} placeholder="Select an option" />
@@ -274,14 +287,14 @@ function TourEditPage(props) {
                             </label>
                           </div>
  */}
-                          <div className='form-box'>
+{/*                           <div className='form-box'>
                             <label className="form-box__field" >
                               <span className='form-label'>
                                 Label
                               </span>
                               <input className="form-input" value={label} type="text" onChange={e => setLabel(e.target.value)} />
                             </label>
-                          </div>
+                          </div> */}
 
 
 
@@ -298,14 +311,14 @@ function TourEditPage(props) {
                             </label>
                           </div>
 
-                          <div className='form-box'>
+{/*                           <div className='form-box'>
                             <label className="form-box__field" >
                               <span className='form-label'>
                                 Country
                               </span>
                               <input className="form-input" value={country} type="text" onChange={e => setCountry(e.target.value)} />
                             </label>
-                          </div>
+                          </div> */}
 
                           <div className='form-box'>
                             <label className="form-box__field" >

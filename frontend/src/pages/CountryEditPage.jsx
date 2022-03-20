@@ -9,9 +9,9 @@ import '../components/Profile.css'
 import { USER_UPDATE_PROFILE_RESET } from "../redux/constants/userConstants";
 import Axios from "axios"
 
-import { createCategory } from "../redux/actions/categoryActions";
+import { createCountry } from "../redux/actions/countryActions";
 
-function CategoryEditPage(props) {
+function CountryEditPage(props) {
 
   const userSignIn = useSelector(state => state.userSignIn)
   const { userInfo } = userSignIn
@@ -19,14 +19,14 @@ function CategoryEditPage(props) {
   const [loadingUpload, setLoadingUpload] = useState(false)
   const [errorUpload, setErrorUpload] = useState('')
   const [image, setImage] = useState('')
-  const [categoryName, setCategoryName] = useState('')
-  const [categoryDesc, setCategoryDesc] = useState('')
-  const [categoryNameUpdate, setCategoryNameUpdate] = useState('')
-  const [categoryDescUpdate, setCategoryDescUpdate] = useState('')
+  const [countryName, setCountryName] = useState('')
+  const [countryDesc, setCountryDesc] = useState('')
+  const [countryNameUpdate, setCountryNameUpdate] = useState('')
+  const [countryDescUpdate, setCountryDescUpdate] = useState('')
 
-  const [currentIdCategory, setCurrentIdCategory] = useState('')
+  const [currentIdCountry, setCurrentIdCountry] = useState('')
 
-  const [deletedCategory, setDeletedCategory] = useState([])
+  const [deletedCountry, setDeletedCountry] = useState([])
 
   const [categories, setCategories] = useState('')
   const userDetails = useSelector(state => state.userDetails)
@@ -59,23 +59,22 @@ function CategoryEditPage(props) {
 
   const submitСategoryCreateHandler = (e) => {
     e.preventDefault();
-    dispatch(createCategory({
-      categoryName,
-      categoryDesc,
-      categoryImage: image
+    dispatch(createCountry({
+      countryName,
+      countryDesc,
+      countryImage: image
     }))
     getDataCategory()
   }
 
-  const submitСategoryUpdateHandler = async (category) => {
-    console.log(category.target.value)
-    const updatedCategory = {
-      categoryName : categoryNameUpdate,
-      categoryDesc : categoryDescUpdate,
-      categoryImage: image
+  const submitСategoryUpdateHandler = async (country) => {
+    const updatedCountry = {
+      countryName : countryNameUpdate,
+      countryDesc : countryDescUpdate,
+      countryImage: image
     }
-    category.preventDefault();
-    const { data } = await Axios.put(`/api/categories/${currentIdCategory}`, {updatedCategory}, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+    country.preventDefault();
+    const { data } = await Axios.put(`/api/country/${currentIdCountry}`, {updatedCountry}, { headers: { Authorization: `Bearer ${userInfo.token}` } })
     getDataCategory()
   }
 
@@ -104,23 +103,23 @@ function CategoryEditPage(props) {
     }
   }
 
-  const deleteHandler = async (category) => {
+  const deleteHandler = async (country) => {
     if (window.confirm('Are you sure to delete?')) {
-      const { data } = await Axios.delete(`/api/categories/${category._id}`, { headers: { Authorization: `Bearer ${userInfo.token}` } })
-      setDeletedCategory(arr => [...deletedCategory, category._id])
+      const { data } = await Axios.delete(`/api/country/${country._id}`, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+      setDeletedCountry(arr => [...deletedCountry, country._id])
     }
   }
 
-  const editCategoryHandler = (category) => {
-    setCategoryNameUpdate(category.categoryName)
-    setCategoryDescUpdate(category.categoryDesc)
-    setCurrentIdCategory(category._id)
+  const editCountryHandler = (country) => {
+    setCountryNameUpdate(country.countryName)
+    setCountryDescUpdate(country.countryDesc)
+    setCurrentIdCountry(country._id)
   }
 
   const getDataCategory = async () => {
-    const { data } = await Axios.get('/api/categories', { headers: { Authorization: `Bearer ${userInfo.token}` } })
-    console.log('category', data.categories)
-    setCategories(data.categories)
+    const { data } = await Axios.get('/api/country', { headers: { Authorization: `Bearer ${userInfo.token}` } })
+    console.log('category', data.country)
+    setCategories(data.country)
   }
 
   useEffect(() => {
@@ -137,7 +136,7 @@ function CategoryEditPage(props) {
             <div className='col-xs-12'>
               <div className='header_section'>
                 <h1 className='header_text_profile'>
-                  Categories page
+                  Country page
                 </h1>
               </div>
             </div>
@@ -145,7 +144,7 @@ function CategoryEditPage(props) {
 
           <div className="grid-cart-category">
             <section className="grid-main-column-cart">
-              <h1 className="head-text">Create category</h1>
+              <h1 className="head-text">Create country</h1>
               <div className="item-cart">
 
                 <form className='form_for_new_user' onSubmit={submitСategoryCreateHandler}>
@@ -163,26 +162,26 @@ function CategoryEditPage(props) {
 
                       <div className='form-box'>
                         <label className="form-box__field" >
-                          <span className='form-label'>
-                            Name category
+                           <span className='form-label'>
+                           The name of the country
                           </span>
-                          <input className="form-input" value={categoryName} onChange={e => setCategoryName(e.target.value)} type="text" />
+                          <input className="form-input" value={countryName} onChange={e => setCountryName(e.target.value)} type="text" />
                         </label>
                       </div>
 
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            Description category
+                           Country Description   
                           </span>
-                          <input className="form-input" value={categoryDesc} onChange={e => setCategoryDesc(e.target.value)} type="text" />
+                          <input className="form-input" value={countryDesc} onChange={e => setCountryDesc(e.target.value)} type="text" />
                         </label>
                       </div>
 
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            Category Image
+                           Country image
                           </span>
                           <input className="form-input" type="file" id="fileUpdate" onChange={uploadFileHandler} />
                           {loadingUpload && <LoadingBox></LoadingBox>}
@@ -205,53 +204,53 @@ function CategoryEditPage(props) {
 
 
 
-              <h1 className="head-text">Create category</h1>
+              <h1 className="head-text">Update country</h1>
               <div className="item-cart">
 
                 <form className='form_for_new_user' onSubmit={submitСategoryUpdateHandler}>
                   <>
                     {loadingUpdate && <LoadingBox></LoadingBox>}
-                    {errorUpdate && (
+     {/*                {errorUpdate && (
                       <MessageBox variant="danger">{errorUpdate}</MessageBox>
                     )}
                     {successUpdate && (
                       <MessageBox variant="success">
                         Profile Updated Successfully
                       </MessageBox>
-                    )}
+                    )} */}
                     <div className='row1'>
 
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            Id category
+                            Id country
                           </span>
-                          <input className="form-input" value={currentIdCategory} onChange={e => setCategoryNameUpdate(e.target.value)} type="text" />
+                          <input className="form-input" value={currentIdCountry} onChange={e => setCountryNameUpdate(e.target.value)} type="text" />
                         </label>
                       </div>
 
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            Name category
+                            Name country
                           </span>
-                          <input className="form-input" type="hidden" value={categoryNameUpdate} onChange={e => setCategoryNameUpdate(e.target.value)} type="text" />
+                          <input className="form-input" type="hidden"  value={countryNameUpdate} onChange={e => setCountryNameUpdate(e.target.value)}  type="text" />
                         </label>
                       </div>
 
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            Description category
+                            Description country
                           </span>
-                          <input className="form-input" value={categoryDescUpdate} onChange={e => setCategoryDescUpdate(e.target.value)} type="text" />
+                          <input className="form-input" value={countryDescUpdate} onChange={e => setCountryDescUpdate(e.target.value)} type="text" />
                         </label>
                       </div>
 
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            Category Image
+                            Country Image
                           </span>
                           <input className="form-input" type="file" id="fileUpdate" onChange={uploadFileHandler} />
                           {loadingUpload && <LoadingBox></LoadingBox>}
@@ -278,37 +277,37 @@ function CategoryEditPage(props) {
             </section>
 
             <section className="grid-checkout-column">
-              <h1 className="head-text">Table category</h1>
+              <h1 className="head-text">Сountry table</h1>
               <div className="item-cart">
                 <table className="table">
-                  <thead>
+                  <thead>     
                     <tr>
-                      <th>categoryName</th>
-                      <th>categoryDesc</th>
-                      <th>categoryImage</th>
+                      <th>countryName</th>
+                      <th>countryDesc</th>
+                      <th>countryImage</th>
                       <th>btn</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {categories && categories.filter(row => !deletedCategory.includes(row._id)).map(category => (
+                    {categories && categories.filter(row => !deletedCountry.includes(row._id)).map(country => (
                       /*           {categories && categories.map(category => ( */
-                      <tr key={category._id}>
-                        <td>{category.categoryName}</td>
-                        <td>{category.categoryDesc}</td>
-                        <td>{category.categoryImage}</td>
+                        <tr key={country._id}>
+                        <td>{country.countryName}</td>
+                        <td>{country.countryDesc}</td>
+                        <td>{country.countryImage}</td>
 
                         <td>
                           <button
                             type="button"
                             className="btn_details_admin"
-                            onClick={() => editCategoryHandler(category)}
+                            onClick={() => editCountryHandler(country)}
                           >
                             Edit
                           </button>
                           <button
                             type="button"
                             className="btn_details_admin"
-                            onClick={() => deleteHandler(category)}
+                            onClick={() => deleteHandler(country)}
                           >
                             Delete
                           </button>
@@ -329,4 +328,4 @@ function CategoryEditPage(props) {
   )
 }
 
-export default CategoryEditPage
+export default CountryEditPage

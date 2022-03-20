@@ -48,7 +48,8 @@ function TourCategoryPage(props) {
                 <div className='grid__section'>
                   <div className='grid__content__container'>
                     <div className='grid__content'>
-                      <h1 className='text-center'>
+                      <h1 className='text-center'> 
+                         {console.log('!!!!!!!!!!!!!!!!!', category && tours[0].categoryS.categoryDesc)}
                         {category && tours[0].categoryS.categoryDesc}
                         {country && country}
                         {city && city}

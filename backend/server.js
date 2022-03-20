@@ -7,6 +7,7 @@ const orderRouter = require('./routers/orderRouter')
 const uploadRouter = require('./routers/uploadRouter')
 const commentRouter = require('./routers/commentRouter')
 const categoryRouter = require('./routers/categoryRouter')
+const countryRouter = require('./routers/countryRouter')
 const path = require('path')
 
 const port = process.env.PORT || 5000
@@ -35,6 +36,7 @@ app.use('/api/orders', orderRouter)
 app.use('/api/uploads', uploadRouter)
 app.use('/api/comments', commentRouter)
 app.use('/api/categories', categoryRouter)
+app.use('/api/country', countryRouter)
 
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
