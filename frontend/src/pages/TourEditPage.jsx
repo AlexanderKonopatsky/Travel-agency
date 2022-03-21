@@ -127,6 +127,7 @@ function TourEditPage(props) {
 
 
     const listCountry2 = await Axios.get('/api/country/countryName')
+    console.log('listCountry2', listCountry2)
     const arrCountry = listCountry2.data.country.map(country => {
       return country.countryName
     })

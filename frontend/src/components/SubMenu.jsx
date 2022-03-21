@@ -25,7 +25,7 @@ const SubMenu = ({ item, list, path }) => {
             : null}
         </div>
       </Link>
-      {subnav &&
+      {subnav && list &&
         list.map((item, index) => {
           let href = `/${path}/${item}`
           return (

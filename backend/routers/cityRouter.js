@@ -41,7 +41,6 @@ cityRouter.post('/', isAuth, isAdmin, async (req, res) => {
      city.cityDesc = cityBody.cityDesc
      city.cityImage = cityBody.cityImage.length !== 0 ? cityBody.cityImage :  city.cityImage 
      if (idCountry) city.country = idCountry
-     console.log('cccccccccc', city)
      const updatedCity = await city.save()
      res.send({ message: 'City updated', city: updatedCity})
    } else {
@@ -64,6 +63,15 @@ cityRouter.post('/', isAuth, isAdmin, async (req, res) => {
    const city = await City.find({}).select('cityName')
    res.send({ city: city})
  })
+
+
+ cityRouter.get('/:cityName', async (req, res) => {
+   const cityName = req.params.cityName
+   const city = await City.findOne({'cityName': cityName})
+   console.log(city)
+   res.send({ city: city})
+})
+   
 
 module.exports = cityRouter
 
