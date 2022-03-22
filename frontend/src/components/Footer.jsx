@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector, useStore } from "react-redux";
 import { Button } from './Button'
 import './Footer.css'
 import { Link } from 'react-router-dom';
+import ChatBox from './ChatBox'
 
 function Footer() {
+
+   const userSignIn = useSelector(state => state.userSignIn)
+   const { userInfo } = userSignIn
+
   return (
     <div className='footer-container'>
       <section className='footer-subscription'>
@@ -24,6 +30,13 @@ function Footer() {
             <Button buttonStyle='btn--outline' text="Subscribe" />
           </form>
         </div>
+
+
+        <footer className="row center">
+         {userInfo && console.log('userInfo', userInfo)}
+          {userInfo && !userInfo.isAdmin && <ChatBox userInfo={userInfo} />}
+          <div>All right reserved</div>{' '}
+        </footer>
       </section>
 
       <section className='social-media'>

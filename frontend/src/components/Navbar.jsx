@@ -69,6 +69,10 @@ function Navbar(props) {
     props.history.push('/userList')
   }
 
+  const supportHandler = () => {
+    props.history.push('/support')
+  }
+  
   return (
 
     <>
@@ -171,6 +175,9 @@ function Navbar(props) {
                   </li>
                   <li className="li-navbar">
                     <button onClick={userListHandler} className="ul-user">Users</button>
+                  </li>
+                  <li className="li-navbar">
+                    <button onClick={supportHandler} className="ul-user">Support</button>
                   </li>
 
 
