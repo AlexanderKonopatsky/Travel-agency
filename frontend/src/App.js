@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector, useStore } from "react-redux";
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import Navbar from './components/Navbar'
 import ContactUs from './pages/ContactUs'
@@ -26,9 +27,13 @@ import SearchPage from './pages/SearchPage'
 import TourCategoryPage from './pages/TourCategoryPage'
 import AdvancedSearch from './pages/AdvancedSearch'
 import TourAdvanceSearchPage from './pages/TourAdvanceSearchPage'
-/* import CategoryEditPage from './pages/TourCategoryPage' */
+import SupportPage from './pages/SupportPage'
+import ChatBox from './components/ChatBox'
 
 function App() {
+   const userSignIn = useSelector(state => state.userSignIn)
+   const { userInfo } = userSignIn
+
   return (
       <Router>
         <Navbar></Navbar>
@@ -52,6 +57,7 @@ function App() {
           <AdminRoute path="/orderListAdmin" component={OrderListAdminPage}></AdminRoute>
           <AdminRoute path="/userList" component={UserListPage}></AdminRoute>
           <AdminRoute path="/user/:id/edit" component={UserEditPage}></AdminRoute>
+          <AdminRoute path="/support" component={SupportPage}></AdminRoute>
           <Route path="/orderHistory/list" exact component={OrderHistoryPage}/>
           <Route path="/category/:category" exact component={TourCategoryPage}/> 
           <Route path="/city/:city" exact component={TourCategoryPage}/> 
@@ -59,7 +65,9 @@ function App() {
           <Route path="/advancedSearch" exact component={AdvancedSearch}/> 
           <Route path="/advancedSearchPage" exact component={TourAdvanceSearchPage}/> 
         </Switch>
+
         <Footer></Footer>
+        
       </Router>
   )
 }

@@ -4,7 +4,7 @@ import { signIn } from "../redux/actions/userActions";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import '../components/SignUp.css'
-import Slider, { Range } from 'rc-slider';
+/* import Slider, { Range } from 'rc-slider'; */
 import 'rc-slider/assets/index.css';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
@@ -145,11 +145,11 @@ function AdvancedSearch(props) {
       
 
           <h1 class="fs-subtitle">Set a price range</h1>
-          <Range
+{/*           <Range
             defaultValue={[10, 100]}
             onChange={onSliderChangePrice}
             max={1000}
-          />
+          /> */}
           <h2 class="fs-subtitle">Range {sliderValuePriceFrom} - {sliderValuePriceTo} $</h2>
           <input type="button" name="previous" class="previous action-button" value="Previous" onClick={handlePrevStep} />
           <input type="button" name="next" class="next action-button" value="Next" onClick={handleNextStep} />
@@ -213,13 +213,13 @@ function AdvancedSearch(props) {
         <fieldset className={currentStep === 6 ? '' : 'hideFieldset'} >
           <h3 class="fs-subtitle">This is step 6</h3>
           <h2 class="fs-title">Сhoose a duration</h2>
-          <Slider
+ {/*          <Slider
             min={0}
             max={365}
             defaultValue={7}
             value={sliderValueDuration}
             onChange={onSliderChangeDuration}
-          />
+          /> */}
           <h2 class="fs-subtitle">Duration {sliderValueDuration} days</h2>
           <input type="button" name="previous" class="previous action-button" value="Previous" onClick={handlePrevStep} />
           <input type="button" name="next" class="next action-button" value="Next" onClick={handleNextStep} />
@@ -232,13 +232,13 @@ function AdvancedSearch(props) {
         <fieldset className={currentStep === 7 ? '' : 'hideFieldset'} >
           <h3 class="fs-subtitle">This is step 7</h3>
           <h2 class="fs-title">Choose a tour rating </h2>
-          <Slider
+{/*           <Slider
             min={0}
             max={50}
 
             value={sliderValueRating}
             onChange={onSliderChangeRating}
-          />
+          /> */}
           <Rating rating={sliderValueRating / 10} />
           <input type="button" name="previous" class="previous action-button" value="Previous" onClick={handlePrevStep} />
           <input type="submit" name="submit" class="submit action-button" value="Submit" onClick={submitHandler} />
