@@ -14,11 +14,15 @@ cityRouter.get('/', async (req, res) => {
 
 cityRouter.post('/', isAuth, isAdmin, async (req, res) => {
    let idCountry = await Country.findOne({countryName:  req.body.city.country})
+   let reqBody = req.body.city
+   console.log(req.body.city)
    const city = new City({
-     cityName: req.body.city.cityName,
-     cityDesc: req.body.city.cityDesc,
-     cityImage: req.body.city.cityImage,
-     country: idCountry
+     cityName: reqBody.cityName,
+     cityDesc: reqBody.cityDesc,
+     cityImage: reqBody.cityImage,
+     country: idCountry,
+     lon: reqBody.lon,
+     lat: reqBody.lat
    })
 
    const createdCity = await city.save()
@@ -30,16 +34,16 @@ cityRouter.post('/', isAuth, isAdmin, async (req, res) => {
    const cityId = req.params.id
    const city = await City.findById(cityId)
    const cityBody = req.body.updatedCity
- /*   let idCountry = await Country.findOne({countryName:  req.body.city.country}) */
-  console.log('updatedCity', cityBody)
-  let idCountry
-  if (cityBody.country !== '') {
-    idCountry = await Country.findOne({countryName:  cityBody.country})
-  }
+   let idCountry
+   if (cityBody.country !== '') {
+     idCountry = await Country.findOne({countryName:  cityBody.country})
+   }
    if (city) {
      city.cityName = cityBody.cityName
      city.cityDesc = cityBody.cityDesc
      city.cityImage = cityBody.cityImage.length !== 0 ? cityBody.cityImage :  city.cityImage 
+     city.lon = cityBody.lon
+     city.lat = cityBody.lat
      if (idCountry) city.country = idCountry
      const updatedCity = await city.save()
      res.send({ message: 'City updated', city: updatedCity})

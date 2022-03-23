@@ -156,6 +156,8 @@ function TourEditPage(props) {
     dispatch({ type: TOUR_DETAILS_RESET })
   }
 
+
+
   useEffect(() => {
     getData()
     dispatch({ type: TOUR_UPDATE_RESET })
@@ -386,6 +388,14 @@ function TourEditPage(props) {
                           <button className='btn_auth' type="submit" onClick={backHandler} >
                             RETURN TO THE LIST OF TOURS
                           </button>
+
+                        <button className='btn_auth' type="submit" onClick={backHandler} >
+                            RETURN TO THE LIST OF TOURS
+                        </button>
+
+
+
+
                         </>)
                     }
 

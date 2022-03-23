@@ -26,14 +26,31 @@ function CityEditPage(props) {
   const [cityDesc, setCityDesc] = useState('')
   const [cityNameUpdate, setCityNameUpdate] = useState('')
   const [cityDescUpdate, setCityDescUpdate] = useState('')
+  const [cityCoordinateUpdate, setCityCoordinateUpdate] = useState('')
+  const [cityCoordinateUpdate1, setCityCoordinateUpdate1] = useState('')
+  const [cityCoordinateUpdate2, setCityCoordinateUpdate2] = useState('')
   const [cityCountryUpdate, setCityCountryUpdate] = useState('')
   const [listCountry, setListCountry] = useState('')
   const [country, setCountry] = useState('')
   const [currentIdCity, setCurrentIdCity] = useState('')
   const [deletedCity, setDeletedCity] = useState([])
   const [categories, setCategories] = useState('')
+  const [coordinates, setCoordinates] = useState('')
   const userDetails = useSelector(state => state.userDetails)
 
+
+  const getCoordinate = async () => {
+   if (cityName){
+      let getCoordinate = await Axios.get(`https://geocode-maps.yandex.ru/1.x/?apikey=${process.env.REACT_APP_API_KEY_YANDEX_MAPS}&format=json&geocode=${cityName}&results=1`)
+      getCoordinate = getCoordinate.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos
+      let splits = getCoordinate.split(' ')
+      setCoordinates(splits)
+      console.log(splits)
+   } else {
+      setCoordinates(['-', '-'])
+   }
+
+}
 
   const getData = async () => {
    const listCountry = await Axios.get('/api/country/countryName')
@@ -61,7 +78,9 @@ function CityEditPage(props) {
       cityName,
       cityDesc,
       cityImage: image, 
-      country
+      country,
+      lon: coordinates[0],
+      lat: coordinates[1]
     }))
     getDataCategory()
   }
@@ -74,7 +93,9 @@ function CityEditPage(props) {
       cityName : cityNameUpdate,
       cityDesc : cityDescUpdate,
       cityImage: image,
-      country:  country 
+      country:  country,
+      lon: cityCoordinateUpdate1,
+      lat: cityCoordinateUpdate2
     }
     city.preventDefault();
     const { data } = await Axios.put(`/api/city/${currentIdCity}`, {updatedCity}, { headers: { Authorization: `Bearer ${userInfo.token}` } })
@@ -87,6 +108,7 @@ function CityEditPage(props) {
    setCityDescUpdate(city.cityDesc)
    setCurrentIdCity(city._id)
    setCityCountryUpdate(city.country.countryName)
+   setCityCoordinateUpdate([city.lon, city.lat])
  }
 
 
@@ -139,6 +161,11 @@ function CityEditPage(props) {
     getData()
   }, [])
 
+
+  const divStyle = {
+   overflow: 'hidden'
+ };
+
   return (
     <>
       <div className="cartSection">
@@ -149,7 +176,7 @@ function CityEditPage(props) {
             <div className='col-xs-12'>
               <div className='header_section'>
                 <h1 className='header_text_profile'>
-                  City page
+                  Страница создания и редактирования городов
                 </h1>
               </div>
             </div>
@@ -157,7 +184,7 @@ function CityEditPage(props) {
 
           <div className="grid-cart-category">
             <section className="grid-main-column-cart">
-              <h1 className="head-text">Create city</h1>
+              <h1 className="head-text">Создание города</h1>
               <div className="item-cart">
 
                 <form className='form_for_new_user' onSubmit={submitСategoryCreateHandler}>
@@ -173,19 +200,34 @@ function CityEditPage(props) {
                     )} */}
                     <div className='row1'>
 
-                      <div className='form-box'>
+<div>
+                      <div >
                         <label className="form-box__field" >
                            <span className='form-label'>
-                           The name of the city
+                           Название города
                           </span>
                           <input className="form-input" value={cityName} onChange={e => setCityName(e.target.value)} type="text" />
                         </label>
                       </div>
 
+                      <div >
+                        <label className="form-box__field" >
+                           <span className='form-label'>
+                          Долгота и широта <button  className='btn_coordinate' onClick={getCoordinate}>Получить координаты</button> 
+                          </span>
+                          <div style={divStyle}>
+                           <input  className="form-input-coordinate" value={coordinates  && coordinates[0]}  type="text" />
+                            <input className="form-input-coordinate" value={coordinates  && coordinates[1]}  type="text" />
+                          </div>
+                         
+                        </label>
+                      </div>
+                      </div>
+
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                           City Description   
+                           Описание города
                           </span>
                           <input className="form-input" value={cityDesc} onChange={e => setCityDesc(e.target.value)} type="text" />
                         </label>
@@ -206,7 +248,7 @@ function CityEditPage(props) {
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                           Country   
+                           Страна
                           </span>
                           <div>
                                 <Dropdown type="text" options={listCountry && listCountry}  onChange={changeCountryHandler} placeholder="Select an option" />
@@ -219,7 +261,7 @@ function CityEditPage(props) {
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                           City image
+                           Изображение города
                           </span>
                           <input className="form-input" type="file" id="fileUpdate" onChange={uploadFileHandler} />
                           {loadingUpload && <LoadingBox></LoadingBox>}
@@ -230,7 +272,7 @@ function CityEditPage(props) {
                       </div>
 
                       <button className='btn_auth' type="submit" >
-                        Create
+                        Создать
                       </button>
                     </div>
 
@@ -242,7 +284,7 @@ function CityEditPage(props) {
 
 
 
-              <h1 className="head-text">Update city</h1>
+              <h1 className="head-text">Обновление города</h1>
               <div className="item-cart">
 
                 <form className='form_for_new_user' onSubmit={submitСategoryUpdateHandler}>
@@ -261,7 +303,7 @@ function CityEditPage(props) {
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            Id city
+                            Id города
                           </span>
                           <input className="form-input" value={currentIdCity} onChange={e => setCityNameUpdate(e.target.value)} type="text" />
                         </label>
@@ -270,16 +312,30 @@ function CityEditPage(props) {
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            Name city
+                            Название города
                           </span>
                           <input className="form-input" type="hidden"  value={cityNameUpdate} onChange={e => setCityNameUpdate(e.target.value)}  type="text" />
                         </label>
                       </div>
 
+                      <div >
+                        <label className="form-box__field" >
+                           <span className='form-label'>
+                          Долгота и широта 
+                          </span>
+                          <div style={divStyle}>
+                           <input  className="form-input-coordinate" value={cityCoordinateUpdate[0]} onChange={e => setCityCoordinateUpdate1(e.target.value)}  type="text" />
+                            <input className="form-input-coordinate" value={cityCoordinateUpdate[1]} onChange={e => setCityCoordinateUpdate2(e.target.value)}  type="text" />
+                          </div>
+                         
+                        </label>
+                      </div>
+                      
+
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                           Country   
+                           Страна   
                           </span>
                           <div>
                                 <Dropdown type="text" options={listCountry && listCountry} value={cityCountryUpdate} onChange={changeCountryHandler} placeholder="Select an option" />
@@ -290,7 +346,7 @@ function CityEditPage(props) {
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            Description city
+                            Описание города
                           </span>
                           <input className="form-input" value={cityDescUpdate} onChange={e => setCityDescUpdate(e.target.value)} type="text" />
                         </label>
@@ -299,7 +355,7 @@ function CityEditPage(props) {
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            City Image
+                           Изображение города
                           </span>
                           <input className="form-input" type="file" id="fileUpdate" onChange={uploadFileHandler} />
                           {loadingUpload && <LoadingBox></LoadingBox>}
@@ -310,7 +366,7 @@ function CityEditPage(props) {
                       </div>
 
                       <button className='btn_auth' type="submit" >
-                        UPDATE
+                        Обновать
                       </button>
                     </div>
 
@@ -326,16 +382,17 @@ function CityEditPage(props) {
             </section>
 
             <section className="grid-checkout-column">
-              <h1 className="head-text">Сountry table</h1>
+              <h1 className="head-text">Таблица городов</h1>
               <div className="item-cart">
                 <table className="table">
                   <thead>     
                     <tr>
-                      <th>cityName</th>
-                      <th>cityDesc</th>
-                      <th>cityImage</th>
-                      <th>country</th>
-                      <th>btn</th>
+                      <th>Название города</th>
+                      <th>Описание города</th>
+                      <th>Изображение города</th>
+                      <th>Страна</th>
+                      <th>координаты</th>
+                      <th>Кнопка</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -346,7 +403,8 @@ function CityEditPage(props) {
                         <td>{city.cityDesc}</td>
                         <td>{city.cityImage}</td>
                         <td>{city.country.countryName}</td>
-
+                        <td>{city.lon}  -  {city.lat}</td>
+                        
                         <td>
                           <button
                             type="button"

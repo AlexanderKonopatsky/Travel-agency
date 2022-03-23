@@ -6,6 +6,8 @@ const citySchema = new Schema({
   cityDesc: { type: String, required: true },
   cityImage: { type: String, required: true },
   country: { type: Schema.Types.ObjectId, ref: 'Country', required: true },
+  lon: { type: Number, required: false }, //долгота
+  lat: { type: Number, required: false }, //ширина
   }
 )
 
