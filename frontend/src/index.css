@@ -914,3 +914,26 @@ body {
 
    margin: 10px 10px 21px -81px;
  }
+
+
+ .btn_coordinate {
+   background-color: #126472;
+   border: 3px solid #013d48;
+   border-radius: 4px;
+   color: white;
+   font-family: "Proxima Nova", Sans-Serif;
+   letter-spacing: 0.1em;
+   text-transform: uppercase;
+   -webkit-appearance: none;
+   appearance: none;
+   cursor: pointer;
+   display: inline-block;
+   font-size: 12px;
+   font-weight: bold;
+   margin: 0;
+   padding: 12px 40px;
+   margin-right: 10px;
+   text-align: center;
+   text-decoration: none;
+   width: 270px;
+ }

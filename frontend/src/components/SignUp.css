@@ -192,6 +192,22 @@ textarea {
   font-family: "Proxima Nova", Sans-Serif;
 }
 
+.form-input-coordinate {
+   border: 0.5px solid #a6a6a6;
+   border-radius: 2px;
+   background-color: #fafafa;
+   color: #1a1a1a;
+   overflow: hidden;
+   font-size: 22px;
+   font-weight: normal;
+   height: 54px;
+   letter-spacing: -0.1px;
+   padding: 0 15px;
+   float: left; width: 100px;
+   font-family: "Proxima Nova", Sans-Serif;
+   width: 50%;
+ }
+
 .form-input-textarea {
   width: 100%;
   font-size: 22px;
