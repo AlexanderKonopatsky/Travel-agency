@@ -25,8 +25,7 @@ function TourCategoryPage(props) {
    const tourListByCategory = useSelector(state => state.tourListByCategory)
    const { loading, error, tours, page, pages } = tourListByCategory
 
-   //console.log('params', searchType,  props.match.params.city, props.match.params.country, props.match.params.category, props.match.params)
-   console.log('///', props.location.pathname.indexOf('country'))
+
 
 
 
@@ -76,7 +75,6 @@ function TourCategoryPage(props) {
                            <div className='grid__content__container'>
                               <div className='grid__content'>
                                  <h1 className='text-center'>
-                                    {console.log( searchInfo )}
                                  {searchInfo && searchInfo.cityName && searchInfo.cityName}
                                  {searchInfo && searchInfo.countryName && searchInfo.countryName}
                                  {searchInfo && searchInfo.categoryName && searchInfo.categoryName}
@@ -108,32 +106,6 @@ function TourCategoryPage(props) {
                            </div>
                         </div>
                      </div>
-
-
-
-                     {/*               <div className='grid'>
-                <div className='grid__section'>
-                  <div className='grid__content__container'>
-                    <div className='grid__content'>
-                      <h1 className='text-center'> 
-                        {searchInfo && searchInfo.countryDesc}
-                        {searchInfo && searchInfo.cityDesc}
-                         {console.log('!!!!!!!!!!!!!!!!!', searchInfo)}
-                        {category && tours[0].categoryS.categoryDesc}
-                        {country && country}
-                        {city && city}
-                      </h1>
-                    </div>
-                  </div>
-                </div>
-                <div className='grid__section '>
-                  <div className='grid__wrap'>
-                    <button className='grid__gallery-button' >
-                      {category && <img alt="" className="grid__image" src={tours[0].categoryS.categoryImage} /> }
-                    </button>
-                  </div>
-                </div>
-              </div> */}
 
 
                      <div className="card_container">

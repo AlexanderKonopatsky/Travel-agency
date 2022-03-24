@@ -12,14 +12,12 @@ countryRouter.get('/', async (req, res) => {
 
 countryRouter.get('/search/:countryName', async (req, res) => {
    const countryName = req.params.countryName
-   console.log('/countryNam2e')
    const country = await Country.findOne({'countryName': countryName})
    res.send({ country: country})
 })
    
 countryRouter.get('/countryName', async (req, res) => {
    const country = await Country.find({}).select('countryName')
-   console.log('/countryName')
    res.send({ country: country})
  })
 
@@ -30,7 +28,6 @@ countryRouter.post('/', isAuth, isAdmin, async (req, res) => {
      countryDesc: req.body.country.countryDesc,
      countryImage: req.body.country.countryImage
    })
-   console.log(country  )
    const createdCountry = await country.save()
    res.send({ message: 'Country created', country: createdCountry})
  })

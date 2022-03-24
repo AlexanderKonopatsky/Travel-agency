@@ -50,10 +50,6 @@ export function Form(props) {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(city || listCity[0])
-    console.log(startDate)
-    console.log(endDate)
-    console.log(count)
     history.push(`/advancedSearchPage?city=${city || listCity[0]}&count=${count}`)
   }
 
@@ -69,7 +65,6 @@ export function Form(props) {
         <div className="booking">
           <div className="booking__section">
             <div className="booking__section__top_city">
-              {console.log('listCity', listCity)}
               <Dropdown type="text" options={listCity && listCity} value={listCity && listCity[0]} onChange={changeCityHandler} placeholder="Select an option" />
             </div>
             <div className="booking__section__bottom">

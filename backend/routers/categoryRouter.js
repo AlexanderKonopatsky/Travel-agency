@@ -17,9 +17,7 @@ categoryRouter.get('/categoryName', async (req, res) => {
 
 categoryRouter.get('/:categoryName', async (req, res) => {
    const categoryName = req.params.categoryName
-   console.log('/////', categoryName)
    const category = await Category.findOne({'categoryName': categoryName})
-   console.log(category)
    res.send({ category: category})
 })
 

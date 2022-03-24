@@ -68,7 +68,6 @@ function CategoryEditPage(props) {
   }
 
   const submitСategoryUpdateHandler = async (category) => {
-    console.log(category.target.value)
     const updatedCategory = {
       categoryName : categoryNameUpdate,
       categoryDesc : categoryDescUpdate,

@@ -34,7 +34,7 @@ const getCoordinate = async () => {
    let getCoordinate = await Axios.get(`https://geocode-maps.yandex.ru/1.x/?apikey=${process.env.REACT_APP_API_KEY_YANDEX_MAPS}&format=json&geocode=Минск&results=1`)
    getCoordinate = getCoordinate.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos
    let splits = getCoordinate.split(' ')
-   console.log(splits)
+
 }
 
 function ClustererCreate (props) {

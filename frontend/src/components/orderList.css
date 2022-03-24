@@ -3,7 +3,7 @@
   border-collapse: collapse;
   background-color: white;
   word-wrap:break-word;
-  table-layout: fixed;
+/*   table-layout: fixed; */
 }
 .table tbody tr:nth-of-type(odd) {
   background-color: #f4f4f4;

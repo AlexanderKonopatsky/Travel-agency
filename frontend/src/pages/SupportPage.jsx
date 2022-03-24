@@ -156,7 +156,7 @@ export default function SupportPage() {
                         <div className="row top full-container">
 
                            <div className="col-1 support-users">
-     {/*                          {users && console.log('users', users, 'userInfo', userInfo)} */}
+
                               {/* Проверить есть ли юзеры онлайн */}
                               {users.filter(x => x._id !== userInfo._id).length === 0 && (
                                  <MessageBox>No Online User Found</MessageBox>

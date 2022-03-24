@@ -60,7 +60,6 @@ userRouter.post('/signin', async (req, res) => {
 
 userRouter.post('/signUp', async (req, res) => {
   const user = await User.findOne({ email: req.body.email})
-  console.log(user)
   if (!user) {
     const user = new User({
       firstName: req.body.firstName,

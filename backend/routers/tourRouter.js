@@ -12,15 +12,11 @@ const ObjectId = require('mongodb').ObjectID;
 tourRouter.get('/cityInTheCountry', async (req, res) => {
    const country = req.query.country
    let countryId = await Country.findOne({countryName : country}).select('_id')
-   console.log('countryId', countryId._id)
    const ddd = await City.find({country : countryId._id}).select('cityName')
-   console.log('ddd', ddd)
    let countryList = []
     ddd.forEach(item => {
-      console.log('item', item)
       countryList.push(item.cityName)
    })
-   console.log(countryList)
    res.send(countryList)
   
  })
@@ -96,7 +92,7 @@ tourRouter.get('/city', async (req, res) => {
 })
 
 tourRouter.get('/:id', async (req, res) => {
-  const tour = await Tour.findById(req.params.id).populate('comments.user').populate('categoryS')
+  const tour = await Tour.findById(req.params.id).populate('comments.user').populate('categoryS cityT')
   if (tour) {
     res.send(tour)
   } else {
@@ -130,6 +126,7 @@ tourRouter.post('/', isAuth, isAdmin, async (req, res) => {
 
 tourRouter.put('/:id', isAuth, isAdmin, async (req, res) => {
   const categoryFrom = await Category.findOne({categoryName: req.body.category})
+  const city = await City.findOne({cityName: req.body.city})
   const tourId = req.params.id
   const tour = await Tour.findById(tourId)
   if (tour) {
@@ -142,6 +139,7 @@ tourRouter.put('/:id', isAuth, isAdmin, async (req, res) => {
     tour.price = req.body.price;
     tour.country = req.body.country;
     tour.city = req.body.city;
+    tour.cityT = city._id;
     tour.imageGallery = req.body.uploadedImage.length !== 0 ? req.body.uploadedImage : tour.imageGallery,
     tour.categoryS = categoryFrom._id
     const updatedTour = await tour.save()

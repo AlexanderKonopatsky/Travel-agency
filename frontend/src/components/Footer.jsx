@@ -33,7 +33,6 @@ function Footer() {
 
 
         <footer className="row center">
-         {userInfo && console.log('userInfo', userInfo)}
           {userInfo && !userInfo.isAdmin && <ChatBox userInfo={userInfo} />}
           <div>All right reserved</div>{' '}
         </footer>
