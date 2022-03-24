@@ -1,6 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const dotenv = require('dotenv')
+require("dotenv").config();
 const userRouter = require('./routers/userRouter')
 const tourRouter = require('./routers/tourRouter')
 const orderRouter = require('./routers/orderRouter')
@@ -13,6 +13,7 @@ const attractionRouter = require('./routers/attractionRouter')
 const path = require('path')
 const http = require('http')
 const Server  = require('socket.io')
+const mailer = require('./emails/nodemailer')
 
 
 const port = process.env.PORT || 5000
@@ -20,7 +21,6 @@ const port = process.env.PORT || 5000
 const MONGODB_URL1 = `mongodb+srv://alexander:alexander321@cluster0.wizkj.mongodb.net/TourAgency?retryWrites=true&w=majority`
 const MONGODB_URL2 = 'mongodb://localhost/TourAgency'
 
-dotenv.config()
 
 const app = express()
 app.use(express.json())
@@ -131,5 +131,12 @@ app.use((err, req, res, next) => {
 })
 
 httpServer.listen(port, () => {
+   const message = {
+      
+      to: 'alexander.prk7@gmail.com',
+      subject: 'Test',
+      text: 'Congatulations'
+   }
+   mailer(message)
    console.log(`http://localhost:${port}/`)
  })

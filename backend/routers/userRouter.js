@@ -5,28 +5,8 @@ const { generateJsonToken } = require('../utils')
 const { isAuth, isAdmin } = require('../middleware/utils')
 
 const userRouter = express.Router()
-const regEmail = require('../emails/registration')
-/* const nodemailer = require('nodemailer') */
 
-/* var api_key = '7005f37e-28b69f03';
-var domain = 'sandboxmail.mailgun.org';
-var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain}); */
-/* 
-const smtpTransport = nodemailer.createTransport({
-  host: 'smtp-relay.sendinblue.com',
-  port: 587,
-  auth: {
-      user: process.env.USER_SENDINBLUE, 
-      pass: process.env.PASSWORD_SENDINBLUE
-  }
-})
- */
-/* const mailgun = () =>
-  mg({
-      : process.env.MAILGUN_API_KEY,
-    domain: process.env.MAILGUN_DOMIAN,
-  });
- */
+
 
 
 userRouter.get('/seed', async (req, res) => {
