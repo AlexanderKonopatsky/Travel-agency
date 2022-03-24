@@ -42,7 +42,6 @@ function SignUp(props) {
   const firstNameHandler = (e) => {
     setFirstName(e.target.value)
     if (e.target.value.length > 25 || e.target.value.length < 3) {
-      console.log('errorrrrr lenngngn')
       setErrorFirstName('First name length from 3 to 25 characters')
       if (!e.target.value)
         setErrorFirstName('First name cannot be empty')
@@ -97,7 +96,6 @@ function SignUp(props) {
   }
 
   const blurHandler = (e) => {
-    console.log(e.target.name)
     switch (e.target.name) {
       case 'firstname':
         setDirtyFirstName(true)

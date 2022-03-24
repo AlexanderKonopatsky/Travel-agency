@@ -74,12 +74,7 @@ function AdvancedSearch(props) {
 
   const dispatch = useDispatch()
 
-/*   useEffect(() => {
-    if(Object.keys(obj).length) {
-      
-    }
 
-  }, [dispatch, obj]) */
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -87,12 +82,10 @@ function AdvancedSearch(props) {
     const countryValue = country || listCountry[0] 
     const cityValue = city || listCity[0]
     const ratingValue = sliderValueRating / 10
-    console.log('!Object.keys(obj).length', Object.keys(obj).length)
     const object = {
       startDate, endDate, sliderValuePriceFrom, sliderValuePriceTo, categoryValue, countryValue, cityValue, sliderValueDuration, ratingValue, pageNumber: 1
     }
     props.history.push(`/advancedSearchPage?priceFrom=${object.sliderValuePriceFrom}&priceTo=${object.sliderValuePriceTo}&category=${object.categoryValue}&country=${object.countryValue}&city=${object.cityValue}&duration=${object.sliderValueDuration}&rating=${object.ratingValue}&startDate=${object.startDate}&endDate=${object.endDate}`)
-    console.log('!Object.keys(obj).length', Object.keys(obj).length)
     
   }
 

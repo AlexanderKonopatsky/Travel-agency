@@ -15,7 +15,6 @@ cityRouter.get('/', async (req, res) => {
 cityRouter.post('/', isAuth, isAdmin, async (req, res) => {
    let idCountry = await Country.findOne({countryName:  req.body.city.country})
    let reqBody = req.body.city
-   console.log(req.body.city)
    const city = new City({
      cityName: reqBody.cityName,
      cityDesc: reqBody.cityDesc,
@@ -72,7 +71,6 @@ cityRouter.post('/', isAuth, isAdmin, async (req, res) => {
  cityRouter.get('/:cityName', async (req, res) => {
    const cityName = req.params.cityName
    const city = await City.findOne({'cityName': cityName})
-   console.log(city)
    res.send({ city: city})
 })
    

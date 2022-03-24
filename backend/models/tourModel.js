@@ -1,17 +1,7 @@
 const { Schema, model } = require('mongoose')
 
 
-const commentsSchema = new Schema(
-  {
-    user: { type: Schema.Types.ObjectId, ref: 'Users', required: true },
-    comment: { type: String, required: true },
-    rating: { type: Number, required: false },
-    isActive: { type: Boolean, default: true, required: false },
-  },
-  {
-    timestamps: true,
-  }
-);
+
 
 
 const categorySchema = new Schema(
@@ -20,6 +10,30 @@ const categorySchema = new Schema(
     description: { type: String, required: true },
   }
 )
+
+
+const commentsSchema = new Schema(
+   {
+     user: { type: Schema.Types.ObjectId, ref: 'Users', required: true },
+     comment: { type: String, required: true },
+     rating: { type: Number, required: false },
+     isActive: { type: Boolean, default: true, required: false },
+   },
+   {
+     timestamps: true,
+   }
+ )
+
+ const attractionSchema = new Schema(
+   {
+     titleAttraction: { type: String, required: true },
+     descAttraction: { type: String, required: false },
+     imageAttraction: { type: String, required: true },
+     adressAttraction: { type: String, required: true },
+     lon: { type: Number, required: false }, //долгота
+     lat: { type: Number, required: false }, //ширина
+   }
+ )
 
 const tourSchema = new Schema(
   {
@@ -34,7 +48,9 @@ const tourSchema = new Schema(
     numReviews: { type: Number, required: true },
     country: { type: String, required: true },
     city: { type: String, required: false },
+    cityT: { type: Schema.Types.ObjectId, ref: 'City', required: false },
     comments: [commentsSchema],
+    attractions: [attractionSchema],
     categoryS: { type: Schema.Types.ObjectId, ref: 'Сategories', required: false },
     imageGallery: [
       {

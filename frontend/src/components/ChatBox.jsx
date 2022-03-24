@@ -42,7 +42,6 @@ export default function ChatBox(props) {
 
    const supportHandler = () => {
       setIsOpen(true);
-      console.log(ENDPOINT);
       const sk = socketIOClient(ENDPOINT);
       setSocket(sk);
    };
@@ -52,8 +51,6 @@ export default function ChatBox(props) {
          alert('Error. Please type message.');
       } else {
          setMessages([...messages, { body: messageBody, name: userInfo.firstName,  lastName: userInfo.lastName, }]);
-         console.log(userInfo)
-         console.log([...messages, { body: messageBody, name: userInfo.firstName,  lastName: userInfo.lastName, }])
          setMessageBody('');
          setTimeout(() => {
             socket.emit('onMessage', {

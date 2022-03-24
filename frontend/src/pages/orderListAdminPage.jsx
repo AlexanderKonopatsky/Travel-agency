@@ -4,7 +4,6 @@ import { listOrderAdmin, deleteOrder } from "../redux/actions/orderActions";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import '../components/orderList.css'
-import { ORDER_DELETE_RESET } from '../redux/constants/orderConstants'
 
 function OrderListAdminPage(props) {
   const [deletedOrder, setDeletedOrder] = useState([])
@@ -17,20 +16,12 @@ function OrderListAdminPage(props) {
   const dispatch = useDispatch()
 
   useEffect(() => {
-/*     if (successDelete) {
-      dispatch({ type: ORDER_DELETE_RESET })
-    } */
     dispatch(listOrderAdmin())
   }, [dispatch])
 
   const deleteHandler = (order) => {
     if (window.confirm('Are you sure to delete?')) {
       dispatch(deleteOrder(order._id))
-/*       setTimeout(() => { 
-        setDeletedOrder(arr => [...deletedOrder, order._id])
-        console.log(deletedOrder)
-      }, 100) */
-      
       setDeletedOrder(arr => [...deletedOrder, order._id])
     }
   }

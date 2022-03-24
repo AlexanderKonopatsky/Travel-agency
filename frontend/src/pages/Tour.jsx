@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import Axios from "axios"
 import Rating from '../components/rating'
 import { commentUpdateStatus } from '../redux/actions/tourActions'
-import { YMaps, Map, Clusterer, Placemark, FullscreenControl, GeolocationControl, TypeSelector, ZoomControl, Panorama } from 'react-yandex-maps';
+import { YMaps, Map, Clusterer, Placemark, FullscreenControl, GeolocationControl, TypeSelector, ZoomControl, Panorama, ListBox, ListBoxItem } from 'react-yandex-maps';
 import '../../node_modules/react-image-gallery/styles/css/image-gallery.css'
 
 import ImageGallery from 'react-image-gallery'
@@ -35,6 +35,25 @@ const images = [
 ];
 
 
+const cities = [
+   {
+      data: { content: 'Saint-Petersburg' },
+      options: { selectOnClick: false },
+      coords: [59.93863, 30.31413],
+   },
+   {
+      data: { content: 'Dzerzhinsky' },
+      options: { selectOnClick: false },
+      coords: [55.630527, 37.849046],
+   },
+   {
+      data: { content: 'Moscow' },
+      options: { selectOnClick: false },
+      coords: [55.753559, 37.609218],
+   },
+];
+
+
 function Tour(props) {
    const dispatch = useDispatch()
    const tourId = props.match.params.id
@@ -48,6 +67,7 @@ function Tour(props) {
    const [commentsCreated, setCommentsCreated] = useState(false);
    const [deletedComment, setDeletedComment] = useState([])
    const [arrayImageTour, setArrayImageTour] = useState([])
+   const [centerMap, setCenterMap] = useState({})
    let [numComments, setNumComments] = useState('')
 
    const tourDetails = useSelector(state => state.tourDetails)
@@ -66,6 +86,10 @@ function Tour(props) {
       setEndDate(end);
    };
 
+   const onItemClick = coords => {
+      setCenterMap({ center: coords });
+    };
+
 
    const getComments = async (tourId) => {
       const tourInfo = await Axios.get(`/api/tours/${tourId}`)
@@ -82,7 +106,6 @@ function Tour(props) {
    const submitHandler = (e) => {
       e.preventDefault();
       if (comment && rating) {
-         console.log(comment.length)
          if (comment.length < 5000) {
             dispatch(
                commentCreate(tourId, { comment, rating, user: userInfo._id })
@@ -113,6 +136,12 @@ function Tour(props) {
       if (tour) {
          tour.imageGallery.forEach(e => { let obj = { original: e, thumbnail: e }; newA.push(obj) })
          setArrayImageTour(newA)
+         let objState = {
+            center: [tour.cityT.lat, tour.cityT.lon],
+            zoom: 10,
+            behaviors: ['default', 'scrollZoom']
+         }
+         setCenterMap(objState)
       }
 
 
@@ -156,7 +185,7 @@ function Tour(props) {
 
    const getPointData = index => {
       return {
-         balloonContentBody: 'placemark <strong>balloon ' + index + '</strong>',
+         balloonContentBody: `placemark <strong>balloon  ${index} </strong> <img alt="" className="grid__image" src=${tour.image} />`,
          clusterCaption: 'placemark <strong>' + index + '</strong>',
       };
    };
@@ -261,7 +290,7 @@ function Tour(props) {
 
                                     <YMaps query={{ apikey: process.env.REACT_APP_API_KEY_YANDEX_MAPS }}>
                                        <Map width='100%'
-                                          height='500px' state={mapState}>
+                                          height='500px' state={centerMap && centerMap}>
                                           <Clusterer
                                              options={{
                                                 preset: 'islands#invertedVioletClusterIcons',
@@ -282,6 +311,16 @@ function Tour(props) {
 
                                              }
                                           </Clusterer>
+                                          <ListBox data={{ content: 'Choose city' }} options={{ float: 'right' }}>
+                                             {cities.map(city =>
+                                                <ListBoxItem
+                                                   data={city.data}
+                                                   options={city.options}
+                                                   onClick={() => onItemClick(city.coords)}
+                                                   key={city.data.content}
+                                                />
+                                             )}
+                                          </ListBox>
                                           <FullscreenControl />
                                           <GeolocationControl options={{ float: 'left' }} />
                                           <TypeSelector options={{ float: 'right' }} />
@@ -298,7 +337,7 @@ function Tour(props) {
                                     <ImageGallery items={arrayImageTour} />
 
 
-        
+
 
 
 
