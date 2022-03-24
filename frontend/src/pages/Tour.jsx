@@ -11,11 +11,28 @@ import { Link } from 'react-router-dom';
 import Axios from "axios"
 import Rating from '../components/rating'
 import { commentUpdateStatus } from '../redux/actions/tourActions'
-import { SliderData } from '../components/SliderData';
-import ImageSlider from "../components/ImageSlider"
-import { YMaps, Map, Clusterer, Placemark, FullscreenControl, GeolocationControl, TypeSelector, ZoomControl } from 'react-yandex-maps';
+import { YMaps, Map, Clusterer, Placemark, FullscreenControl, GeolocationControl, TypeSelector, ZoomControl, Panorama } from 'react-yandex-maps';
+import '../../node_modules/react-image-gallery/styles/css/image-gallery.css'
+
+import ImageGallery from 'react-image-gallery'
 import env from "dotenv"
 env.config()
+
+
+const images = [
+   {
+      original: '/uploads/1639558192839.jpg',
+      thumbnail: 'https://picsum.photos/id/1018/1000/600/',
+   },
+   {
+      original: 'https://picsum.photos/id/1015/1000/600/',
+      thumbnail: 'https://picsum.photos/id/1015/1000/600/',
+   },
+   {
+      original: 'https://picsum.photos/id/1019/1000/600/',
+      thumbnail: 'https://picsum.photos/id/1019/250/150/',
+   },
+];
 
 
 function Tour(props) {
@@ -30,6 +47,7 @@ function Tour(props) {
    const [comments, setComments] = useState('');
    const [commentsCreated, setCommentsCreated] = useState(false);
    const [deletedComment, setDeletedComment] = useState([])
+   const [arrayImageTour, setArrayImageTour] = useState([])
    let [numComments, setNumComments] = useState('')
 
    const tourDetails = useSelector(state => state.tourDetails)
@@ -89,6 +107,17 @@ function Tour(props) {
       let countActiveComments = numComments - 1
       setNumComments(countActiveComments)
    }
+
+   useEffect(() => {
+      let newA = []
+      if (tour) {
+         tour.imageGallery.forEach(e => { let obj = { original: e, thumbnail: e }; newA.push(obj) })
+         setArrayImageTour(newA)
+      }
+
+
+   }, [dispatch, tour])
+
 
 
    useEffect(() => {
@@ -226,10 +255,9 @@ function Tour(props) {
                                     <div className="box-head">
                                        Tour category - {tour.categoryS.categoryName}
                                     </div>
-                                    <div className="box-body">
-                                       {tour.categoryS.categoryDesc}
-                                       <ImageSlider slides={tour.imageGallery} />
-                                    </div>
+
+
+
 
                                     <YMaps query={{ apikey: process.env.REACT_APP_API_KEY_YANDEX_MAPS }}>
                                        <Map width='100%'
@@ -260,6 +288,19 @@ function Tour(props) {
                                           <ZoomControl options={{ float: 'right' }} />
                                        </Map>
                                     </YMaps>
+                                    {/*<YMaps query={{ apikey: process.env.REACT_APP_API_KEY_YANDEX_MAPS }}>
+                                       <Panorama defaultPoint={[55.733685, 37.588264]} />
+                                    </YMaps> */}
+
+
+
+
+                                    <ImageGallery items={arrayImageTour} />
+
+
+        
+
+
 
 
 
