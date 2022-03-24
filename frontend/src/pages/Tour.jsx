@@ -88,7 +88,7 @@ function Tour(props) {
 
    const onItemClick = coords => {
       setCenterMap({ center: coords });
-    };
+   };
 
 
    const getComments = async (tourId) => {
@@ -183,16 +183,23 @@ function Tour(props) {
       behaviors: ['default', 'scrollZoom'],
    };
 
-   const getPointData = index => {
+   const getPointData = (index, title, desc, image)  => {
       return {
-         balloonContentBody: `placemark <strong>balloon  ${index} </strong> <img alt="" className="grid__image" src=${tour.image} />`,
+         balloonContentBody: [
+            `<i>Название: ${title}</i>`,
+            '<br/><br/>',
+            `<strong>${desc}</strong>`,
+            '<br/>',
+            `<img alt="" className="grid__image" src=${image} />`,
+            '<br/>',
+         ].join(''),
          clusterCaption: 'placemark <strong>' + index + '</strong>',
       };
    };
 
    const getPointOptions = () => {
       return {
-         preset: 'islands#violetIcon',
+         preset: 'islands#blackIcon',
       };
    };
 
@@ -286,7 +293,7 @@ function Tour(props) {
                                     </div>
 
 
-
+                             
 
                                     <YMaps query={{ apikey: process.env.REACT_APP_API_KEY_YANDEX_MAPS }}>
                                        <Map width='100%'
@@ -300,12 +307,21 @@ function Tour(props) {
                                                 geoObjectHideIconOnBalloonOpen: false,
                                              }}
                                           >
-                                             {coordinates.map((coordinate, idx) =>
+                                             {tour.attractions.map((a, idx) =>
                                                 <Placemark
-                                                   geometry={coordinate}
+                                                   geometry={[a.lat, a.lon]}
+
+
+
                                                    key={idx}
                                                    options={getPointOptions()}
-                                                   properties={getPointData(idx)}
+                                                   properties={getPointData(idx, a.titleAttraction, a.descAttraction, a.imageAttraction)}
+
+
+
+                                          
+
+                                                   
                                                    modules={['geoObject.addon.balloon', 'geoObject.addon.hint']}
                                                 />)
 
