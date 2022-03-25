@@ -28,6 +28,7 @@ import TourCategoryPage from './pages/TourCategoryPage'
 import AdvancedSearch from './pages/AdvancedSearch'
 import TourAdvanceSearchPage from './pages/TourAdvanceSearchPage'
 import SupportPage from './pages/SupportPage'
+import ResetPassword from './pages/ResetPassword'
 import ChatBox from './components/ChatBox'
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
           <Route path="/login" exact component={Login}/>
           <Route path="/tour/:id/edit" exact component={TourEditPage}/>
           <Route path="/orderHistory/list" exact component={OrderHistoryPage}/>
+          <Route path="/resetPassword/:userId/:uniqueString" exact component={ResetPassword}/>
           <PrivateRoute path='/profile' component={Profile}></PrivateRoute>
           <PrivateRoute path='/categorylist' component={CategoryEditPage}></PrivateRoute>
           <PrivateRoute path='/countrylist' component={CountryEditPage}></PrivateRoute>
@@ -64,6 +66,7 @@ function App() {
           <Route path="/country/:country" exact component={TourCategoryPage}/> 
           <Route path="/advancedSearch" exact component={AdvancedSearch}/> 
           <Route path="/advancedSearchPage" exact component={TourAdvanceSearchPage}/> 
+          
         </Switch>
 
         <Footer></Footer>
