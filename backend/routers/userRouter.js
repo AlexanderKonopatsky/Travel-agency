@@ -1,13 +1,63 @@
 const express = require('express')
 const User = require('../models/userModel')
 const bcrypt = require('bcrypt')
-const { generateJsonToken } = require('../utils')
-const { isAuth, isAdmin } = require('../middleware/utils')
+const { isAuth, isAdmin, generateJsonToken } = require('../middleware/utils')
+const mailer = require('../emails/nodemailer')
+const {v4: uuidv4 } = require('uuid')
+var mongoose = require('mongoose');
 
 const userRouter = express.Router()
 
+const sendVerificationEmail = async ( _id, email) => {
+   const currentUrl = 'http://localhost:5000/'
+   const uniqueString = uuidv4() + _id
 
+   const message = {
+      to: email,
+      subject: 'Подтвердите свою почту',
+      html : `<p>Перейдите по следующей ссылке для подтверждения своей почты ${email} </p><br><br><p>Ссылка доступна в течении 6 часов</p><br><br><p>Ссылка: <a href=${currentUrl}api/users/verify/${_id}/${uniqueString}>здесь</a></p>`
+   }
 
+   const saltRound = 10
+   const hashUniqueString =  await bcrypt.hash(uniqueString, saltRound)
+   const newVerification = {
+      uniqueString: hashUniqueString,
+      createdAt: Date.now(),
+      expiresAt: Date.now() + 21600000
+   }
+   let user = await User.findById(_id)
+   if (user) {
+      user.verificationInfo = newVerification
+      await user.save()
+      mailer(message)
+   } 
+}
+
+userRouter.get('/verify/:userId/:uniqueString', async (req, res) => {
+   let { userId, uniqueString } = req.params
+   if (mongoose.Types.ObjectId.isValid(userId)) {
+      let info  = await User.findById(userId).select('verificationInfo')
+      if (info) {
+         const expiresData = info.verificationInfo.expiresAt
+         const hashedUniqueString = info.verificationInfo.uniqueString
+         if (expiresData < Date.now()) {
+            res.status(401).send({ message: 'Time is up' })
+         } else {
+            let result = await bcrypt.compare(uniqueString, hashedUniqueString)
+            if (result) {
+               await User.updateOne({ _id: userId}, {verified: true})
+               res.status(200).send({ message: 'Everything is fine. Account verified' })
+            } else {
+               res.status(401).send({ message: `Unique string not valid` })
+            }
+         }
+      } else {
+         res.status(401).send({ message: 'User not found' })
+      }
+   } else {
+      res.status(401).send({ message: 'UserId not valid' })
+   }
+})
 
 userRouter.get('/seed', async (req, res) => {
 /*   await User.remove({}) */
@@ -46,6 +96,7 @@ userRouter.post('/signUp', async (req, res) => {
       lastName: req.body.lastName,
       email: req.body.email,
       password: bcrypt.hashSync(req.body.password, 8),
+      verified: false
     })
     const createdUser = await user.save()
     res.send({
@@ -54,12 +105,19 @@ userRouter.post('/signUp', async (req, res) => {
       lastName: createdUser.lastName,
       email: createdUser.email,
       isAdmin: createdUser.isAdmin,
-      token: generateJsonToken(createdUser)
+      token: generateJsonToken(createdUser),
+      verified: false,
     })
+    sendVerificationEmail(createdUser._id, req.body.email)
   } else {
     res.status(401).send({ message : 'There is already a user with this mail' })
   }
+})
 
+userRouter.get('/checkVerification/:userId', async (req, res) => {
+   const data = await User.findById(req.params.userId).select('verified')
+   console.log(data)
+   res.send({ message: data})
 })
 
 

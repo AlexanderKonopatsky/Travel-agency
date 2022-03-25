@@ -130,6 +130,8 @@ app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message })
 })
 
+
+
 httpServer.listen(port, () => {
    const message = {
       
@@ -137,6 +139,6 @@ httpServer.listen(port, () => {
       subject: 'Test',
       text: 'Congatulations'
    }
-   mailer(message)
+/*    mailer(message) */
    console.log(`http://localhost:${port}/`)
  })

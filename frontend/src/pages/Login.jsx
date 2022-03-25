@@ -85,6 +85,11 @@ function Login(props) {
     }
   }, [errorEmail, errorPassword])
 
+
+  const signUpHandler = () => {
+   props.history.push('/signUp')
+ }
+
   return (
     <>
       <div className="signUp_section">
@@ -93,11 +98,14 @@ function Login(props) {
             <div className='col-xs-12'>
               <div className='header_section'>
                 <h1 className='header_text'>
-                  Log in to your account
+                  Войдите в ваш аккаунт
                 </h1>
                 <p className='header_under'>
-                  Don't have an account?
-                  <a href='/signUp' className='link_login'>Sign up.</a>
+                У вас нет аккаунта
+                <button onClick={signUpHandler} className="ul-user">Создайте</button>
+                {/*   У вас нет аккаунта?
+                  onClick={signUpHandler}
+                  <a href='/signUp' className='link_login'>Sign up.</a> */}
                 </p>
               </div>
             </div>
@@ -113,20 +121,20 @@ function Login(props) {
               <form className='form_for_new_user' onSubmit={submitHandler}>
                 <div className='row1'>
 
-{/*                   < div className='text-divider'>
+                  < div className='text-divider'>
                     <div className='text-divider__divider'></div>
                     <div className='text-divider__text'>OAuth authorization</div>
                     <div className='text-divider__divider'></div>
                   </div>
 
                   <a className='btn_auth' href='/' data-facebook-login>
-                    <span >Log in with Vk</span>
+                    <span >Войдите с помощью VK</span>
                   </a>
 
 
                   <a className='btn_auth' href='/' data-facebook-login>
-                    <span >Log in with Gmail</span>
-                  </a> */}
+                    <span >Войдите с помощью Gmail</span>
+                  </a>
 
                   < div className='text-divider'>
                     <div className='text-divider__divider'></div>
@@ -137,7 +145,7 @@ function Login(props) {
                   <div className='form-box'>
                     <label className="form-box__field" >
                       <span className='form-label'>
-                        Email
+                        Почта
                       </span>
                       <input name="email" className="form-input" value={email} type="email" onChange={emailHandler} onBlur={e => blurHandler(e)} required />
                     </label>
@@ -147,7 +155,7 @@ function Login(props) {
                   <div className='form-box'>
                     <label className="form-box__field" >
                       <span className='form-label'>
-                        Password
+                        Пароль
                       </span>
                       <input name="password" className="form-input" value={password} type="password" onChange={passwordHandler} onBlur={e => blurHandler(e)} required />
                     </label>
@@ -156,7 +164,7 @@ function Login(props) {
 
 
                   <button disabled={!formValid} className='btn_auth' type="submit" >
-                    Log in with Email {alert && alert}
+                    Вход {alert && alert}
                   </button>
 
                 </div>
