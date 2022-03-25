@@ -151,10 +151,10 @@ function SignUp(props) {
             <div className='col-xs-12'>
               <div className='header_section'>
                 <h1 className='header_text'>
-                  Create an Account
+                  Создание аккаунта
                 </h1>
                 <p className='header_under'>
-                  Already have an account?
+                  Уже есть аккаунт?
                   <a href='/login' className='link_login'>Login.</a>
                 </p>
               </div>
@@ -195,7 +195,7 @@ function SignUp(props) {
                   <div className='form-box'>
                     <label className="form-box__field" >
                       <span className='form-label'>
-                        First Name
+                        Имя
                       </span>
                       <input name="firstname" className="form-input" value={firstName} onChange={firstNameHandler} onBlur={e => blurHandler(e)} type="text" required />
                     </label>
@@ -205,7 +205,7 @@ function SignUp(props) {
                   <div className='form-box'>
                     <label className="form-box__field" >
                       <span className='form-label'>
-                        Lats Name
+                        Фамилия
                       </span>
                       <input name="lastname" className="form-input" value={lastName} onChange={lastNameHandler} onBlur={e => blurHandler(e)} type="text" required />
                     </label>
@@ -215,7 +215,7 @@ function SignUp(props) {
                   <div className='form-box'>
                     <label className="form-box__field" >
                       <span className='form-label'>
-                        Email
+                        Почта
                       </span>
                       <input name="email" className="form-input" value={email} type="email" onChange={emailHandler} onBlur={e => blurHandler(e)} required />
                     </label>
@@ -225,7 +225,7 @@ function SignUp(props) {
                   <div className='form-box'>
                     <label className="form-box__field" >
                       <span className='form-label'>
-                        Password
+                        Пароль
                       </span>
                       <input name="password" className="form-input" value={password} type="password" onChange={passwordHandler} onBlur={e => blurHandler(e)} required />
                     </label>
@@ -235,7 +235,7 @@ function SignUp(props) {
                   <div className='form-box'>
                     <label className="form-box__field" >
                       <span className='form-label'>
-                        Confirm password
+                        Подтвердите пароль
                       </span>
                       <input name="confiremPassword" className="form-input" value={confirmPassword} type="password" onChange={confirmPasswordHandler} onBlur={e => blurHandler(e)} required />
                     </label>
@@ -243,7 +243,7 @@ function SignUp(props) {
                   </div>
 
                   <button disabled={!formValid} className='btn_auth' type="submit" >
-                    Sign Up with Email
+                    Регистрация
                   </button>
                 </div>
               </form>

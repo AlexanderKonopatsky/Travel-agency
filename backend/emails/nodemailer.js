@@ -5,6 +5,7 @@ const nodemailer = require('nodemailer')
 const transporter = nodemailer.createTransport(
    {
       host: 'smtp.gmail.com',
+      pool: true,
       port: 465,
       secure: true,
       auth: {
@@ -17,10 +18,14 @@ const transporter = nodemailer.createTransport(
    }
 )
 
+transporter.verify((error, success) => {
+   error ? console.log(error) : console.log('Server is ready to take our messages:', success) 
+})
+
 const mailer = (message) => {
    transporter.sendMail(message, (err, info) => {
       if (err) return console.log(err)
-      else console.log(info)
+      else console.log('mail was sended')
    })
 }
 
