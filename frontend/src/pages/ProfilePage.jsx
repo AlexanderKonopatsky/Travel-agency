@@ -199,7 +199,7 @@ function Profile(props) {
             <section className="grid-checkout-column">
               <h1 className="head-text">Info </h1>
               <div className="item-checkout">
-                <img src={userInfo.imageProfile} alt="profile"></img>
+                <img src={userInfo && userInfo.imageProfile} alt="profile"></img>
               </div>
 
             </section>

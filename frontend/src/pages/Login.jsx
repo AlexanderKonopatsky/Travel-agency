@@ -85,6 +85,11 @@ function Login(props) {
     }
   }, [errorEmail, errorPassword])
 
+
+  const signUpHandler = () => {
+   props.history.push('/signUp')
+ }
+
   return (
     <>
       <div className="signUp_section">
@@ -96,8 +101,11 @@ function Login(props) {
                   Войдите в ваш аккаунт
                 </h1>
                 <p className='header_under'>
-                  У вас нет аккаунта?
-                  <a href='/signUp' className='link_login'>Sign up.</a>
+                У вас нет аккаунта
+                <button onClick={signUpHandler} className="ul-user">Создайте</button>
+                {/*   У вас нет аккаунта?
+                  onClick={signUpHandler}
+                  <a href='/signUp' className='link_login'>Sign up.</a> */}
                 </p>
               </div>
             </div>

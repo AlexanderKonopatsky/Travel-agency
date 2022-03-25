@@ -1,8 +1,7 @@
 const express = require('express')
 const User = require('../models/userModel')
 const bcrypt = require('bcrypt')
-const { generateJsonToken } = require('../utils')
-const { isAuth, isAdmin } = require('../middleware/utils')
+const { isAuth, isAdmin, generateJsonToken } = require('../middleware/utils')
 const mailer = require('../emails/nodemailer')
 const {v4: uuidv4 } = require('uuid')
 var mongoose = require('mongoose');
@@ -29,12 +28,9 @@ const sendVerificationEmail = async ( _id, email) => {
    let user = await User.findById(_id)
    if (user) {
       user.verificationInfo = newVerification
-
       await user.save()
       mailer(message)
    } 
-
-   
 }
 
 userRouter.get('/verify/:userId/:uniqueString', async (req, res) => {
@@ -94,13 +90,13 @@ userRouter.post('/signin', async (req, res) => {
 
 userRouter.post('/signUp', async (req, res) => {
   const user = await User.findOne({ email: req.body.email})
-
   if (!user) {
     const user = new User({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
       password: bcrypt.hashSync(req.body.password, 8),
+      verified: false
     })
     const createdUser = await user.save()
     res.send({
@@ -116,7 +112,12 @@ userRouter.post('/signUp', async (req, res) => {
   } else {
     res.status(401).send({ message : 'There is already a user with this mail' })
   }
+})
 
+userRouter.get('/checkVerification/:userId', async (req, res) => {
+   const data = await User.findById(req.params.userId).select('verified')
+   console.log(data)
+   res.send({ message: data})
 })
 
 

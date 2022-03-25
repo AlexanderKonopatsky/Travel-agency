@@ -11,7 +11,9 @@ module.exports = {
         if (err) {
           res.status(401).send({message: 'Invalid JWT token'})
         } else {
+
           req.user = decode
+          console.log(req.user)
           next()
         }
       })
@@ -39,6 +41,21 @@ module.exports = {
       res.status(401).send({ message: 'No JWT token'})
     }
   },
+
+  generateJsonToken: function(user) {
+   return jwt.sign({
+       _id: user._id,
+       firstName: user.firstName,
+       lastName: user.lastName,
+       email: user.email,
+       isAdmin: user.isAdmin
+     },
+     process.env.JWT_TOKEN || '73UCuYCi',
+     {
+       expiresIn: '30d'
+     }
+   )
+ },
 
 }
 

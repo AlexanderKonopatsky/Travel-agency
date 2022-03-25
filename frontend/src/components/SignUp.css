@@ -56,6 +56,7 @@
 
 .form_for_new_user {
   margin:auto;
+  width: 80%;
 }
 
 .section_form {
@@ -63,7 +64,7 @@
   display: flex;
   justify-content: center;
   background-color: white;
-  max-width: 550px;
+  width: 550px;
   margin: auto;
   border-radius: 7px;
 
