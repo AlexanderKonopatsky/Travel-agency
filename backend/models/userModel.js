@@ -16,6 +16,11 @@ const userSchema = new Schema(
       createdAt: { type: Date, required: false},
       expiresAt: { type: Date, required: false},
     },
+    passwordResetInfo: {
+      uniqueString: { type: String, required: false },
+      createdAt: { type: Date, required: false},
+      expiresAt: { type: Date, required: false},
+    },
     verified: { type: Boolean, default: false, required: false }
   },
   {

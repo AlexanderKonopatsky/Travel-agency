@@ -59,8 +59,61 @@ userRouter.get('/verify/:userId/:uniqueString', async (req, res) => {
    }
 })
 
+userRouter.post('/verifyForPassword/:userId/:uniqueString', async (req, res) => {
+   const { userId, uniqueString } = req.params
+   const password = req.body.password
+   if (mongoose.Types.ObjectId.isValid(userId)) {
+      let info  = await User.findById(userId).select('passwordResetInfo')
+      if (info.passwordResetInfo.length !== undefined) {
+         const expiresData = info.passwordResetInfo.expiresAt
+         const hashedUniqueString = info.passwordResetInfo.uniqueString
+         if (expiresData < Date.now()) {
+            res.status(401).send({ message: 'Время токена истекло' })
+         } else {
+            let result = await bcrypt.compare(uniqueString, hashedUniqueString)
+            if (result) {
+               await User.updateOne({ _id: userId}, {password: bcrypt.hashSync(password, 8)})
+               res.status(200).send({ message: 'Пароль успешно изменён' })
+               await User.updateOne({ _id: userId}, {passwordResetInfo : {}})
+            } else {
+               res.status(401).send({ message: `Токен не валиден` })
+            }
+         }
+      } else {
+         res.status(401).send({ message: 'Пользователь не найдён' })
+      }
+   } else {
+      res.status(401).send({ message: 'UserId не валидный' })
+   }
+})
+
+userRouter.post('/requestPasswordReset', async (req, res) => {
+   const email = req.body.email
+   let existUser = await User.findOne({email})
+   if (existUser) {
+      const currentUrl = 'http://localhost:3000/'
+      const uniqueString = uuidv4() + existUser._id
+      const message = {
+         to: email,
+         subject: 'Смена пароля',
+         html : `<p>Перейдите по следующей ссылке для смены пороля </p><br><p>Ссылка доступна в течении 1 часа</p><br><p>Ссылка: <a href=${currentUrl}resetPassword/${existUser._id}/${uniqueString}>здесь</a></p>`
+      }
+
+      const saltRound = 10
+      const hashUniqueString =  await bcrypt.hash(uniqueString, saltRound)
+      const passwordResetInfo = {
+         uniqueString: hashUniqueString,
+         createdAt: Date.now(),
+         expiresAt: Date.now() + 6000000
+      }
+      existUser.passwordResetInfo = passwordResetInfo
+      await existUser.save()
+      mailer(message)
+   }
+   res.send({message : 'email was sended'})
+})
+
 userRouter.get('/seed', async (req, res) => {
-/*   await User.remove({}) */
   const createdUsers = await User.insertMany(data.users)
   res.send({createdUsers})
 })
@@ -116,7 +169,6 @@ userRouter.post('/signUp', async (req, res) => {
 
 userRouter.get('/checkVerification/:userId', async (req, res) => {
    const data = await User.findById(req.params.userId).select('verified')
-   console.log(data)
    res.send({ message: data})
 })
 
