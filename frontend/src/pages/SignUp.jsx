@@ -155,7 +155,6 @@ function SignUp(props) {
    const checkVerification = async () => {
       let interval = setInterval(async () => {
          const {data} = await Axios.get(`/api/users/checkVerification/${userInfo._id}`)
-         console.log(data.message.verified)
          if (data.message.verified) {
             clearInterval(interval)
             dispatch(signIn(userInfo.email, password))

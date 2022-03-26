@@ -13,7 +13,6 @@ module.exports = {
         } else {
 
           req.user = decode
-          console.log(req.user)
           next()
         }
       })

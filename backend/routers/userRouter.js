@@ -64,7 +64,8 @@ userRouter.post('/verifyForPassword/:userId/:uniqueString', async (req, res) => 
    const password = req.body.password
    if (mongoose.Types.ObjectId.isValid(userId)) {
       let info  = await User.findById(userId).select('passwordResetInfo')
-      if (info.passwordResetInfo.length !== undefined) {
+
+      if (info.passwordResetInfo.hasOwnProperty('uniqueString')) {
          const expiresData = info.passwordResetInfo.expiresAt
          const hashedUniqueString = info.passwordResetInfo.uniqueString
          if (expiresData < Date.now()) {
@@ -140,6 +141,38 @@ userRouter.post('/signin', async (req, res) => {
     res.status(401).send({ message: 'Invalid email or password' })
   }
 })
+
+userRouter.post('/signinOauth', async (req, res) => {
+   const user = await User.findOne({ email: req.body.email})
+   console.log(user)
+   if (!user) {
+      console.log('user not found')
+      const user = new User({
+         firstName: req.body.givenName,
+         lastName: req.body.familyName,
+         email: req.body.email,
+         oauth: 'gmail'
+       })
+       const createdUser = await user.save()
+       res.send({
+         _id: createdUser._id,
+         firstName: createdUser.firstName,
+         lastName: createdUser.lastName,
+         email: createdUser.email,
+         isAdmin: createdUser.isAdmin,
+         oauth: createdUser.oauth
+       })
+   } else {
+      res.send({
+         _id: user._id,
+         firstName: user.firstName,
+         lastName: user.lastName,
+         email: user.email,
+         isAdmin: user.isAdmin,
+         oauth: user.oauth
+       })
+   }
+ })
 
 userRouter.post('/signUp', async (req, res) => {
   const user = await User.findOne({ email: req.body.email})

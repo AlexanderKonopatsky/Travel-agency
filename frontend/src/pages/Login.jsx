@@ -5,6 +5,11 @@ import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import Axios from "axios";
 import '../components/SignUp.css'
+import { GoogleLogin } from "react-google-login"
+import { GoogleLogout } from 'react-google-login';
+import { signInOAuth } from "../redux/actions/userActions";
+import env from "dotenv"
+env.config()
 
 function Login(props) {
 
@@ -111,8 +116,15 @@ function Login(props) {
       if (data.status === 200) {
          setMessageAlert(`Письмо с ссылкой отправлено на почту`)
       }
-     
+
    }
+
+   const responseGoogle = (response) => {
+      if (response.profileObj.hasOwnProperty('email')) {
+         dispatch(signInOAuth(response.profileObj))
+      }
+   }
+
 
    return (
       <>
@@ -141,7 +153,7 @@ function Login(props) {
 
                   {!forgotPassword && error && <MessageBox variant="danger">{error}</MessageBox>}
 
-               </div>}
+               </div>
 
                <div className='form_login'>
                   <div className='section_form '>
@@ -157,14 +169,28 @@ function Login(props) {
                                     <div className='text-divider__divider'></div>
                                  </div>
 
-                                 <a className='btn_auth' href='/' data-facebook-login>
-                                    <span >Войдите с помощью VK</span>
-                                 </a>
 
 
-                                 <a className='btn_auth' href='/' data-facebook-login>
-                                    <span >Войдите с помощью Gmail</span>
-                                 </a>
+                                 <GoogleLogin
+                                    clientId={process.env.REACT_APP_OAUTH_CLIENT_ID}
+                                    buttonText="Войдите с помощью Gmail"
+                                    render={renderProps => (
+                                       <button onClick={renderProps.onClick} disabled={renderProps.disabled} className='btn_auth'>Войдите с помошью gmail</button>
+                                    )}
+                                    onSuccess={responseGoogle}
+                                    onFailure={responseGoogle}
+                                    cookiePolicy={'single_host_origin'}
+                                    isSignedIn={true}
+                                 />
+
+{/*                                  <GoogleLogout
+                                    clientId={process.env.REACT_APP_OAUTH_CLIENT_ID}
+                                    buttonText="Выйти с аккаунта"
+                                    onLogoutSuccess={logout}
+                                 >
+                                 </GoogleLogout> */}
+
+
 
                                  < div className='text-divider'>
                                     <div className='text-divider__divider'></div>
@@ -224,12 +250,12 @@ function Login(props) {
                               <button className='btn_auth' onClick={sendEmailResetPasswordHandler} >
                                  Выслать письмо на почту
                               </button>
-                              {  messageAlert && 
-                              <div variant="success" style={MessageBoxStyle} className={`alert alert-success`} >
-                                 {messageAlert} 
-                              </div>
-                           }
- {/*                              <button className='btn_auth' onClick={loginHandler} >
+                              {messageAlert &&
+                                 <div variant="success" style={MessageBoxStyle} className={`alert alert-success`} >
+                                    {messageAlert}
+                                 </div>
+                              }
+                              {/*                              <button className='btn_auth' onClick={loginHandler} >
                                  Вернуться к входу через почту
                               </button> */}
                            </div>

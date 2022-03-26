@@ -43,6 +43,28 @@ export const signIn = (email, password) => async (dispatch) => {
   }
 }
 
+export const signInOAuth = (obj) => async (dispatch) => {
+   dispatch({
+     type: USER_SIGNIN_REQUEST,
+     payload: obj
+   })
+   try {
+     const { data } = await Axios.post('/api/users/signinOauth', obj)
+      dispatch({
+       type: USER_SIGNIN_SUCCESS,
+       payload: data
+     })
+     localStorage.setItem("userInfo", JSON.stringify(data)) 
+   } catch (error) {
+     dispatch({
+       type: USER_SIGNIN_FAIL,
+       payload: error.response && error.response.data.message 
+         ? error.response.data.message
+         : error.message
+     })
+   }
+ }
+
 export const signUp = (firstName, lastName, email, password) => async (dispatch) => {
   dispatch({
     type: USER_SIGNUP_REQUEST,
@@ -59,7 +81,6 @@ export const signUp = (firstName, lastName, email, password) => async (dispatch)
          type: USER_SIGNIN_SUCCESS,
          payload: data
        })
-       console.log('##################',JSON.stringify(data))
        localStorage.setItem("userInfo", JSON.stringify(data))
     }
     

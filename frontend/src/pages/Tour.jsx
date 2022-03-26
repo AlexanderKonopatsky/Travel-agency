@@ -294,7 +294,7 @@ function Tour(props) {
 
 
                              
-
+                               
                                     <YMaps query={{ apikey: process.env.REACT_APP_API_KEY_YANDEX_MAPS }}>
                                        <Map width='100%'
                                           height='500px' state={centerMap && centerMap}>
