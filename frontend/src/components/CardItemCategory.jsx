@@ -1,6 +1,7 @@
 import React from 'react';
 import Rating from './rating';
 import './CardItemCategory.css'
+import { Link } from 'react-router-dom';
 
 function CardItemCategory(props) {
 
@@ -9,7 +10,8 @@ function CardItemCategory(props) {
 
   return (
     <>
-      <a className='cards__item__link' href={`/tour/${tour._id}`}>
+
+      <Link className='cards__item__link' to={`/tour/${tour._id}`}>
 {/*         <div className='tour-card__favorite'>
           <button aria-label='Add to favorites' className='favorite-toggle'>
             <i className="far fa-heart"></i>
@@ -55,7 +57,7 @@ function CardItemCategory(props) {
                 </div> */}
           </div>
         </div>
-      </a>
+      </Link>
 
     </>
   );

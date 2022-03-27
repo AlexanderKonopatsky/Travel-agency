@@ -150,9 +150,8 @@ export const searchTours = (title) => async (dispatch, getState) => {
     type: TOUR_SEARCH_REQUEST,
     payload: title
   })
-  const { userSignIn : { userInfo } } = getState() 
   try {
-    const { data } = await Axios.get(`/api/tours/search/${title}`, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+    const { data } = await Axios.get(`/api/tours/search/${title}`)
     dispatch({
       type: TOUR_SEARCH_SUCCESS,
       payload: data
@@ -177,7 +176,11 @@ export const commentCreate = (tourId, comment) => async (dispatch, getState) => 
   })
   const { userSignIn : { userInfo } } = getState() 
   try {
-    const { data } = await Axios.post(`/api/tours/${tourId}/comments`, comment, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+    const { data } = await Axios.post(`/api/tours/${tourId}/comments`, comment, { headers: { 
+      Authorization: `Bearer ${userInfo.token}`,
+      oauth : userInfo.oauth, 
+      userId : userInfo._id 
+     } })
     dispatch({
       type: TOUR_COMMENT_CREATE_SUCCESS,
       payload: data.comments

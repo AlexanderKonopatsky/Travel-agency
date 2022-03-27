@@ -4,9 +4,24 @@ const bcrypt = require('bcrypt')
 const { isAuth, isAdmin, generateJsonToken } = require('../middleware/utils')
 const mailer = require('../emails/nodemailer')
 const {v4: uuidv4 } = require('uuid')
+const { OAuth2Client } = require('google-auth-library')
 var mongoose = require('mongoose');
 
+const client = new OAuth2Client(process.env.REACT_APP_OAUTH_CLIENT_ID)
+
+
 const userRouter = express.Router()
+
+userRouter.post('/google_login', async (req, res) => {
+   const { tokenId } = req.body
+   const ticket = await client.verifyIdToken({
+      idToken: tokenId,
+      audience: process.env.REACT_APP_OAUTH_CLIENT_ID
+   })
+   const payload = ticket.getPayload()
+   res.send({message: payload})
+})
+
 
 const sendVerificationEmail = async ( _id, email) => {
    const currentUrl = 'http://localhost:5000/'
@@ -64,7 +79,8 @@ userRouter.post('/verifyForPassword/:userId/:uniqueString', async (req, res) => 
    const password = req.body.password
    if (mongoose.Types.ObjectId.isValid(userId)) {
       let info  = await User.findById(userId).select('passwordResetInfo')
-      if (info.passwordResetInfo.length !== undefined) {
+
+      if (info.passwordResetInfo.hasOwnProperty('uniqueString')) {
          const expiresData = info.passwordResetInfo.expiresAt
          const hashedUniqueString = info.passwordResetInfo.uniqueString
          if (expiresData < Date.now()) {
@@ -140,6 +156,36 @@ userRouter.post('/signin', async (req, res) => {
     res.status(401).send({ message: 'Invalid email or password' })
   }
 })
+
+userRouter.post('/signinOauth', async (req, res) => {
+   const user = await User.findOne({ email: req.body.email})
+   if (!user) {
+      const user = new User({
+         firstName: req.body.givenName,
+         lastName: req.body.familyName,
+         email: req.body.email,
+         oauth: 'gmail'
+       })
+       const createdUser = await user.save()
+       res.send({
+         _id: createdUser._id,
+         firstName: createdUser.firstName,
+         lastName: createdUser.lastName,
+         email: createdUser.email,
+         isAdmin: createdUser.isAdmin,
+         oauth: createdUser.oauth
+       })
+   } else {
+      res.send({
+         _id: user._id,
+         firstName: user.firstName,
+         lastName: user.lastName,
+         email: user.email,
+         isAdmin: user.isAdmin,
+         oauth: user.oauth
+       })
+   }
+ })
 
 userRouter.post('/signUp', async (req, res) => {
   const user = await User.findOne({ email: req.body.email})
@@ -238,4 +284,7 @@ userRouter.put('/:id', isAuth, isAdmin,  async (req, res) => {
     res.status(404).send({ message: "User not found" })
   }
 })
+
+
+
 module.exports = userRouter

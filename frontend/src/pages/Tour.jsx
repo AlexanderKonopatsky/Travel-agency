@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import Axios from "axios"
 import Rating from '../components/rating'
 import { commentUpdateStatus } from '../redux/actions/tourActions'
-import { YMaps, Map, Clusterer, Placemark, FullscreenControl, GeolocationControl, TypeSelector, ZoomControl, Panorama, ListBox, ListBoxItem } from 'react-yandex-maps';
+import { YMaps, Map, Clusterer, Placemark, FullscreenControl, GeolocationControl, TypeSelector, ZoomControl, ListBox, ListBoxItem } from 'react-yandex-maps';
 import '../../node_modules/react-image-gallery/styles/css/image-gallery.css'
 
 import ImageGallery from 'react-image-gallery'
@@ -294,7 +294,7 @@ function Tour(props) {
 
 
                              
-
+                               
                                     <YMaps query={{ apikey: process.env.REACT_APP_API_KEY_YANDEX_MAPS }}>
                                        <Map width='100%'
                                           height='500px' state={centerMap && centerMap}>

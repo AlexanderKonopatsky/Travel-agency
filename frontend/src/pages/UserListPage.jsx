@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userList } from "../redux/actions/userActions";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import '../components/orderList.css'
 import { USER_DETAILS_RESET } from "../redux/constants/userConstants"
-import { ORDER_DELETE_RESET } from '../redux/constants/orderConstants'
+
 
 function UserListPage(props) {
 

@@ -43,6 +43,28 @@ export const signIn = (email, password) => async (dispatch) => {
   }
 }
 
+export const signInOAuth = (obj) => async (dispatch) => {
+   dispatch({
+     type: USER_SIGNIN_REQUEST,
+     payload: obj
+   })
+   try {
+     const { data } = await Axios.post('/api/users/signinOauth', obj)
+      dispatch({
+       type: USER_SIGNIN_SUCCESS,
+       payload: data
+     })
+     localStorage.setItem("userInfo", JSON.stringify(data)) 
+   } catch (error) {
+     dispatch({
+       type: USER_SIGNIN_FAIL,
+       payload: error.response && error.response.data.message 
+         ? error.response.data.message
+         : error.message
+     })
+   }
+ }
+
 export const signUp = (firstName, lastName, email, password) => async (dispatch) => {
   dispatch({
     type: USER_SIGNUP_REQUEST,
@@ -59,7 +81,6 @@ export const signUp = (firstName, lastName, email, password) => async (dispatch)
          type: USER_SIGNIN_SUCCESS,
          payload: data
        })
-       console.log('##################',JSON.stringify(data))
        localStorage.setItem("userInfo", JSON.stringify(data))
     }
     
@@ -78,6 +99,7 @@ export const signUp = (firstName, lastName, email, password) => async (dispatch)
 export const signOut = () => (dispatch) => {
   localStorage.removeItem('userInfo')
   localStorage.removeItem('cartItems')
+  localStorage.removeItem('loginData')
   dispatch({
     type: USER_SIGNOUT
   })
@@ -90,7 +112,7 @@ export const detailsUser = (id) => async (dispatch, getState) => {
   })
   const { userSignIn : { userInfo } } = getState() 
   try {
-    const { data } = await Axios.get(`/api/users/${id}`, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+    const { data } = await Axios.get(`/api/users/${id}`, { headers: { Authorization: `Bearer ${ userInfo.token}`, oauth: userInfo.oauth, userId : userInfo._id } })
     dispatch({
       type: USER_DETAILS_SUCCESS,
       payload: data
@@ -112,7 +134,11 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
   })
   const { userSignIn : { userInfo } } = getState() 
   try {
-    const { data } = await Axios.put(`/api/users/profile`, user, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+    const { data } = await Axios.put(`/api/users/profile`, user, { headers: { 
+      Authorization: `Bearer ${userInfo.token}`,
+      oauth : userInfo.oauth, 
+      userId : userInfo._id 
+     } })
     dispatch({
       type: USER_UPDATE_PROFILE_SUCCESS,
       payload: data
@@ -162,7 +188,11 @@ export const userEdit = (user) => async (dispatch, getState) => {
   })
   const { userSignIn : { userInfo } } = getState() 
   try {
-    const { data } = await Axios.put(`/api/users/${user._id}`, user, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+    const { data } = await Axios.put(`/api/users/${user._id}`, user, { headers: { 
+      Authorization: `Bearer ${userInfo.token}`,
+      oauth : userInfo.oauth, 
+      userId : userInfo._id 
+    } })
     dispatch({
       type: USER_EDIT_SUCCESS,
       payload: data

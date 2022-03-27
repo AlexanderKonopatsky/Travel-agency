@@ -154,20 +154,19 @@ function SignUp(props) {
 
    const checkVerification = async () => {
       let interval = setInterval(async () => {
-         const {data} = await Axios.get(`/api/users/checkVerification/${userInfo._id}`)
-         console.log(data.message.verified)
+         const { data } = await Axios.get(`/api/users/checkVerification/${userInfo._id}`)
          if (data.message.verified) {
             clearInterval(interval)
             dispatch(signIn(userInfo.email, password))
             setMessageAlertEmail("Почта успешно подтверждена")
          }
       }, 1000)
-      
+
    }
 
    const signInHandler = () => {
       props.history.push('/login')
-    }
+   }
 
    return (
       <>
@@ -180,10 +179,8 @@ function SignUp(props) {
                            Создание аккаунта
                         </h1>
                         <p className='header_under'>
-                        Уже есть аккаунт?
-                        <button onClick={signInHandler} className="ul-user">Войти</button>
-                        
-              {/*              <a href='/login' className='link_login'>Login.</a> */}
+                           Уже есть аккаунт?
+                           <button onClick={signInHandler} className="ul-user">Войти</button>
                         </p>
                      </div>
                   </div>
@@ -198,21 +195,6 @@ function SignUp(props) {
                   <div className='section_form'>
                      <form className='form_for_new_user' onSubmit={submitHandler}>
                         <div className='row1'>
-
-                           {/*  < div className='text-divider'>
-                    <div className='text-divider__divider'></div>
-                    <div className='text-divider__text'>OAuth authorization</div>
-                    <div className='text-divider__divider'></div>
-                  </div>
-
-                  <a className='btn_auth' href='/' data-facebook-login>
-                    <span >Sign Up with Vk</span>
-                  </a>
-
-
-                  <a className='btn_auth' href='/' data-facebook-login>
-                    <span >Sign Up with Gmail</span>
-                  </a> */}
 
                            < div className='text-divider'>
                               <div className='text-divider__divider'></div>
@@ -273,10 +255,10 @@ function SignUp(props) {
                            <button disabled={!formValid} className='btn_auth' type="submit" >
                               Регистрация
                            </button>
-                           
-                           {  messageAlertEmail && 
+
+                           {messageAlertEmail &&
                               <div variant="success" style={MessageBoxStyle} className={`alert alert-success`} >
-                                 {messageAlertEmail} 
+                                 {messageAlertEmail}
                               </div>
                            }
 

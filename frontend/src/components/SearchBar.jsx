@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./SearchBar.css";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 function SearchBar(props, { placeholder }) {
   let history = useHistory();
@@ -57,9 +58,10 @@ function SearchBar(props, { placeholder }) {
           {filteredData.slice(0, 15).map((value, key) => {
             let hrefData = `/tour/${value._id}`
             return (
-              <a className="dataItem" href={hrefData} target="_blank" rel="noreferrer">
+            <Link className='dataItem' to={hrefData} >
+
                 <p>{value.title} </p>
-              </a>
+                </Link>
             );
           })}
         </div>

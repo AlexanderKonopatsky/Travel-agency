@@ -138,22 +138,15 @@ function SignUp(props) {
       if (password !== confirmPassword) {
          alert('Password and confirm password are not match')
       } else {
-         /*          dispatch(signUp(firstName, lastName, email, password)) */
+         /* dispatch(signUp(firstName, lastName, email, password)) */
          const uniqueString = props.match.params.uniqueString
          const userId = props.match.params.userId
-         console.log(uniqueString, userId)
          const {data} = await Axios.post(`/api/users/verifyForPassword/${userId}/${uniqueString}`, {password})
-         console.log(data)
-         setMessageAlert(data.message)
-  
 
+         setMessageAlert(data.message)
 
       }
    }
-
-
-
-
 
    const signInHandler = () => {
       props.history.push('/login')

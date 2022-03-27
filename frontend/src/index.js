@@ -8,6 +8,7 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 
 
+
 const initialState = {
   userSignIn: {
     userInfo: localStorage.getItem("userInfo") 
@@ -18,7 +19,10 @@ const initialState = {
     cartItems: localStorage.getItem('cartItems') 
       ? JSON.parse(localStorage.getItem('cartItems'))
       : []
-  }
+  }, 
+  loginData: localStorage.getItem('loginData')
+   ? JSON.parse(localStorage.getItem('loginData')) 
+   : null
 }
 
 const store = createStore(rootReducer, initialState, compose(
