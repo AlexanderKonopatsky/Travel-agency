@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 import { cartReducer } from "./reducers/cartReducer";
 import { orderCreateReducer, orderDeatalisReducer, orderDeleteAdminReducer, orderListAdminReducer, orderListReducer } from "./reducers/orderReduces";
-import { tourDetailsReducer, tourListReducer, tourCreateReducer, tourUpdateReducer, tourDeleteReducer, tourSearchReducer,tourCommentCreateReducer, listTourCategoriesReducer, tourListByCountryReducer, tourListByCategoryReducer, tourListAdvancedSearchReducer, tourCommentDeleteReducer, tourCommentUpdateStatusReducer} from './reducers/tourReducer'
+import { tourDetailsReducer, tourListReducer, tourCreateReducer, tourUpdateReducer, tourDeleteReducer, tourSearchReducer,tourCommentCreateReducer, listTourCategoriesReducer, tourListByCategoryReducer, tourListAdvancedSearchReducer, tourCommentDeleteReducer, tourCommentUpdateStatusReducer} from './reducers/tourReducer'
 import { userDetailsReducer, userEditReducer, userListReducer, userSigninReducer, userUpdateProfileReducer } from "./reducers/userReducer";
 import { userSignUpReducer } from "./reducers/userReducer";
 

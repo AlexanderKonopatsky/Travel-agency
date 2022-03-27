@@ -26,6 +26,7 @@ function Navbar(props) {
    const userSignIn = useSelector(state => state.userSignIn)
    const { userInfo } = userSignIn
 
+   const loginData = useSelector(state => state.loginData)
 
 
    const dispatch = useDispatch()
@@ -36,7 +37,6 @@ function Navbar(props) {
 
    const signOutHandler = () => {
       dispatch(signOut())
-
    }
 
 
@@ -137,12 +137,14 @@ function Navbar(props) {
                               <li className="li-navbar">
                                  <button onClick={orderHistoryHandler} className="ul-user">Order history</button>
                               </li>
-                  
+
+
                               {userInfo && userInfo.oauth !== 'gmail' &&
                                  <li className="li-navbar">
                                     <button onClick={signOutHandler} className="ul-user">Logout</button>
                                  </li>
                               }
+
                               {userInfo && userInfo.oauth === 'gmail' &&
                                  <li className="li-navbar">
                                     <GoogleLogout
@@ -179,6 +181,15 @@ function Navbar(props) {
                         </>
                      )
                }
+
+
+
+
+
+
+
+
+
 
                {userInfo && userInfo.isAdmin && (
                   <div className="dropdown">

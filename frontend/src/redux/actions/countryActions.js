@@ -1,7 +1,6 @@
 import {
   COUNTRY_CREATE_FAIL,
   COUNTRY_CREATE_REQUEST,
-  COUNTRY_CREATE_RESET,
   COUNTRY_CREATE_SUCCESS,
 } from '../constants/countryConstants'
 import Axios from 'axios'

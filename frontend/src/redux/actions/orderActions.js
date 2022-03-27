@@ -11,8 +11,6 @@ import {  ORDER_CREATE_FAIL,
           ORDER_LIST_ADMIN_SUCCESS,
           ORDER_LIST_ADMIN_FAIL,
           ORDER_DELETE_FAIL,
-          ORDER_DELETE_REQUEST,
-          ORDER_DELETE_RESET,
           ORDER_DELETE_SUCCESS
 } from "../constants/orderConstants"
 
@@ -26,7 +24,13 @@ export const createOrder = (order) => async (dispatch, getState) => {
   })
   try {
     const { userSignIn : { userInfo } } = getState() 
-    const { data } = await Axios.post('/api/orders', order, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+    const { data } = await Axios.post('/api/orders', order, { 
+       headers: { 
+            Authorization: `Bearer ${userInfo.token}`,
+            oauth : userInfo.oauth, 
+            userId : userInfo._id 
+         } 
+      })
     dispatch({
       type: ORDER_CREATE_SUCCESS,
       payload: data.order
@@ -51,10 +55,14 @@ export const detailsOrder = (orderId) => async (dispatch, getState) => {
   dispatch({
     type: ORDER_DETAILS_REQUEST,
     payload: orderId
-  })
+  }) 
   try {
     const { userSignIn : { userInfo } } = getState()
-    const { data } = await Axios.get(`/api/orders/${orderId}`, { headers: { Authorization: `Bearer ${userInfo.token}` } } )
+    const { data } = await Axios.get(`/api/orders/${orderId}`, {  headers: { 
+         Authorization: `Bearer ${userInfo.token}`,
+         oauth : userInfo.oauth, 
+         userId : userInfo._id 
+      } } )
     dispatch({
       type: ORDER_DETAILS_SUCCESS,
       payload: data
@@ -77,7 +85,11 @@ export const listOrder = (orderId) => async (dispatch, getState) => {
   })
   try {
     const { userSignIn : { userInfo } } = getState()
-    const { data } = await Axios.get(`/api/orders/history/list`, { headers: { Authorization: `Bearer ${userInfo.token}` } } )
+    const { data } = await Axios.get(`/api/orders/history/list`, { headers: { 
+      Authorization: `Bearer ${userInfo.token}`,
+      oauth : userInfo.oauth, 
+      userId : userInfo._id 
+     } } )
     dispatch({
       type: ORDER_LIST_SUCCESS,
       payload: data
@@ -124,7 +136,11 @@ export const deleteOrder = (orderId) => async (dispatch, getState) => {
   })
   const { userSignIn : { userInfo } } = getState() 
   try {
-    const { data } = await Axios.delete(`/api/orders/${orderId}`, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+    const { data } = await Axios.delete(`/api/orders/${orderId}`, { headers: { 
+      Authorization: `Bearer ${userInfo.token}`,
+      oauth : userInfo.oauth, 
+      userId : userInfo._id 
+     } })
     dispatch({
       type: ORDER_DELETE_SUCCESS,
       payload: data

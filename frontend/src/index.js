@@ -19,7 +19,10 @@ const initialState = {
     cartItems: localStorage.getItem('cartItems') 
       ? JSON.parse(localStorage.getItem('cartItems'))
       : []
-  }
+  }, 
+  loginData: localStorage.getItem('loginData')
+   ? JSON.parse(localStorage.getItem('loginData')) 
+   : null
 }
 
 const store = createStore(rootReducer, initialState, compose(

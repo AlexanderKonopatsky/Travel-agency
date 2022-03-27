@@ -148,10 +148,6 @@ function SignUp(props) {
       }
    }
 
-
-
-
-
    const signInHandler = () => {
       props.history.push('/login')
    }

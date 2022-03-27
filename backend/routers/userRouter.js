@@ -4,9 +4,24 @@ const bcrypt = require('bcrypt')
 const { isAuth, isAdmin, generateJsonToken } = require('../middleware/utils')
 const mailer = require('../emails/nodemailer')
 const {v4: uuidv4 } = require('uuid')
+const { OAuth2Client } = require('google-auth-library')
 var mongoose = require('mongoose');
 
+const client = new OAuth2Client(process.env.REACT_APP_OAUTH_CLIENT_ID)
+
+
 const userRouter = express.Router()
+
+userRouter.post('/google_login', async (req, res) => {
+   const { tokenId } = req.body
+   const ticket = await client.verifyIdToken({
+      idToken: tokenId,
+      audience: process.env.REACT_APP_OAUTH_CLIENT_ID
+   })
+   const payload = ticket.getPayload()
+   res.send({message: payload})
+})
+
 
 const sendVerificationEmail = async ( _id, email) => {
    const currentUrl = 'http://localhost:5000/'
@@ -144,9 +159,7 @@ userRouter.post('/signin', async (req, res) => {
 
 userRouter.post('/signinOauth', async (req, res) => {
    const user = await User.findOne({ email: req.body.email})
-   console.log(user)
    if (!user) {
-      console.log('user not found')
       const user = new User({
          firstName: req.body.givenName,
          lastName: req.body.familyName,
@@ -271,4 +284,7 @@ userRouter.put('/:id', isAuth, isAdmin,  async (req, res) => {
     res.status(404).send({ message: "User not found" })
   }
 })
+
+
+
 module.exports = userRouter

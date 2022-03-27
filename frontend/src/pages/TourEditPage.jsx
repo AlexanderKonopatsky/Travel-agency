@@ -6,7 +6,7 @@ import { detailsTour, updateTour } from "../redux/actions/tourActions";
 import { TOUR_UPDATE_RESET, TOUR_DETAILS_RESET } from "../redux/constants/tourConstants"
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
-import { YMaps, Map, Clusterer, Placemark, FullscreenControl, GeolocationControl, TypeSelector, ZoomControl, Panorama, ListBox, ListBoxItem } from 'react-yandex-maps';
+import { YMaps, Map, Placemark} from 'react-yandex-maps';
 import Axios from "axios"
 
 

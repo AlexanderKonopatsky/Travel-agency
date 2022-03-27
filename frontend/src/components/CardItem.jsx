@@ -1,5 +1,6 @@
 import React from 'react';
 import Rating from './rating';
+import { Link } from 'react-router-dom';
 
 function CardItem(props) {
 
@@ -9,7 +10,8 @@ function CardItem(props) {
     <>
          <li key={tour._id} className='cards__item'>
 
-          <a className='cards__item__link' href={`tour/${tour._id}`}>
+<Link className='cards__item__link' to={{pathname : `/tour/${tour._id}`}}>
+          
 {/*             <div className='tour-card__favorite'>
               <button aria-label='Add to favorites' className='favorite-toggle'>
                 <i className="far fa-heart"></i>
@@ -55,7 +57,7 @@ function CardItem(props) {
                 </div> */}
               </div>
             </div>
-          </a>
+          </Link>
 
         </li>
 

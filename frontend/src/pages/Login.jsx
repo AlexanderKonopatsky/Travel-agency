@@ -8,6 +8,7 @@ import '../components/SignUp.css'
 import { GoogleLogin } from "react-google-login"
 import { GoogleLogout } from 'react-google-login';
 import { signInOAuth } from "../redux/actions/userActions";
+import { refreshTokenSetup } from '../utils/refreshToken';
 import env from "dotenv"
 env.config()
 
@@ -28,6 +29,9 @@ function Login(props) {
    const [alert, setAlert] = useState('')
    const [errorFirstName, setErrorFirstName] = useState('')
    const [messageAlert, setMessageAlert] = useState(false)
+   const [loginData, setLoginData] = useState(
+      localStorage.getItem('loginData') ? JSON.parse(localStorage.getItem('loginData')) : null
+   )
    const dispatch = useDispatch()
 
    const userSignIn = useSelector(state => state.userSignIn)
@@ -80,10 +84,10 @@ function Login(props) {
    }
 
    useEffect(() => {
-      if (userInfo) {
+      if (userInfo || loginData) {
          props.history.push(redirect)
       }
-   }, [props.history, redirect, userInfo])
+   }, [props.history, redirect, userInfo, loginData])
 
 
    useEffect(() => {
@@ -119,10 +123,30 @@ function Login(props) {
 
    }
 
-   const responseGoogle = (response) => {
-      if (response.profileObj.hasOwnProperty('email')) {
-         dispatch(signInOAuth(response.profileObj))
-      }
+
+   const responseGoogle = async (response) => {
+      let tokenId = response.tokenId
+      const res = await Axios.post('/api/users/google_login', { tokenId })
+
+      setLoginData(res.data.message)
+      localStorage.setItem('loginData', JSON.stringify(res.data.message))
+
+
+
+      let email = res.data.message.email
+      await dispatch(signInOAuth({ email }))
+
+      let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+      userInfo.token = response.accessToken
+      localStorage.setItem('userInfo', JSON.stringify(userInfo));
+
+      refreshTokenSetup(response)
+
+      /*       if (response.profileObj.hasOwnProperty('email')) {
+               dispatch(signInOAuth(response.profileObj))
+               refreshTokenSetup(response)
+               console.log(response)
+            } */
    }
 
 
@@ -139,9 +163,6 @@ function Login(props) {
                         <p className='header_under'>
                            У вас нет аккаунта
                            <button onClick={signUpHandler} className="ul-user">Создайте</button>
-                           {/*   У вас нет аккаунта?
-                  onClick={signUpHandler}
-                  <a href='/signUp' className='link_login'>Sign up.</a> */}
                         </p>
                      </div>
                   </div>
@@ -163,40 +184,8 @@ function Login(props) {
 
 
                               <>
-                                 < div className='text-divider'>
-                                    <div className='text-divider__divider'></div>
-                                    <div className='text-divider__text'>OAuth authorization</div>
-                                    <div className='text-divider__divider'></div>
-                                 </div>
 
 
-
-                                 <GoogleLogin
-                                    clientId={process.env.REACT_APP_OAUTH_CLIENT_ID}
-                                    buttonText="Войдите с помощью Gmail"
-                                    render={renderProps => (
-                                       <button onClick={renderProps.onClick} disabled={renderProps.disabled} className='btn_auth'>Войдите с помошью gmail</button>
-                                    )}
-                                    onSuccess={responseGoogle}
-                                    onFailure={responseGoogle}
-                                    cookiePolicy={'single_host_origin'}
-                                    isSignedIn={true}
-                                 />
-
-{/*                                  <GoogleLogout
-                                    clientId={process.env.REACT_APP_OAUTH_CLIENT_ID}
-                                    buttonText="Выйти с аккаунта"
-                                    onLogoutSuccess={logout}
-                                 >
-                                 </GoogleLogout> */}
-
-
-
-                                 < div className='text-divider'>
-                                    <div className='text-divider__divider'></div>
-                                    <div className='text-divider__text'>Log in with email</div>
-                                    <div className='text-divider__divider'></div>
-                                 </div>
 
                                  <div className='form-box'>
                                     <label className="form-box__field" >
@@ -225,6 +214,37 @@ function Login(props) {
                                  <button className='btn_auth' onClick={forgotPasswordHandler} >
                                     Забыли пароль?
                                  </button>
+
+
+
+                                 < div className='text-divider'>
+                                    <div className='text-divider__divider'></div>
+                                    <div className='text-divider__text'>OAuth authorization</div>
+                                    <div className='text-divider__divider'></div>
+                                 </div>
+
+
+
+                                 <GoogleLogin
+                                    clientId={process.env.REACT_APP_OAUTH_CLIENT_ID}
+                                    buttonText="Войдите с помощью Gmail"
+                                    render={renderProps => (
+                                       <button onClick={renderProps.onClick} disabled={renderProps.disabled} className='btn_auth'>Войдите с помошью gmail</button>
+                                    )}
+                                    onSuccess={responseGoogle}
+                                    onFailure={responseGoogle}
+                                    cookiePolicy={'single_host_origin'}
+                                    isSignedIn={true}
+                                 />
+
+
+
+
+                                 < div className='text-divider'>
+                                    <div className='text-divider__divider'></div>
+                                    <div className='text-divider__text'>Log in with email</div>
+                                    <div className='text-divider__divider'></div>
+                                 </div>
                               </>
 
 
