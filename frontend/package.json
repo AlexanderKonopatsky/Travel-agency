@@ -19,7 +19,7 @@
     "google-map-react": "^2.1.10",
     "google-maps-react": "^2.0.6",
     "gsap": "^3.8.0",
-    "rc-slider": "^10.0.0-alpha.5",
+    "rc-slider": "^10.0.0-alpha.6",
     "react": "^17.0.2",
     "react-datepicker": "^4.2.1",
     "react-dom": "^17.0.2",

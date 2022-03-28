@@ -21,7 +21,28 @@ tourRouter.get('/cityInTheCountry', async (req, res) => {
   
  })
 
+ tourRouter.post('/advancedSearchPage', async (req, res) => {
+   console.log('req.body', req.body)
+   let tours = await Tour
+      .find({
+         price: {$gt : 50, $lt: 500},
+         rating: {$gt : 2},
+         country: 'Belarus' 
+      })
+      .populate({path: 'cityT', match : { cityName : 'Pinsk'}})
+      .populate({path: 'categoryS', match : { categoryName : 'Historical travel'}})
+      .select('_id title image category label desc additionalInfo price rating numReviews country categoryS cityT')
+
+   tours = tours.filter(tour => {
+      if (tour.cityT && tour.categoryS) return tour   
+   })
+
+   res.send({tours})
+})
+
+
 tourRouter.get('/', async (req, res) => {
+   console.log(req.query.ratingValue)
   const pageSize = 3
   const currentPage = Number(req.query.page) || 1
   const priceFrom = req.query.priceFrom || 0
