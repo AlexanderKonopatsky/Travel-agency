@@ -289,6 +289,29 @@ export const listTourAdvancedSearch = (obj) => async (dispatch) => {
   }
 }
 
+export const listTourAdvancedSearch2 = (obj) => async (dispatch) => {
+   dispatch({
+     type: TOUR_ADVANCED_SEARCH_REQUEST,
+     payload: obj
+   })
+   try {
+       const { data } = await Axios.post(`/api/tours/advancedSearchPage`, obj)
+       console.log(data.tours)
+       dispatch({
+         type: TOUR_ADVANCED_SEARCH_SUCCESS,
+         payload: {tours : data.tours}
+       })
+ 
+   } catch (error) {
+     dispatch({
+       type: TOUR_ADVANCED_SEARCH_FAIL,
+       payload: error.response && error.response.data.message 
+         ? error.response.data.message
+         : error.message
+     })
+   }
+ }
+
 
 
 export const commentUpdateStatus = (commentId, tourId, status) => async (dispatch, getState) => {
