@@ -26,7 +26,7 @@ function Navbar(props) {
    const userSignIn = useSelector(state => state.userSignIn)
    const { userInfo } = userSignIn
 
-   const loginData = useSelector(state => state.loginData)
+/*    const loginData = useSelector(state => state.loginData) */
 
 
    const dispatch = useDispatch()
@@ -74,6 +74,10 @@ function Navbar(props) {
 
    const supportHandler = () => {
       props.history.push('/support')
+   }
+
+   const dashboardHandler = () => {
+      props.history.push('/dashboard')
    }
 
    const logout = (response) => {
@@ -217,6 +221,9 @@ function Navbar(props) {
                            </li>
                            <li className="li-navbar">
                               <button onClick={supportHandler} className="ul-user">Support</button>
+                           </li>
+                           <li className="li-navbar">
+                              <button onClick={dashboardHandler} className="ul-user">Dashboard admin</button>
                            </li>
 
 

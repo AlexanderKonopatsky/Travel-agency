@@ -10,6 +10,7 @@ const categoryRouter = require('./routers/categoryRouter')
 const countryRouter = require('./routers/countryRouter')
 const cityRouter = require('./routers/cityRouter')
 const attractionRouter = require('./routers/attractionRouter')
+const dashboardRouter = require('./routers/dashboardRouter')
 const path = require('path')
 const http = require('http')
 const Server  = require('socket.io')
@@ -118,7 +119,7 @@ app.use('/api/categories', categoryRouter)
 app.use('/api/country', countryRouter)
 app.use('/api/city', cityRouter)
 app.use('/api/attraction', attractionRouter)
-
+app.use('/api/dashboard', dashboardRouter)
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
 app.get('/', (req, res) => {

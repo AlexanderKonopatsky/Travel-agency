@@ -28,6 +28,7 @@ import TourCategoryPage from './pages/TourCategoryPage'
 import AdvancedSearch from './pages/AdvancedSearch'
 import TourAdvanceSearchPage from './pages/TourAdvanceSearchPage'
 import SupportPage from './pages/SupportPage'
+import DashboardPage from './pages/DashboardPage'
 import ResetPassword from './pages/ResetPassword'
 import ChatBox from './components/ChatBox'
 
@@ -60,6 +61,7 @@ function App() {
           <AdminRoute path="/userList" component={UserListPage}></AdminRoute>
           <AdminRoute path="/user/:id/edit" component={UserEditPage}></AdminRoute>
           <AdminRoute path="/support" component={SupportPage}></AdminRoute>
+          <AdminRoute path="/dashboard" component={DashboardPage}></AdminRoute>
           <Route path="/orderHistory/list" exact component={OrderHistoryPage}/>
           <Route path="/category/:category" exact component={TourCategoryPage}/> 
           <Route path="/city/:city" exact component={TourCategoryPage}/> 

@@ -937,3 +937,135 @@ body {
    text-decoration: none;
    width: 270px;
  }
+
+
+
+ /* chart */
+
+ .summary > li {
+   border: 0.1rem #c0c0c0 solid;
+   margin: 2rem;
+   border-radius: 0.5rem;
+   flex: 1 1 20rem;
+ }
+ .summary-title {
+   font-size: 2rem;
+   padding: 1rem;
+ }
+ .summary-body {
+   font-size: 4rem;
+   padding: 1rem;
+   text-align: center;
+ }
+ 
+ .summary-title.color1 {
+   background-color: #f0e0e0;
+ }
+ .summary-title.color2 {
+   background-color: #e0f0e0;
+ }
+ .summary-title.color3 {
+   background-color: #e0e0f0;
+ }
+
+
+ .App {
+   font-family: sans-serif;
+   text-align: center;
+ }
+
+
+
+
+
+
+.card {
+   border: 2px solid;
+   padding: 10px;
+   margin-bottom: 25px;
+
+}
+
+/*  chart */
+#container-chart {
+   display: grid;
+   grid-template-columns: repeat(2, 1fr);
+   grid-gap: 30px;
+   grid-auto-rows: minmax(100px, auto);
+   margin: auto;
+   max-width: 1300px;
+   padding-top: 60px;
+   padding-bottom: 100px;
+ }
+
+ #container-chart h3 {
+   margin-bottom: 10px;
+   margin-top: 20px;
+   margin-left: 20px;
+   font-size: 25px;
+   font-family: "Times New Roman", Serif;
+   font-weight:800;
+   
+ }
+ 
+ .title-div h1 {
+    text-align: center;
+    font-size: 35px;
+    font-family: "Times New Roman", Serif;
+    font-weight:800;
+    margin-top: 120px;
+    margin-bottom: 10px;
+ }
+
+
+ .one {
+   grid-column: 1;
+   grid-row: 1;
+
+   
+ }
+ .two {
+   grid-column: 2 / 3;
+   grid-row: 1;
+ 
+ }
+ .three {
+   grid-column: 3 / 1;
+   grid-row:2;
+
+ }
+ .four {
+   grid-column: 1;
+   grid-row: 3;
+   max-width: 650px;
+ 
+ }
+
+ .five {
+   grid-column: 2 / 3;
+   grid-row: 3;
+   max-width: 650px;
+ }
+
+ .item-dashboard {
+   box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+   background-color: white;
+   padding: 25px;
+   border-radius: 7px;
+   margin-bottom: 20px;
+}
+
+.chart-span {
+   font-family: "Proxima Nova", Sans-Serif;
+   letter-spacing: 0.1em;
+   line-height: 1.1;
+   text-transform: uppercase;
+   color: #404040;
+   display: block;
+   font-size: 17px;
+   font-weight: 700;
+   margin-bottom: 10px;
+   margin-top: 20px;
+ }
+
+
