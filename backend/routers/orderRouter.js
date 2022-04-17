@@ -16,10 +16,18 @@ orderRouter.post('/', isAuth, async (req, res) => {
     res.status(400).send({ message: 'Cart is empty' })
   } else {
 
+    let totalPrice = 0
+    req.body.orderItems.forEach(el => {
+      totalPrice += el.price
+    })
     const order = new Order({
       orderItems: req.body.orderItems,
-      userInfo: req.user._id
+      userInfo: req.user._id,
+      totalPrice
     })
+    console.log(
+       'order', order
+    )
     const createdOrder = await order.save()
     res.status(201).send({ message: 'Order created', order: createdOrder })
   }

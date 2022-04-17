@@ -135,7 +135,7 @@ function CategoryEditPage(props) {
             <div className='col-xs-12'>
               <div className='header_section'>
                 <h1 className='header_text_profile'>
-                  Categories page
+                  Категории туров
                 </h1>
               </div>
             </div>
@@ -143,7 +143,7 @@ function CategoryEditPage(props) {
 
           <div className="grid-cart-category">
             <section className="grid-main-column-cart">
-              <h1 className="head-text">Create category</h1>
+              <h1 className="head-text">Создать категорию</h1>
               <div className="item-cart">
 
                 <form className='form_for_new_user' onSubmit={submitСategoryCreateHandler}>
@@ -162,7 +162,7 @@ function CategoryEditPage(props) {
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            Name category
+                            Название 
                           </span>
                           <input className="form-input" value={categoryName} onChange={e => setCategoryName(e.target.value)} type="text" />
                         </label>
@@ -171,7 +171,7 @@ function CategoryEditPage(props) {
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            Description category
+                            Описание
                           </span>
                           <input className="form-input" value={categoryDesc} onChange={e => setCategoryDesc(e.target.value)} type="text" />
                         </label>
@@ -180,7 +180,7 @@ function CategoryEditPage(props) {
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            Category Image
+                            Изображение
                           </span>
                           <input className="form-input" type="file" id="fileUpdate" onChange={uploadFileHandler} />
                           {loadingUpload && <LoadingBox></LoadingBox>}
@@ -191,7 +191,7 @@ function CategoryEditPage(props) {
                       </div>
 
                       <button className='btn_auth' type="submit" >
-                        Create
+                        Создать
                       </button>
                     </div>
 
@@ -203,7 +203,7 @@ function CategoryEditPage(props) {
 
 
 
-              <h1 className="head-text">Create category</h1>
+              <h1 className="head-text">Обновать категорию</h1>
               <div className="item-cart">
 
                 <form className='form_for_new_user' onSubmit={submitСategoryUpdateHandler}>
@@ -222,7 +222,7 @@ function CategoryEditPage(props) {
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            Id category
+                            Id категории
                           </span>
                           <input className="form-input" value={currentIdCategory} onChange={e => setCategoryNameUpdate(e.target.value)} type="text" />
                         </label>
@@ -231,7 +231,7 @@ function CategoryEditPage(props) {
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            Name category
+                            Название
                           </span>
                           <input className="form-input" type="hidden" value={categoryNameUpdate} onChange={e => setCategoryNameUpdate(e.target.value)} type="text" />
                         </label>
@@ -240,7 +240,7 @@ function CategoryEditPage(props) {
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            Description category
+                            Описание
                           </span>
                           <input className="form-input" value={categoryDescUpdate} onChange={e => setCategoryDescUpdate(e.target.value)} type="text" />
                         </label>
@@ -249,7 +249,7 @@ function CategoryEditPage(props) {
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            Category Image
+                            Изображение
                           </span>
                           <input className="form-input" type="file" id="fileUpdate" onChange={uploadFileHandler} />
                           {loadingUpload && <LoadingBox></LoadingBox>}
@@ -260,7 +260,7 @@ function CategoryEditPage(props) {
                       </div>
 
                       <button className='btn_auth' type="submit" >
-                        UPDATE
+                        Обновить
                       </button>
                     </div>
 
@@ -276,15 +276,15 @@ function CategoryEditPage(props) {
             </section>
 
             <section className="grid-checkout-column">
-              <h1 className="head-text">Table category</h1>
+              <h1 className="head-text">Таблица категорий</h1>
               <div className="item-cart">
                 <table className="table">
                   <thead>
                     <tr>
-                      <th>categoryName</th>
-                      <th>categoryDesc</th>
-                      <th>categoryImage</th>
-                      <th>btn</th>
+                      <th>Название</th>
+                      <th>Описание</th>
+                      <th>Изображение</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>

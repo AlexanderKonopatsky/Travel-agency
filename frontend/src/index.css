@@ -1034,17 +1034,27 @@ body {
    grid-row:2;
 
  }
+ .three2 {
+   grid-column: 3 / 1;
+   grid-row:3;
+
+ }
  .four {
    grid-column: 1;
-   grid-row: 3;
+   grid-row: 4;
    max-width: 650px;
  
  }
 
  .five {
    grid-column: 2 / 3;
-   grid-row: 3;
+   grid-row: 4;
    max-width: 650px;
+ }
+
+ .six {
+   grid-column: 3 / 1;
+   grid-row:5;
  }
 
  .item-dashboard {
@@ -1069,3 +1079,22 @@ body {
  }
 
 
+ .tourHistory {
+   display: flex;
+   flex-wrap: wrap;
+   max-width: 1300px;
+ }
+
+ .history__cards__item {
+    margin: 5px;
+    width: 248px;
+    height: 165px;
+ }
+
+
+ .loading {
+    margin-top: 400px;
+    margin-left: 50%;
+
+    margin-bottom: 400px;
+ }

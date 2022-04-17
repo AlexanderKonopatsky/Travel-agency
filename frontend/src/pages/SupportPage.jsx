@@ -79,6 +79,7 @@ export default function SupportPage() {
          });
          sk.on('selectUser', (user) => {
             allMessages = user.messages;
+            console.log(allMessages)
             setMessages(allMessages);
          });
       }
@@ -148,7 +149,7 @@ export default function SupportPage() {
 
             <div className="grid-cart-profile">
                <section className="grid-main-column-cart">
-                  <h1 className="head-text">All chats</h1>
+                  <h1 className="head-text">Все чаты</h1>
                   <div className="item-cart">
 
                      <>
@@ -159,7 +160,7 @@ export default function SupportPage() {
 
                               {/* Проверить есть ли юзеры онлайн */}
                               {users.filter(x => x._id !== userInfo._id).length === 0 && (
-                                 <MessageBox>No Online User Found</MessageBox>
+                                 <MessageBox>Нет пользователей онлайн</MessageBox>
                               )}
                               <ul>
 
@@ -195,13 +196,13 @@ export default function SupportPage() {
                </section>
 
                <section className="grid-checkout-column">
-                  <h1 className="head-text">Messages</h1>
+                  <h1 className="head-text">Сообщения</h1>
                   <div className="item-checkout">
 
 
                      <div className="col-3 support-messages">
                         {!selectedUser._id ? (
-                           <MessageBox>Select a user to start chat</MessageBox>
+                           <MessageBox>Выберите пользоваться, чтобы начать чат</MessageBox>
                         ) : (
                            <div>
                               <div className="row">

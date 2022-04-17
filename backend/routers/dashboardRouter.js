@@ -56,6 +56,8 @@ dashboardRouter.get('/summary', async (req, res) => {
       { $sort: { _id: 1 } },
     ]);
 
+ 
+
     const averagePriceOnTour = await Tour.aggregate([
        {
          $group: {
@@ -70,7 +72,6 @@ dashboardRouter.get('/summary', async (req, res) => {
        }
       ])
 
-   console.log('averagePriceOnTour', averagePriceOnTour)
 
     let orderInDayAverage  = 0
     dailyOrders.forEach(el => orderInDayAverage += el.orders)
@@ -94,12 +95,68 @@ dashboardRouter.get('/summary', async (req, res) => {
            localField: "_id",
            foreignField: "_id",
            as: "tour"
-         }
+         },
+         
       }
     ])
 
+
+
+
     const countyCount = await Country.find().count()
     const cityCount = await City.find().count()
+
+
+    let averageRatingTour = await Tour.aggregate(
+      [
+         {    
+            $group: { 
+            _id: null,
+            avgRating: { $avg: '$rating' }
+            }
+         }
+      ]
+    )
+   averageRatingTour = (averageRatingTour[0].avgRating).toFixed(2)
+  
+
+   let averagePriceTour = await Tour.aggregate(
+      [
+         {    
+            $group: { 
+            _id: null,
+            avgPrice: { $avg: '$price' }
+            }
+         }
+      ]
+    )
+    averagePriceTour = (averagePriceTour[0].avgPrice).toFixed(2)
+
+    const arrayOfToursVisits = await User.aggregate([
+      { $project : { "visitShema" : 1 } },
+      { $unwind: "$visitShema" },
+      {$group: {
+         _id: "$visitShema.tourId",
+         count: { "$sum": "$visitShema.counter" }
+      } },
+      {
+         $lookup:
+         {
+           from: "tours",
+           localField: "_id",
+           foreignField: "_id",
+           pipeline : [{ 
+               $project: {
+                  "title": 1,
+                }
+            }],
+           as: "_id"
+         },
+      }, 
+      { $sort: { count: -1 } },
+   ]);
+
+console.log(arrayOfToursVisits)
 
    res.send({
       countOrders: countOrders,
@@ -112,7 +169,10 @@ dashboardRouter.get('/summary', async (req, res) => {
       averagePriceOnTour,
       findPopularCategory,
       countyCount,
-      cityCount
+      cityCount,
+      averageRatingTour, 
+      averagePriceTour,
+      arrayOfToursVisits
 
    })
 

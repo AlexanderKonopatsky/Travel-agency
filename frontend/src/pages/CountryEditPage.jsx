@@ -135,7 +135,7 @@ function CountryEditPage(props) {
             <div className='col-xs-12'>
               <div className='header_section'>
                 <h1 className='header_text_profile'>
-                  Country page
+                  Страны
                 </h1>
               </div>
             </div>
@@ -143,7 +143,7 @@ function CountryEditPage(props) {
 
           <div className="grid-cart-category">
             <section className="grid-main-column-cart">
-              <h1 className="head-text">Create country</h1>
+              <h1 className="head-text">Добавить страну</h1>
               <div className="item-cart">
 
                 <form className='form_for_new_user' onSubmit={submitСategoryCreateHandler}>
@@ -162,7 +162,7 @@ function CountryEditPage(props) {
                       <div className='form-box'>
                         <label className="form-box__field" >
                            <span className='form-label'>
-                           The name of the country
+                           Название
                           </span>
                           <input className="form-input" value={countryName} onChange={e => setCountryName(e.target.value)} type="text" />
                         </label>
@@ -171,7 +171,7 @@ function CountryEditPage(props) {
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                           Country Description   
+                           Описание
                           </span>
                           <input className="form-input" value={countryDesc} onChange={e => setCountryDesc(e.target.value)} type="text" />
                         </label>
@@ -180,7 +180,7 @@ function CountryEditPage(props) {
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                           Country image
+                           Изображение
                           </span>
                           <input className="form-input" type="file" id="fileUpdate" onChange={uploadFileHandler} />
                           {loadingUpload && <LoadingBox></LoadingBox>}
@@ -191,7 +191,7 @@ function CountryEditPage(props) {
                       </div>
 
                       <button className='btn_auth' type="submit" >
-                        Create
+                        Добавить       
                       </button>
                     </div>
 
@@ -203,7 +203,7 @@ function CountryEditPage(props) {
 
 
 
-              <h1 className="head-text">Update country</h1>
+              <h1 className="head-text">Обновить иформацию о стране  </h1>
               <div className="item-cart">
 
                 <form className='form_for_new_user' onSubmit={submitСategoryUpdateHandler}>
@@ -222,7 +222,7 @@ function CountryEditPage(props) {
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            Id country
+                            Id страны
                           </span>
                           <input className="form-input" value={currentIdCountry} onChange={e => setCountryNameUpdate(e.target.value)} type="text" />
                         </label>
@@ -231,7 +231,7 @@ function CountryEditPage(props) {
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            Name country
+                            Название
                           </span>
                           <input className="form-input" type="hidden"  value={countryNameUpdate} onChange={e => setCountryNameUpdate(e.target.value)}  type="text" />
                         </label>
@@ -240,7 +240,7 @@ function CountryEditPage(props) {
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            Description country
+                            Описание
                           </span>
                           <input className="form-input" value={countryDescUpdate} onChange={e => setCountryDescUpdate(e.target.value)} type="text" />
                         </label>
@@ -249,7 +249,7 @@ function CountryEditPage(props) {
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            Country Image
+                            Изображение
                           </span>
                           <input className="form-input" type="file" id="fileUpdate" onChange={uploadFileHandler} />
                           {loadingUpload && <LoadingBox></LoadingBox>}
@@ -260,7 +260,7 @@ function CountryEditPage(props) {
                       </div>
 
                       <button className='btn_auth' type="submit" >
-                        UPDATE
+                        Обновить
                       </button>
                     </div>
 
@@ -276,15 +276,15 @@ function CountryEditPage(props) {
             </section>
 
             <section className="grid-checkout-column">
-              <h1 className="head-text">Сountry table</h1>
+              <h1 className="head-text">Таблица стран</h1>     
               <div className="item-cart">
                 <table className="table">
                   <thead>     
                     <tr>
-                      <th>countryName</th>
-                      <th>countryDesc</th>
-                      <th>countryImage</th>
-                      <th>btn</th>
+                      <th>Название</th>
+                      <th>Описание</th>
+                      <th>Изображение</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -301,14 +301,14 @@ function CountryEditPage(props) {
                             className="btn_details_admin"
                             onClick={() => editCountryHandler(country)}
                           >
-                            Edit
+                            Изменить      
                           </button>
                           <button
                             type="button"
                             className="btn_details_admin"
                             onClick={() => deleteHandler(country)}
                           >
-                            Delete
+                            Удалить
                           </button>
 
                         </td>

@@ -57,12 +57,12 @@ export default function CartPage(props) {
         <div className="cartContainer">
           <div className="grid-cart">
             <section className="grid-main-column-cart">
-              <h1 className="head-text">Your cart</h1>
+              <h1 className="head-text">Корзина </h1>
 
 
               {cartItems.length === 0
-                ? <MessageBox>Card is empty</MessageBox>
-                :
+                ? <MessageBox>Корзина пуста</MessageBox>
+                :                               
                 (
                   <>
                     {
@@ -95,12 +95,12 @@ export default function CartPage(props) {
             </section>
 
             <section className="grid-checkout-column">
-              <h1 className="head-text">Checkout Summary</h1>
+              <h1 className="head-text">Общая сумма заказа  </h1>
               <div className="item-checkout">
                 <div className="row-info">
                   <div className="col-total">Total  {cartItems.reduce((a, c) => a + c.price, 0)} $</div>
                 </div>
-                <button onClick={orderHandler} type="submit" class="btn-checkout" disabled={cartItems.length === 0} >To order</button>
+                <button onClick={orderHandler} type="submit" class="btn-checkout" disabled={cartItems.length === 0} >Заказать</button>
               </div>
             </section>
 

@@ -76,14 +76,14 @@ function UserEditPage(props) {
             <div className='col-xs-12'>
               <div className='header_section'>
                 <h1 className='header_text_profile'>
-                  Edit User
+                  Обновить пользователя      
                 </h1>
               </div>
             </div>
           </div>
 
           <section className="grid-main-column-tour">
-            <h1 className="head-text">Edit form</h1>
+            <h1 className="head-text"> </h1>
             <div className="item-tour">
 
               <form className='form_for_new_user' onSubmit={submitHandler}>
@@ -108,7 +108,7 @@ function UserEditPage(props) {
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            First Name
+                            Имя
                           </span>
                           <input className="form-input" value={firstName} onChange={e => setFirstName(e.target.value)} type="text" />
                         </label>
@@ -117,7 +117,7 @@ function UserEditPage(props) {
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            Latt Name
+                            Фамилия
                           </span>
                           <input className="form-input" value={lastName} onChange={e => setLastName(e.target.value)} type="text" />
                         </label>
@@ -126,7 +126,7 @@ function UserEditPage(props) {
                       <div className='form-box'>
                         <label className="form-box__field" >
                           <span className='form-label'>
-                            Email
+                            Почта
                           </span>
                           <input className="form-input" value={email} onChange={e => setEmail(e.target.value)} type="text" />
                         </label>
@@ -151,10 +151,10 @@ function UserEditPage(props) {
                       </div>
 
                       <button className='btn_auth' type="submit" >
-                        UPDATE
+                        Обновить
                       </button>
                       <button className='btn_auth' onClick={backHandler} >
-                        RETURN TO THE LIST OF USERS
+                        Вернуться к списку всех пользователей  
                       </button>
                     </div>
                   </>
