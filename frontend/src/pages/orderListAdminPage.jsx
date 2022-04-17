@@ -37,12 +37,12 @@ function OrderListAdminPage(props) {
           <table className="table">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>DATE</th>
-                <th>TOTAL</th>
-                <th>PAID</th>
+                <th>Id</th>
+                <th>Дата заказа</th>
+                <th>Общая стоимость</th>
+                <th>Оплата</th>
 
-                <th>ACTIONS</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -61,7 +61,7 @@ function OrderListAdminPage(props) {
                         props.history.push(`/order/${order._id}`);
                       }}
                     >
-                      Details
+                      Детали
                     </button>
                     <button
                       type="button"
@@ -70,7 +70,7 @@ function OrderListAdminPage(props) {
                         deleteHandler(order)
                       }}
                     >
-                      Delete
+                      Удалить
                     </button>
                   </td>
                 </tr>

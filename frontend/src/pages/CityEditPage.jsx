@@ -175,7 +175,7 @@ function CityEditPage(props) {
                   <div className='col-xs-12'>
                      <div className='header_section'>
                         <h1 className='header_text_profile'>
-                           Страница создания и редактирования городов
+                           города
                         </h1>
                      </div>
                   </div>

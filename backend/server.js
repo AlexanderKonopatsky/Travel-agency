@@ -10,10 +10,14 @@ const categoryRouter = require('./routers/categoryRouter')
 const countryRouter = require('./routers/countryRouter')
 const cityRouter = require('./routers/cityRouter')
 const attractionRouter = require('./routers/attractionRouter')
+const dashboardRouter = require('./routers/dashboardRouter')
 const path = require('path')
 const http = require('http')
 const Server  = require('socket.io')
 const mailer = require('./emails/nodemailer')
+
+const User = require('./models/userModel')
+const Chat = require('./models/chatModel')
 
 
 const port = process.env.PORT || 5000
@@ -29,72 +33,87 @@ app.use(express.urlencoded({ extended: true }))
 
 const httpServer = http.Server(app)
 const io = Server(httpServer, { cors: { origin: '*' } })
-const users = [] 
+/* const users = []  */
 
 io.on('connection', (socket) => {
 
-   socket.on('disconnect', () => {
-      const user = users.find(x => x.socketId === socket.id) 
+   socket.on('disconnect', async () => {
+      console.log('disconnect')
+      const user = await Chat.findOne({ socketId : socket.id})
       if (user) {
-         user.online = false 
-         const admin = users.find(x => x.isAdmin && x.online) 
+         user.online = false
+         await user.save()
+         const admin = await Chat.findOne({ isAdmin : true, online : true})
          if (admin) {
             io.to(admin.socketId).emit('updateUser', user) 
-         }
+         } 
       }
    })
 
-   socket.on('onLogin', user => { 
+   socket.on('onLogin', async user => { 
       const updatedUser = {
          ...user, 
          online: true,
          socketId: socket.id,
          messages: []
       }
-      const existUser = users.find(x => x._id === updatedUser._id) 
-      if (existUser) {                                          
+      const existUser = await Chat.findOne({ _id : updatedUser._id})
+
+      if (existUser) {
          existUser.socketId = socket.id
          existUser.online = true
-      } else {                                                
-         users.push(updatedUser)
+         await existUser.save()
+      } else {
+         await Chat.create(updatedUser)
       }
-      const admin = users.find(x => x.isAdmin && x.online) 
+
+
+      const admin = await Chat.findOne({ isAdmin : true, online : true})
       if (admin) {
          io.to(admin.socketId).emit('updateUser', updatedUser)
       }
-      if (updatedUser.isAdmin) {
+/*       if (updatedUser.isAdmin) {
          io.to(updatedUser.socketId).emit('listUsers', users) 
-      }
+      } */
    })
 
-   socket.on('onUserSelected', user => {
-      const admin = users.find(x => x.isAdmin && x.online)
+   socket.on('onUserSelected', async user => {
+
+      const admin = await Chat.findOne({ isAdmin : true, online : true})
+
       if (admin) {
-         const existUser = users.find(x => x._id === user._id) 
+         const existUser = await Chat.findOne({_id : user._id})
          io.to(admin.socketId).emit('selectUser', existUser) 
       }
+
+
    })
  
-   socket.on('onMessage', message => { 
+   socket.on('onMessage', async message => { 
+
       if (message.isAdmin) { 
-         const user = users.find(x => x._id === message._id && x.online) 
+         const user = await Chat.findOne({ _id : message._id, online : true }) 
          if (user) {
             io.to(user.socketId).emit('message', message)
             user.messages.push(message)
+            await user.save()
          }
       } else {
-         const admin = users.find(x => x.isAdmin && x.online)
+         const admin = await Chat.findOne({ isAdmin : true, online: true} )
          if (admin) {
             io.to(admin.socketId).emit('message', message) 
-            const user = users.find(x => x._id === message._id && x.online) 
+            const user = await Chat.findOne({ _id : message._id, online : true}) 
             user.messages.push(message) 
-         } else {
+            await user.save() 
+         }  else {
             io.to(socket.id).emit('message', { 
                name: 'Admin',
                body: 'Sorry. I am not online right now'
-            })
-         }
+            }
+            )
+         } 
       }
+
    })
 
 })
@@ -118,7 +137,7 @@ app.use('/api/categories', categoryRouter)
 app.use('/api/country', countryRouter)
 app.use('/api/city', cityRouter)
 app.use('/api/attraction', attractionRouter)
-
+app.use('/api/dashboard', dashboardRouter)
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
 app.get('/', (req, res) => {

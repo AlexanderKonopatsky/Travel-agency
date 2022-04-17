@@ -26,7 +26,7 @@ function Navbar(props) {
    const userSignIn = useSelector(state => state.userSignIn)
    const { userInfo } = userSignIn
 
-   const loginData = useSelector(state => state.loginData)
+/*    const loginData = useSelector(state => state.loginData) */
 
 
    const dispatch = useDispatch()
@@ -76,6 +76,10 @@ function Navbar(props) {
       props.history.push('/support')
    }
 
+   const dashboardHandler = () => {
+      props.history.push('/dashboard')
+   }
+
    const logout = (response) => {
 
       dispatch(signOut())
@@ -100,13 +104,13 @@ function Navbar(props) {
                </li>
                <li className='nav-item'>
                   <Link to='/' className='nav-links' onClick={closeMobileMenu}>
-                     Home
+                     Главная
                   </Link>
                </li>
 
                <li className='nav-item'>
                   <Link to='/advancedSearch' className='nav-links' onClick={closeMobileMenu}>
-                     Advanced Search
+                     Расширенный поиск
                   </Link>
                </li>
 
@@ -118,7 +122,7 @@ function Navbar(props) {
 
                <li className='nav-item'>
                   <Link to='/cart' className='nav-links' onClick={closeMobileMenu}>
-                     Cart
+                     Корзина
                      {
                         cartItems.length > 0 && (<span className="badge">{cartItems.length}</span>)
                      }
@@ -132,16 +136,16 @@ function Navbar(props) {
                            <i className="fa fa-caret-down"></i>
                            <ul className="dropdown-content">
                               <li className="li-navbar">
-                                 <button onClick={profileHandler} className="ul-user">Profile</button>
+                                 <button onClick={profileHandler} className="ul-user">Профиль</button>
                               </li>
                               <li className="li-navbar">
-                                 <button onClick={orderHistoryHandler} className="ul-user">Order history</button>
+                                 <button onClick={orderHistoryHandler} className="ul-user">История заказов</button>
                               </li>
 
 
                               {userInfo && userInfo.oauth !== 'gmail' &&
                                  <li className="li-navbar">
-                                    <button onClick={signOutHandler} className="ul-user">Logout</button>
+                                    <button onClick={signOutHandler} className="ul-user">Выход</button>
                                  </li>
                               }
 
@@ -198,25 +202,28 @@ function Navbar(props) {
                         <i className="fa fa-caret-down"></i>
                         <ul className="dropdown-content-admin">
                            <li className="li-navbar">
-                              <button onClick={countryHandler} className="ul-user">Country list</button>
+                              <button onClick={countryHandler} className="ul-user">Список стран</button>
                            </li>
                            <li className="li-navbar">
-                              <button onClick={cityHandler} className="ul-user">City list</button>
+                              <button onClick={cityHandler} className="ul-user">Список городов</button>
                            </li>
                            <li className="li-navbar">
-                              <button onClick={categoryHandler} className="ul-user">Category list</button>
+                              <button onClick={categoryHandler} className="ul-user">Список категорий</button>
                            </li>
                            <li className="li-navbar">
-                              <button onClick={tourListHandler} className="ul-user">Tour list</button>
+                              <button onClick={tourListHandler} className="ul-user">Список туров</button>
                            </li>
                            <li className="li-navbar">
-                              <button onClick={orderListHandler} className="ul-user">Orders</button>
+                              <button onClick={orderListHandler} className="ul-user">Все заказы</button>
                            </li>
                            <li className="li-navbar">
-                              <button onClick={userListHandler} className="ul-user">Users</button>
+                              <button onClick={userListHandler} className="ul-user">Пользователи</button>
                            </li>
                            <li className="li-navbar">
-                              <button onClick={supportHandler} className="ul-user">Support</button>
+                              <button onClick={supportHandler} className="ul-user">Поддержка</button>
+                           </li>
+                           <li className="li-navbar">
+                              <button onClick={dashboardHandler} className="ul-user">Панель администратора</button>
                            </li>
 
 

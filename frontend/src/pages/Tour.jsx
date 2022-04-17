@@ -208,7 +208,7 @@ function Tour(props) {
 
    return (
       <>
-         {loading ? (<LoadingBox></LoadingBox>)
+         {loading ? (<div className="loading"><LoadingBox></LoadingBox></div>)
             :
             error ? (<div class="message_box_tour"><MessageBox variant="danger">{error}</MessageBox></div>)
                : (

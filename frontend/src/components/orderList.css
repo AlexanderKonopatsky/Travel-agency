@@ -67,9 +67,9 @@ button.small {
   font-size: 12px;
   font-weight: bold;
   margin: 0;
-  padding: 12px 40px;
+  padding: 12px;
   margin-right: 10px;
   text-align: center;
   text-decoration: none;
-  width: 150px;
+  width: 120px;
 }

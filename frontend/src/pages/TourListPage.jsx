@@ -50,11 +50,11 @@ function TourListScreen(props) {
   return (
 
     <div className="tourList">
-      <h1>Tours</h1>
+      <h1>Все туры</h1>
       <div className="row">
 
         <button type="button" className="primary" onClick={createHandler}>
-          Create Tour
+          Добавить тур
         </button>
         {loadingDelete && <LoadingBox></LoadingBox>}
         {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
@@ -74,20 +74,20 @@ function TourListScreen(props) {
           <thead>
             <tr>
               <th>ID</th>
-              <th>NAME</th>
-              <th>category</th>
-              <th>country</th>
-              <th>city</th>
-              <th>image</th>
-              <th>label</th>
-              <th>desc</th>
-              <th>dop info</th>
-              <th>price</th>
-              <th>rating</th>
-              <th>numReviews</th>
+              <th>Название</th>
+              <th>Категория</th>
+              <th>Страна</th>
+              <th>Город</th>
+              <th>Изображение</th>
+              <th>Метка</th>
+              <th>Описание</th>
+              <th>Информация</th>
+              <th>Цена</th>
+              <th>Рейтинг</th>
+              <th>Кол-во отзывов</th>
 {/*               <th>createdAt</th>
               <th>updatedAt</th> */}
-              <th>Buttons</th>
+              <th>   </th>
             </tr>
           </thead>
           <tbody>
@@ -115,14 +115,14 @@ function TourListScreen(props) {
                       props.history.push(`/tour/${tour._id}/edit`)
                     }
                   >
-                    Edit
+                    Изменить
                   </button>
                   <button
                     type="button"
                     className="btn_details_admin"
                     onClick={() => deleteHandler(tour)}
                   >
-                    Delete
+                    Удалить   
                   </button>
 
                 </td>

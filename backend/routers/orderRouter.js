@@ -3,18 +3,31 @@ const Order = require('../models/orderModel')
 const Tour = require('../models/tourModel')
 const User = require('../models/userModel')
 const { isAuth, isAdmin } = require('../middleware/utils')
+var mongoose = require('mongoose');
+const ObjectId = require('mongodb').ObjectID;
+const Category = require('../models/categoryModel')
 
 const orderRouter = express.Router()
+
+
 
 orderRouter.post('/', isAuth, async (req, res) => {
   if (req.body.orderItems.length === 0) {
     res.status(400).send({ message: 'Cart is empty' })
   } else {
 
+    let totalPrice = 0
+    req.body.orderItems.forEach(el => {
+      totalPrice += el.price
+    })
     const order = new Order({
       orderItems: req.body.orderItems,
-      userInfo: req.user._id
+      userInfo: req.user._id,
+      totalPrice
     })
+    console.log(
+       'order', order
+    )
     const createdOrder = await order.save()
     res.status(201).send({ message: 'Order created', order: createdOrder })
   }
@@ -49,5 +62,7 @@ orderRouter.delete('/:id', isAuth, isAdmin, async (req, res) => {
      res.status(404).send({ message : "Order not found"})
   }
 })
+
+
 
 module.exports = orderRouter

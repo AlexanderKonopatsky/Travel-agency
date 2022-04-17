@@ -44,6 +44,7 @@ export const listTour = () => async (dispatch) => {
   })
   try {
     const { data } = await Axios.get('api/tours/home')
+    
     dispatch({
       type: TOUR_LIST_SUCCESS,
       payload: data.tours
@@ -57,13 +58,15 @@ export const listTour = () => async (dispatch) => {
 }
 
 
-export const detailsTour = (tourId) => async (dispatch) => {
+export const detailsTour = (tourId) => async (dispatch, getState) => {
+  const { userSignIn : { userInfo } } = getState() 
   dispatch({
     type: TOUR_DETAILS_REQUEST,
     payload: tourId
   })
   try {
-    const { data } = await Axios.get(`/api/tours/${tourId}`)
+ 
+    const { data } = await Axios.get(`/api/tours/${tourId}?userId=${userInfo._id}`)
     dispatch({
       type: TOUR_DETAILS_SUCCESS,
       payload: data
@@ -296,7 +299,7 @@ export const listTourAdvancedSearch2 = (obj) => async (dispatch) => {
    })
    try {
        const { data } = await Axios.post(`/api/tours/advancedSearchPage`, obj)
-       console.log(data.tours)
+    
        dispatch({
          type: TOUR_ADVANCED_SEARCH_SUCCESS,
          payload: {tours : data.tours}

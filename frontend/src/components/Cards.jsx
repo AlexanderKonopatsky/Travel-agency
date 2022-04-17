@@ -1,19 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Cards.css';
 import CardItem from './CardItem';
+import CardItemHistory from './CardItemHistory';
 import MessageBox from './MessageBox'
 import LoadingBox from './LoadingBox'
 import { useDispatch, useSelector } from 'react-redux';
 import { listTour } from '../redux/actions/tourActions'
 import { gsap } from "gsap";
-
+const Axios = require('axios')
 
 
 
 function Cards() {
   const dispatch = useDispatch()
   const tourList = useSelector((state) => state.tourList)
-  const { loading, error, tours } = tourList
+  const { loading, error, tours, toursHistory} = tourList
+
+
 
 
   const [scrollX1, setscrollX1] = useState(0);
@@ -21,6 +24,7 @@ function Cards() {
 
   const [scrollX2, setscrollX2] = useState(0);
   const [scrolEnd2, setscrolEnd2] = useState(false);
+  
 
   /*   const listTourByCountryBelarus = useSelector((state) => state.listTourByCountryBelarus)
     const { loading: loadingToursByCountry, error: errorToursByCountry, tours : toursByCountry } = listTourByCountryBelarus */
@@ -30,16 +34,25 @@ function Cards() {
   let scrl2 = useRef(null);
 
 
+  const userSignIn = useSelector(state => state.userSignIn)
+  const { userInfo } = userSignIn
+
+ const [dataHistory, setDataHistory] = useState(false);
 
   useEffect(() => {
     dispatch(listTour())
-  }, [dispatch])
+    if (userInfo)
+      Axios.get(`api/tours/getHistory?userId=${userInfo._id}`).then((res) => {setDataHistory(res.data)})
+  }, [dispatch, userInfo])
+
+
 
 
 
 
   //Slide click
   const slide1 = (shift) => {
+
     scrl.current.scrollLeft += shift;
     setscrollX1(scrollX1 + shift);
 
@@ -112,6 +125,7 @@ function Cards() {
               <>
 
                 <div>
+
                   <div className="head_text_tours">Best in Belarus</div>
 
                   <div className="scroll2">
@@ -188,21 +202,25 @@ function Cards() {
                   </div>
                 </div>
 
-
-                <div className="head_text_tours">Best in Sochi</div>
-                <ul className="scroll_ul" ref={scrl} onScroll={scrollCheck1}>
-                  {
-
-                    tours.map((tour, idx) => {
-                      if (tour) {
-                        if (tour.city === 'Sochi') {
-                          return <CardItem key={tour._id} tour={tour} />
-                        } else return
-                      } else {
-                        return false
-                      }
-                    })}
-                </ul>
+                  {dataHistory &&
+                  <>              
+                   <div className="head_text_tours">История просмотров</div>
+                  <div className="tourHistory"  >
+          
+                    {
+                       
+                       dataHistory && dataHistory.map((el, idx) => {
+                          console.log(el.visitShema)
+                        if (el.visitShema.tourId) {
+             
+                            return <CardItemHistory key={el.visitShema.tourId[0]._id} tour={el.visitShema.tourId[0]} counter={el.visitShema.counter} updatedAt={el.visitShema.updatedAt} />
+                        } else {
+                          return false
+                        }
+                      })}
+                  </div></>
+ 
+                }
 
 
 

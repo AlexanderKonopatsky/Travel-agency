@@ -35,15 +35,15 @@ function UserListPage(props) {
           <table className="table">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>firstName</th>
-                <th>lastName</th>
-                <th>email</th>
-                <th>password  </th>
+                <th>Id</th>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Почта</th>
+                <th>Пароль  </th>
                 <th>isAdmin</th>
                 <th>createdAt</th>
                 <th>updatedAt</th>
-                <th>ACTIONS</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -65,7 +65,7 @@ function UserListPage(props) {
                         editUserHandler(user)
                       }}
                     >
-                      Edit
+                      Обновить   
                     </button>
 
                   </td>

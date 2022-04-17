@@ -4,6 +4,7 @@ const Category = require('../models/categoryModel')
 const Order = require('../models/orderModel')
 const City = require('../models/cityModel')
 const Country = require('../models/countryModel')
+const User = require('../models/userModel')
 const tourRouter = express.Router()
 const { isAuth, isAdmin } = require('../middleware/utils')
 const ObjectId = require('mongodb').ObjectID;
@@ -22,7 +23,6 @@ tourRouter.get('/cityInTheCountry', async (req, res) => {
  })
 
  tourRouter.post('/advancedSearchPage', async (req, res) => {
-   console.log('req.body', req.body)
    let tours = await Tour
       .find({
          price: {$gt : 50, $lt: 500},
@@ -42,7 +42,6 @@ tourRouter.get('/cityInTheCountry', async (req, res) => {
 
 
 tourRouter.get('/', async (req, res) => {
-   console.log(req.query.ratingValue)
   const pageSize = 3
   const currentPage = Number(req.query.page) || 1
   const priceFrom = req.query.priceFrom || 0
@@ -112,13 +111,92 @@ tourRouter.get('/city', async (req, res) => {
   res.send(cities)
 })
 
+tourRouter.get('/getHistory', async (req, res) => {
+
+   const userId = req.query.userId
+   const tourHistory = await User.findById(userId).sort({'visitShema.counter' : 1}).populate('visitShema.tourId')
+
+   const tourHistory2 =await User.aggregate([
+          { $match: {_id: ObjectId(userId)}},
+          { $unwind: "$visitShema" },
+          { $sort: { "visitShema.updatedAt": -1 } },
+          {
+            $lookup:
+            {
+               from: "tours",
+               localField: "visitShema.tourId",
+               foreignField: "_id",
+               as: "visitShema.tourId"
+            }
+         }
+       ]);
+/*      console.log(tourHistory2) */
+  /*  tourHistory.forEach(el => console.log(new Date(el.updateAt))) */
+
+/*   console.log(tourHistory.visitShema) */
+   res.send(tourHistory2)
+})
+
 tourRouter.get('/:id', async (req, res) => {
-  const tour = await Tour.findById(req.params.id).populate('comments.user').populate('categoryS cityT')
-  if (tour) {
-    res.send(tour)
-  } else {
-    res.status(404).send({message: 'Tour not Found'})
-  }
+   let tourId = req.params.id
+   let userId =  req.query.userId
+   if (req.query.userId) {
+
+      const user = await User.find({ "_id" : userId,  "visitShema.tourId" : tourId})
+      if (user.length) {
+          await User.updateOne(
+               { _id: userId, "visitShema.tourId": tourId },
+               {  $inc: { "visitShema.$.counter": 1 } ,
+                  $set: { "visitShema.$.updatedAt" : Date.now() } 
+               },
+            )
+      } else {
+          const visit = {  tourId, counter : 1, updatedAt: Date.now() }
+          const user = await User.findById(userId)
+          user.visitShema.push(visit)
+          const updatedUser = await user.save()
+      }
+      
+/*       let averageRatingTour = await User.aggregate(
+         [
+            { $match: {_id: userId}}, 
+            {    
+                $sort: { "visitShema.$.updatedAt": 1 } 
+            }
+         ]
+       )
+       console.log(averageRatingTour) */
+
+/* "visitShema.$.counter" */
+/*       await Tour.updateOne(
+         { _id: tourId, "comments._id": commentId},
+         { $set: { "comments.$.isActive" : statusValue} })
+
+      await User.updateOne({ _id: userId },{ $set: { "numReviews" : tour.length, "rating" : rating } })
+
+      await User.updateOne(
+         {_id: userId}, 
+         {$push: {visitShema: {"tourId": tourId}}},{new: true, upsert: true })
+
+
+
+      category.save();
+      }); */
+
+/*       const user = await User.findByIdAndUpdate()
+      const visit = {
+         tourPage: req.params._id,
+         counter: req.body.comment
+       }
+       tour.comments.push(comment)
+       tour.numReviews = tour.comments.length */
+   }
+   const tour = await Tour.findById(req.params.id).populate('comments.user').populate('categoryS cityT')
+   if (tour) {
+      res.send(tour)
+   } else {
+      res.status(404).send({message: 'Tour not Found'})
+   }
 })
 
 
