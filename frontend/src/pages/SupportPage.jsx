@@ -79,7 +79,6 @@ export default function SupportPage() {
          });
          sk.on('selectUser', (user) => {
             allMessages = user.messages;
-            console.log(allMessages)
             setMessages(allMessages);
          });
       }
@@ -101,7 +100,7 @@ export default function SupportPage() {
    const submitHandler = (e) => {
       e.preventDefault();
       if (!messageBody.trim()) {
-         alert('Error. Please type message.');
+         alert('Ошибка. Пожалуйства напишите ваше сообщение.');
       } else {
          allMessages = [
             ...allMessages,
@@ -141,7 +140,7 @@ export default function SupportPage() {
                <div className='col-xs-12'>
                   <div className='header_section'>
                      <h1 className='header_text_profile'>
-                        Support
+                        Поддержка
                      </h1>
                   </div>
                </div>

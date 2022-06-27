@@ -7,7 +7,7 @@ function Home() {
     <>
       <div className="top-image">
         <h1>
-          <span className="home-image__title-text">The world is waiting!</span>
+          <span className="home-image__title-text"></span>
         </h1>
       </div>
       <Form />

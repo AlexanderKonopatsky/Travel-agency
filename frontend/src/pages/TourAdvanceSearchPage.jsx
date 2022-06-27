@@ -64,64 +64,70 @@ function TourAdvanceSearchPage(props) {
             error ? (<div class="message_box_tour"><MessageBox variant="danger">{error}</MessageBox></div>)
                : (
                   <>
-                     <div className='grid'>
-                        <div className='grid__section'>
-                           <div className='grid__content__container'>
-                              <div className='grid__content'>
-                                 <h1 className='text-center'>
-                                    {tours && tours[0].categoryS.categoryName}
-                                 </h1>
-                                 <h1 className='text-center'>
-                                    {tours && tours[0].cityT.cityName}    </h1>
-                                 <h1 className='text-center'>
-                                    {tours && tours[0].country}     </h1>
-                                 <h1 className='text-center'>
-                                    Цена от и до
-                                 </h1>
-                                 <h1 className='text-center'>
-                                    Рейтинг от и до
-                                 </h1>
+                     {tours.length === 0 && <div class="message_box_tour"><MessageBox variant="danger">Туры не найдены</MessageBox></div>}
+
+                     {tours.length !== 0 &&
+                        (<div>
+                           {console.log(tours[0])}
+                           <div className='grid'>
+                              <div className='grid__section'>
+                                 <div className='grid__content__container'>
+                                    <div className='grid__content'>
+                                       <h1 className='text-center'>
+                                          Категория: {tours && tours[0].categoryS.categoryName}
+                                       </h1>
+                                       <h1 className='text-center'>
+                                         Страна: {tours && tours[0].country}     </h1>
+                                       <h1 className='text-center'>
+                                          Город: {tours && tours[0].cityT.cityName}    </h1>
+                      
+                      
+                                    </div>
+                                 </div>
+                              </div>
+                              <div className='grid__section '>
+                                 <div className='grid__wrap'>
+                                    <button className='grid__gallery-button' >
+                                       {/*                     {category && <img alt="" className="grid__image" src={tours[0].categoryS.categoryImage} /> } */}
+                                    </button>
+                                 </div>
                               </div>
                            </div>
-                        </div>
-                        <div className='grid__section '>
-                           <div className='grid__wrap'>
-                              <button className='grid__gallery-button' >
-                                 {/*                     {category && <img alt="" className="grid__image" src={tours[0].categoryS.categoryImage} /> } */}
-                              </button>
+
+
+                           <div className="card_container">
+                              <div className="card-grid-columns">
+
+
+                                 {tours &&
+                                    tours.map(tour => (
+                                       <div className="__tour-card">
+                                          <CardItemCategory key={tour._id} tour={tour} />
+                                       </div>
+                                    ))
+                                 }
+
+
+                              </div>
+                              <div className="row center pagination">
+                                 {[...Array(pages).keys()].map((x) => (
+                                    <Link
+                                       className={x + 1 === page ? 'active' : ''}
+                                       key={x + 1}
+                                       to={`/advanceSearch?page=${x + 1}`}
+
+                                    >
+                                       {x + 1}
+                                    </Link>
+                                 ))}
+
+                              </div>
                            </div>
-                        </div>
-                     </div>
 
+                        </div>)
 
-                     <div className="card_container">
-                        <div className="card-grid-columns">
+                     }
 
-
-                           {tours &&
-                              tours.map(tour => (
-                                 <div className="__tour-card">
-                                    <CardItemCategory key={tour._id} tour={tour} />
-                                 </div>
-                              ))
-                           }
-
-
-                        </div>
-                        <div className="row center pagination">
-                           {[...Array(pages).keys()].map((x) => (
-                              <Link
-                                 className={x + 1 === page ? 'active' : ''}
-                                 key={x + 1}
-                                 to={`/advanceSearch?page=${x + 1}`}
-
-                              >
-                                 {x + 1}
-                              </Link>
-                           ))}
-
-                        </div>
-                     </div>
 
                   </>
                )

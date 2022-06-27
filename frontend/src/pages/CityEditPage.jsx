@@ -87,6 +87,7 @@ function CityEditPage(props) {
    // UPDATE
    const submitСategoryUpdateHandler = async (city) => {
 
+      console.log(cityCoordinateUpdate1, cityCoordinateUpdate2, 'cityCoordinateUpdate1')
 
       const updatedCity = {
          cityName: cityNameUpdate,
@@ -108,6 +109,8 @@ function CityEditPage(props) {
       setCurrentIdCity(city._id)
       setCityCountryUpdate(city.country.countryName)
       setCityCoordinateUpdate([city.lon, city.lat])
+      setCityCoordinateUpdate1(city.lon)
+      setCityCoordinateUpdate2(city.lat)
    }
 
 
@@ -175,7 +178,7 @@ function CityEditPage(props) {
                   <div className='col-xs-12'>
                      <div className='header_section'>
                         <h1 className='header_text_profile'>
-                           города
+                           Города
                         </h1>
                      </div>
                   </div>
@@ -185,6 +188,19 @@ function CityEditPage(props) {
                   <section className="grid-main-column-cart">
                      <h1 className="head-text">Создание города</h1>
                      <div className="item-cart">
+
+                     <div >
+                                       <label className="form-box__field" >
+                                          <span className='form-label'>
+                                             Rоординаты (долгота и широта) <button className='btn_coordinate' onClick={getCoordinate}>Получить координаты</button>
+                                          </span>
+                                          <div style={divStyle}>
+                                             <input className="form-input-coordinate" value={coordinates && coordinates[0]} type="text" />
+                                             <input className="form-input-coordinate" value={coordinates && coordinates[1]} type="text" />
+                                          </div>
+
+                                       </label>
+                                    </div>
 
                         <form className='form_for_new_user' onSubmit={submitСategoryCreateHandler}>
                            <>
@@ -209,18 +225,7 @@ function CityEditPage(props) {
                                        </label>
                                     </div>
 
-                                    <div >
-                                       <label className="form-box__field" >
-                                          <span className='form-label'>
-                                             Rоординаты (долгота и широта) <button className='btn_coordinate' onClick={getCoordinate}>Получить координаты</button>
-                                          </span>
-                                          <div style={divStyle}>
-                                             <input className="form-input-coordinate" value={coordinates && coordinates[0]} type="text" />
-                                             <input className="form-input-coordinate" value={coordinates && coordinates[1]} type="text" />
-                                          </div>
-
-                                       </label>
-                                    </div>
+   
                                  </div>
 
                                  <div className='form-box'>
@@ -270,6 +275,8 @@ function CityEditPage(props) {
                                     </label>
                                  </div>
 
+  
+
                                  <button className='btn_auth' type="submit" >
                                     Создать
                                  </button>
@@ -304,7 +311,7 @@ function CityEditPage(props) {
                                        <span className='form-label'>
                                           Id города
                                        </span>
-                                       <input className="form-input" value={currentIdCity} onChange={e => setCityNameUpdate(e.target.value)} type="text" />
+                                       <input type="hidden" className="form-input" value={currentIdCity}  type="text" />
                                     </label>
                                  </div>
 

@@ -11,6 +11,7 @@ module.exports = {
     const userId = req.headers.userid
     if (oauth === 'gmail') {
       const data = await Axios.post('https://www.googleapis.com/oauth2/v1/tokeninfo', { access_token : authorization.slice(7, authorization.length) })
+
       if (data.status === 200) {
          let userIdValue = { _id : userId }
          req.user = userIdValue

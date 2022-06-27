@@ -44,7 +44,6 @@ export const listTour = () => async (dispatch) => {
   })
   try {
     const { data } = await Axios.get('api/tours/home')
-    
     dispatch({
       type: TOUR_LIST_SUCCESS,
       payload: data.tours
@@ -65,12 +64,20 @@ export const detailsTour = (tourId) => async (dispatch, getState) => {
     payload: tourId
   })
   try {
+    if (userInfo) {
+      const { data } = await Axios.get(`/api/tours/${tourId}?userId=${userInfo._id}`)
+      dispatch({
+         type: TOUR_DETAILS_SUCCESS,
+         payload: data
+       })
+    } else {
+      const { data } = await Axios.get(`/api/tours/${tourId}`)
+      dispatch({
+         type: TOUR_DETAILS_SUCCESS,
+         payload: data
+       })
+    }
  
-    const { data } = await Axios.get(`/api/tours/${tourId}?userId=${userInfo._id}`)
-    dispatch({
-      type: TOUR_DETAILS_SUCCESS,
-      payload: data
-    })
   } catch (error) {
     dispatch({
       type: TOUR_DETAILS_FAIL,
@@ -299,7 +306,28 @@ export const listTourAdvancedSearch2 = (obj) => async (dispatch) => {
    })
    try {
        const { data } = await Axios.post(`/api/tours/advancedSearchPage`, obj)
-    
+       dispatch({
+         type: TOUR_ADVANCED_SEARCH_SUCCESS,
+         payload: {tours : data.tours}
+       })
+ 
+   } catch (error) {
+     dispatch({
+       type: TOUR_ADVANCED_SEARCH_FAIL,
+       payload: error.response && error.response.data.message 
+         ? error.response.data.message
+         : error.message
+     })
+   }
+ }
+
+ export const listTourAdvancedSearch3 = (obj) => async (dispatch) => {
+   dispatch({
+     type: TOUR_ADVANCED_SEARCH_REQUEST,
+     payload: obj
+   })
+   try {
+       const { data } = await Axios.post(`/api/tours/searchTours`, obj)
        dispatch({
          type: TOUR_ADVANCED_SEARCH_SUCCESS,
          payload: {tours : data.tours}

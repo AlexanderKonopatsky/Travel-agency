@@ -7,12 +7,11 @@ import * as SiIcons from 'react-icons/si'
 
 const SubMenu = ({ item, list, path }) => {
   const [subnav, setSubnav] = useState(false);
-
   const showSubnav = () => setSubnav(!subnav);
 
   return (
     <>
-      <Link className="sidebar_link" to={item.path} onClick={item.subNav && showSubnav}>
+      <button className="sidebar_link" onClick={item.subNav && showSubnav}>
         <div>
           {item.icon}
           <span className="sidebar_label">{item.title}</span>
@@ -24,7 +23,7 @@ const SubMenu = ({ item, list, path }) => {
             ? item.iconClosed
             : null}
         </div>
-      </Link>
+      </button>
       {subnav && list &&
         list.map((item, index) => {
           let href = `/${path}/${item}`

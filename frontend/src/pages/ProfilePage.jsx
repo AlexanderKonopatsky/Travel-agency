@@ -100,7 +100,7 @@ function Profile(props) {
                   <div className='col-xs-12'>
                      <div className='header_section'>
                         <h1 className='header_text_profile'>
-                           Edit Profile
+                           Профиль
                         </h1>
                      </div>
                   </div>
@@ -108,7 +108,7 @@ function Profile(props) {
 
                <div className="grid-cart-profile">
                   <section className="grid-main-column-cart">
-                     <h1 className="head-text">Your Profile</h1>
+                     <h1 className="head-text">Изменить профиль </h1>
                      <div className="item-cart">
 
                         <form className='form_for_new_user' onSubmit={submitHandler}>
@@ -125,7 +125,7 @@ function Profile(props) {
                                  )}
                                  {successUpdate && (
                                     <MessageBox variant="success">
-                                       Profile Updated Successfully
+                                       Профиль успешно обновлён
                                     </MessageBox>
                                  )}
                                  <div className='row1'>
@@ -133,7 +133,7 @@ function Profile(props) {
                                     <div className='form-box'>
                                        <label className="form-box__field" >
                                           <span className='form-label'>
-                                             First Name
+                                             Имя
                                           </span>
                                           <input className="form-input" value={firstName} onChange={e => setFirstName(e.target.value)} type="text" />
                                        </label>
@@ -142,7 +142,7 @@ function Profile(props) {
                                     <div className='form-box'>
                                        <label className="form-box__field" >
                                           <span className='form-label'>
-                                             Latt Name
+                                             Фамилия
                                           </span>
                                           <input className="form-input" value={lastName} onChange={e => setLastName(e.target.value)} type="text" />
                                        </label>
@@ -151,7 +151,7 @@ function Profile(props) {
                                     <div className='form-box'>
                                        <label className="form-box__field" >
                                           <span className='form-label'>
-                                             Email
+                                             Почта
                                           </span>
                                           <input className="form-input" value={email} type="email" onChange={e => setEmail(e.target.value)} />
                                        </label>
@@ -162,7 +162,7 @@ function Profile(props) {
                                           <div className='form-box'>
                                              <label className="form-box__field" >
                                                 <span className='form-label'>
-                                                   Password
+                                                   Пароль
                                                 </span>
                                                 <input className="form-input" type="password" onChange={e => setPassword(e.target.value)} />
                                              </label>
@@ -171,7 +171,7 @@ function Profile(props) {
                                           <div className='form-box'>
                                              <label className="form-box__field" >
                                                 <span className='form-label'>
-                                                   Confirm password
+                                                   Подтвердите пароль
                                                 </span>
                                                 <input className="form-input" type="password" onChange={e => setConfirmPassword(e.target.value)} />
                                              </label>
@@ -183,7 +183,7 @@ function Profile(props) {
                                     <div className='form-box'>
                                        <label className="form-box__field" >
                                           <span className='form-label'>
-                                             Main Image
+                                             Изображение
                                           </span>
                                           <input className="form-input" type="file" id="fileUpdate" onChange={uploadFileHandler} />
                                           {loadingUpload && <LoadingBox></LoadingBox>}
@@ -194,7 +194,7 @@ function Profile(props) {
                                     </div>
                                
                                        <button className='btn_auth' type="submit" >
-                                          UPDATE
+                                          Изменить
                                        </button>
                                 
                                  </div>
@@ -208,7 +208,7 @@ function Profile(props) {
                   </section>
 
                   <section className="grid-checkout-column">
-                     <h1 className="head-text">Info </h1>
+                     <h1 className="head-text">Информация </h1>
                      <div className="item-checkout">
                         {loginData
                            ? <img src={loginData && loginData.picture} alt="profile"></img>

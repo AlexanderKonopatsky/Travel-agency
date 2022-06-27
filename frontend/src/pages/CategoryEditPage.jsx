@@ -203,7 +203,7 @@ function CategoryEditPage(props) {
 
 
 
-              <h1 className="head-text">Обновать категорию</h1>
+              <h1 className="head-text">Обновить категорию</h1>
               <div className="item-cart">
 
                 <form className='form_for_new_user' onSubmit={submitСategoryUpdateHandler}>
@@ -212,11 +212,7 @@ function CategoryEditPage(props) {
                     {errorUpdate && (
                       <MessageBox variant="danger">{errorUpdate}</MessageBox>
                     )}
-                    {successUpdate && (
-                      <MessageBox variant="success">
-                        Profile Updated Successfully
-                      </MessageBox>
-                    )}
+   
                     <div className='row1'>
 
                       <div className='form-box'>

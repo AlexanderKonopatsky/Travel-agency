@@ -30,7 +30,7 @@ const sendVerificationEmail = async ( _id, email) => {
    const message = {
       to: email,
       subject: 'Подтвердите свою почту',
-      html : `<p>Перейдите по следующей ссылке для подтверждения своей почты ${email} </p><br><br><p>Ссылка доступна в течении 6 часов</p><br><br><p>Ссылка: <a href=${currentUrl}api/users/verify/${_id}/${uniqueString}>здесь</a></p>`
+      html : `<p>Перейдите по следующей ссылке для подтверждения своей почты ${email} </p><br><p>Ссылка доступна в течении 6 часов</p><br><p>Ссылка: <a href=${currentUrl}api/users/verify/${_id}/${uniqueString}>здесь</a></p>`
    }
 
    const saltRound = 10
@@ -158,12 +158,14 @@ userRouter.post('/signin', async (req, res) => {
 })
 
 userRouter.post('/signinOauth', async (req, res) => {
-   const user = await User.findOne({ email: req.body.email})
+   const email = req.body.response.profileObj.email
+   const user = await User.findOne({ email })
    if (!user) {
+
       const user = new User({
-         firstName: req.body.givenName,
-         lastName: req.body.familyName,
-         email: req.body.email,
+         firstName: req.body.response.profileObj.givenName,
+         lastName: req.body.response.profileObj.familyName,
+         email: req.body.response.profileObj.email,
          oauth: 'gmail'
        })
        const createdUser = await user.save()
@@ -209,7 +211,7 @@ userRouter.post('/signUp', async (req, res) => {
     })
     sendVerificationEmail(createdUser._id, req.body.email)
   } else {
-    res.status(401).send({ message : 'There is already a user with this mail' })
+    res.status(401).send({ message : 'Пользователь с такой почтой уже существует' })
   }
 })
 

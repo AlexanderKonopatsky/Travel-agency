@@ -14,8 +14,10 @@ commentRouter.post('/:id', isAuth, async (req, res) => {
     const comment = {
       user: req.user._id,
       comment: req.body.comment,
-      rating: Number(req.body.rating)
+      rating: Number(req.body.rating),
+      isActive: false
     }
+
     tour.comments.push(comment)
     tour.numReviews = tour.comments.length
     tour.rating = (tour.comments.reduce((a, c) =>  c.rating + a, 0 ) / tour.comments.length).toFixed(2)

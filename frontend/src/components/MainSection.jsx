@@ -44,11 +44,11 @@ export function MainSection(props) {
 
             <div className="grid-main-column">
               <div className='head-text'>
-                Tour Details
+                Детали тура
               </div>
               <div className="box">
                 <div className="box-head">
-                  Tour description
+                  Описание тура
                 </div>
                 <div className="box-body">
                   This three-hour introduction to Berlin is designed to provide a perfect introduction to Berlin for first timers, or to reorient returning travelers to some of the city's most important sites, including the Brandenburg Gate, Holocaust Memorial, and the
@@ -60,11 +60,11 @@ export function MainSection(props) {
               </div>
 
               <div className='head-text'>
-                Tour Details
+                Детали тура
               </div>
               <div className="box">
                 <div className="box-head">
-                  Tour description
+                Описание тура
                 </div>
                 <div className="box-body">
                   This three-hour introduction to Berlin is designed to provide a perfect introduction to Berlin for first timers, or to reorient returning travelers to some of the city's most important sites, including the Brandenburg Gate, Holocaust Memorial, and the
@@ -73,7 +73,7 @@ export function MainSection(props) {
                 </div>
 
                 <div className="box-head">
-                  Tour description
+                Описание тура
                 </div>
                 <div className="box-body">
                   This three-hour introduction to Berlin is designed to provide a perfect introduction to Berlin for first timers, or to reorient returning travelers to some of the city's most important sites, including the Brandenburg Gate, Holocaust Memorial, and the

@@ -19,48 +19,16 @@ import env from "dotenv"
 env.config()
 
 
-const images = [
-   {
-      original: '/uploads/1639558192839.jpg',
-      thumbnail: 'https://picsum.photos/id/1018/1000/600/',
-   },
-   {
-      original: 'https://picsum.photos/id/1015/1000/600/',
-      thumbnail: 'https://picsum.photos/id/1015/1000/600/',
-   },
-   {
-      original: 'https://picsum.photos/id/1019/1000/600/',
-      thumbnail: 'https://picsum.photos/id/1019/250/150/',
-   },
-];
-
-
-const cities = [
-   {
-      data: { content: 'Saint-Petersburg' },
-      options: { selectOnClick: false },
-      coords: [59.93863, 30.31413],
-   },
-   {
-      data: { content: 'Dzerzhinsky' },
-      options: { selectOnClick: false },
-      coords: [55.630527, 37.849046],
-   },
-   {
-      data: { content: 'Moscow' },
-      options: { selectOnClick: false },
-      coords: [55.753559, 37.609218],
-   },
-];
-
 
 function Tour(props) {
    const dispatch = useDispatch()
    const tourId = props.match.params.id
-
+   const [availableSeats, setAvailableSeats] = useState('')
    const [startDate, setStartDate] = useState(new Date());
-   const [endDate, setEndDate] = useState(new Date().setDate(new Date().getDate() + 14));
+   const [endDate, setEndDate] = useState(new Date()/* new Date(new Date().setDate(new Date().getDate() + 7)) */);
    const [rating, setRating] = useState(0);
+   const [emptyError, setEmptyError] = useState(false);
+   const [emptyError2, setEmptyError2] = useState(false);
    const [updateRating, setUpdateRating] = useState(0);
    const [comment, setComment] = useState('');
    const [comments, setComments] = useState('');
@@ -68,6 +36,10 @@ function Tour(props) {
    const [deletedComment, setDeletedComment] = useState([])
    const [arrayImageTour, setArrayImageTour] = useState([])
    const [centerMap, setCenterMap] = useState({})
+   const [deletedSeats, setDeletedSeats] = useState([])
+   const [availableSeatsCount, setAvailableSeatsCount] = useState()
+   const [reservedSeatsCount, setReservedSeatsCount] = useState()
+   const [currentIdSeats, setCurrentIdSeats] = useState()
    let [numComments, setNumComments] = useState('')
 
    const tourDetails = useSelector(state => state.tourDetails)
@@ -100,22 +72,31 @@ function Tour(props) {
    }
 
    const addToCartHandler = () => {
-      props.history.push(`/cart/${tourId}?startDate=${startDate}&endDate=${endDate}`)
+
+      if (count > availableSeatsCount) {
+         alert('Не достаточно свободных мест')
+
+      } else {
+         props.history.push(`/cart/${tourId}?idSeats=${currentIdSeats}&startDate=${startDate}&endDate=${endDate}&count=${count}`)
+      }
+  
    }
 
    const submitHandler = (e) => {
       e.preventDefault();
       if (comment && rating) {
-         if (comment.length < 5000) {
+         if (comment.length < 1000) {
             dispatch(
                commentCreate(tourId, { comment, rating, user: userInfo._id })
             );
          } else {
-            alert('Comment length cannot exceed 5000 characters');
+            setEmptyError2(true)
+      
          }
-
+         setEmptyError(false)
       } else {
-         alert('Please enter comment and rating');
+         setEmptyError2(false)
+         setEmptyError(true)
       }
    };
 
@@ -148,10 +129,30 @@ function Tour(props) {
    }, [dispatch, tour])
 
 
+   const submitSelectHandler2 =  (availableSeats) => {
+      setStartDate(new Date(availableSeats.startDate))
+      setEndDate(new Date(availableSeats.endDate))
+      setAvailableSeatsCount(availableSeats.availableSeats - availableSeats.reservedSeats)
+      setReservedSeatsCount(availableSeats.reservedSeats)
+      setCount(2)
+      setCurrentIdSeats(availableSeats._id)
+      console.log(startDate, endDate)
+
+   }
+
+   const getDataAvailableSeats = async () => {
+      let availableSeats  = await Axios.get(`/api/tours/${tourId}/availableSeats`, /* { headers: { Authorization: `Bearer ${userInfo.token}` } } */)
+      availableSeats = availableSeats.data.availableSeats
+      console.log(availableSeats)
+      setAvailableSeats(availableSeats) 
+    }
+
 
    useEffect(() => {
+      console.log('111111', tourId)
       dispatch(detailsTour(tourId))
       getComments(tourId)
+      getDataAvailableSeats()
    }, [dispatch, tourId])
 
    useEffect(() => {
@@ -165,25 +166,18 @@ function Tour(props) {
    }, [dispatch, successCommentCreate, tourId])
 
 
+   const [count, setCount] = useState(2)
+
+   const decrement = () => {
+      if (count > 1) setCount(count - 1)
+   }
+
+   const increment = () => {
+      if (count < availableSeatsCount) setCount(count + 1)
+   }
 
 
-
-   const coordinates = [
-      [55.851574, 37.873856],
-      [55.651574, 37.773856],
-      [55.551574, 37.673856],
-      [55.451574, 37.273856],
-      [55.351574, 37.373856],
-      [55.2751574, 37.473856],
-   ]
-
-   const mapState = {
-      center: [55.751574, 37.573856],
-      zoom: 9,
-      behaviors: ['default', 'scrollZoom'],
-   };
-
-   const getPointData = (index, title, desc, image)  => {
+   const getPointData = (index, title, desc, image) => {
       return {
          balloonContentBody: [
             `<i>Название: ${title}</i>`,
@@ -252,20 +246,53 @@ function Tour(props) {
                            <div className="grid-section">
                               <div className="grid-sidebar">
                                  <div className='head-text'>
-                                    Book a Tour
+                                    Добавить тур в корзину
                                  </div>
                                  <div className="grid-with-sidebar">
                                     <DatePicker
                                        selected={startDate}
-                                       onChange={onChange}
+                              
                                        startDate={startDate}
                                        endDate={endDate}
                                        selectsRange
                                        inline
                                     />
-                                    {/*         <input type="submit" value="See Available Tours" class="action-button-tour" /> */}
-                                    <input onClick={addToCartHandler} type="submit" value="Add tour to cart" class="action-button-tour" />
-                                    {/* <button className="primary block">Add to Cart</button> */}
+
+                             
+
+
+
+
+                                    <div className="box-head">Количество человек</div>
+                                    <div className="counterCartTour">
+                                       <button onClick={decrement} className="form-incrementer__btn" data-decrement="" type="button">
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="#1a1a1a">
+                                             <g transform="translate(3.603 3)">
+                                                <path d="M5.3,9h8.3v2H5.3V9z"></path>
+                                             </g>
+                                             <path
+                                                d="M13,2c6.1,0,11,4.9,11,11s-4.9,11-11,11S2,19.1,2,13S6.9,2,13,2 M13,1C6.4,1,1,6.4,1,13s5.4,12,12,12s12-5.4,12-12   S19.6,1,13,1L13,1z">
+                                             </path>
+                                          </svg>
+
+                                       </button>
+                                       <input type="number" id="booking-pax" value={count}
+                                          className="form-incrementer__input form-incrementer__input__booking" required="required"
+                                          readOnly="readonly" />
+                                       <button onClick={increment} className="form-incrementer__btn" data-increment="" type="button">
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="26px" height="26px" viewBox="0 0 26 26" fill="#1a1a1a">
+                                             <path
+                                                d="M13,2c6.1,0,11,4.9,11,11s-4.9,11-11,11S2,19.1,2,13S6.9,2,13,2 M13,1C6.4,1,1,6.4,1,13s5.4,12,12,12s12-5.4,12-12   S19.6,1,13,1L13,1z">
+                                             </path>
+                                             <g transform="translate(4 3)">
+                                                <path className="st1" d="M8,9V4.8H10V9h4.2V11H10v4.2H8V11H3.8V9H8z"></path>
+                                             </g>
+                                          </svg>
+
+                                       </button>
+                                    </div>
+
+                                    <input onClick={addToCartHandler} type="submit" value="Добавить в корзину" class="action-button-tour" />
                                  </div>
                               </div>
                               <div>
@@ -274,12 +301,12 @@ function Tour(props) {
 
                               <div className="grid-main-column">
                                  <div className='head-text'>
-                                    Tour Details
+                                    Детали тура
                                  </div>
                                  <div className="box">
 
                                     <div className="box-head">
-                                       Tour description
+                                    Описание тура
                                     </div>
                                     <div className="box-body">
                                        {tour.desc}
@@ -289,72 +316,75 @@ function Tour(props) {
                                     </div>
 
                                     <div className="box-head">
-                                       Tour category - {tour.categoryS.categoryName}
+                                      Категория тура  - {tour.categoryS.categoryName}
                                     </div>
 
+                         
+                                   
 
-                             
-                               
-                                    <YMaps query={{ apikey: process.env.REACT_APP_API_KEY_YANDEX_MAPS }}>
-                                       <Map width='100%'
-                                          height='500px' state={centerMap && centerMap}>
-                                          <Clusterer
-                                             options={{
-                                                preset: 'islands#invertedVioletClusterIcons',
-                                                groupByCoordinates: false,
-                                                clusterDisableClickZoom: true,
-                                                clusterHideIconOnBalloonOpen: false,
-                                                geoObjectHideIconOnBalloonOpen: false,
-                                             }}
-                                          >
-                                             {tour.attractions.map((a, idx) =>
-                                                <Placemark
-                                                   geometry={[a.lat, a.lon]}
-
-
-
-                                                   key={idx}
-                                                   options={getPointOptions()}
-                                                   properties={getPointData(idx, a.titleAttraction, a.descAttraction, a.imageAttraction)}
-
-
-
-                                          
-
-                                                   
-                                                   modules={['geoObject.addon.balloon', 'geoObject.addon.hint']}
-                                                />)
-
-                                             }
-                                          </Clusterer>
-                                          <ListBox data={{ content: 'Choose city' }} options={{ float: 'right' }}>
-                                             {cities.map(city =>
-                                                <ListBoxItem
-                                                   data={city.data}
-                                                   options={city.options}
-                                                   onClick={() => onItemClick(city.coords)}
-                                                   key={city.data.content}
-                                                />
-                                             )}
-                                          </ListBox>
-                                          <FullscreenControl />
-                                          <GeolocationControl options={{ float: 'left' }} />
-                                          <TypeSelector options={{ float: 'right' }} />
-                                          <ZoomControl options={{ float: 'right' }} />
-                                       </Map>
-                                    </YMaps>
-                                    {/*<YMaps query={{ apikey: process.env.REACT_APP_API_KEY_YANDEX_MAPS }}>
-                                       <Panorama defaultPoint={[55.733685, 37.588264]} />
-                                    </YMaps> */}
+<YMaps query={{ apikey: process.env.REACT_APP_API_KEY_YANDEX_MAPS }}>
+   <Map width='100%' height='500px' state={centerMap && centerMap}>
+      <Clusterer
+         options={{
+            preset: 'islands#invertedVioletClusterIcons',
+            groupByCoordinates: false,
+            clusterDisableClickZoom: true,
+            clusterHideIconOnBalloonOpen: false,
+            geoObjectHideIconOnBalloonOpen: false,
+         }}
+      >
+         {tour.attractions.map((a, idx) =>
+            <Placemark
+               geometry={[a.lat, a.lon]}
+               key={idx}
+               options={getPointOptions()}
+               properties={getPointData(idx, a.titleAttraction, a.descAttraction, a.imageAttraction)}
+               modules={['geoObject.addon.balloon', 'geoObject.addon.hint']}
+            />)
+         }
+      </Clusterer>
+      <FullscreenControl />
+      <GeolocationControl options={{ float: 'left' }} />
+      <TypeSelector options={{ float: 'right' }} />
+      <ZoomControl options={{ float: 'right' }} />
+   </Map>
+</YMaps>
+       
 
 
 
 
                                     <ImageGallery items={arrayImageTour} />
 
+                                    <div className="box-head">
+                                       Доступные даты
+                                    </div>        
 
-
-
+                                    <table className="table">
+                           <thead>
+                              <tr>
+                                 <th>Дата начала</th>
+                                 <th>Дата окончания </th>
+                                 <th>Кол-во занятых мест </th>
+                                 <th>Кнопка</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                           {availableSeats && availableSeats.availableSeats.filter(row => !deletedSeats.includes(row._id)).map(a => (
+                   
+                           <tr key={a._id}>
+                              <td>{String(a.startDate).slice(0, 10)}</td>
+                              <td>{String(a.endDate).slice(0, 10)}</td>
+{/*                               <td>{(!isNaN(a.availableSeats - a.reservedSeats)) ? a.availableSeats - a.reservedSeats : a.availableSeats } из {a.availableSeats}</td> */}
+<td>{ a.reservedSeats  } из {a.availableSeats}</td> 
+                           <td>
+                              <button className="action-button-tour" type="button" onClick={(e) => submitSelectHandler2(a)}>Выбрать</button>
+                              
+                           </td>
+                        </tr>
+                        ))}
+                        </tbody>
+                        </table>
 
 
 
@@ -371,7 +401,7 @@ function Tour(props) {
 
 
                                  <div className='head-text'>
-                                    Comments
+                                    Добавьте комментарий
                                  </div>
                                  <div className="box">
                                     <div>
@@ -381,12 +411,14 @@ function Tour(props) {
                                              {userInfo ? (
                                                 <form className="form" onSubmit={submitHandler}>
                                                    <div className="box-head">
-                                                      Write a comment
+                                                      Напишите комментарий
                                                    </div>
-
+                                                   
+                                                   {emptyError && <MessageBox variant="danger">Пожалуйста напишите комментарий и поставьте оценку туру.</MessageBox>}
+                                                   {emptyError2 && <MessageBox variant="danger">Длина комментария должна быть не более 1000 символов.</MessageBox>}
                                                    {commentsCreated && (
                                                       <MessageBox variant="success">
-                                                         Comment Submitted Successfully
+                                                         Комментарий успешно добавлен
                                                       </MessageBox>
                                                    )}
                                                    {errorCommentCreate && (
@@ -395,22 +427,22 @@ function Tour(props) {
                                                       </MessageBox>
                                                    )}
                                                    <div>
-                                                      <label htmlFor="rating">Rating</label>
+                                                      <label htmlFor="rating">Оценка</label>
                                                       <select
                                                          id="rating"
                                                          value={rating}
                                                          onChange={(e) => setRating(e.target.value)}
                                                       >
-                                                         <option value="">Select...</option>
-                                                         <option value="1">1- Poor</option>
-                                                         <option value="2">2- Fair</option>
-                                                         <option value="3">3- Good</option>
-                                                         <option value="4">4- Very good</option>
-                                                         <option value="5">5- Excelent</option>
+                                                         <option value="">Выберите...</option>
+                                                         <option value="1">1- Бедно</option>
+                                                         <option value="2">2- Плохо</option>
+                                                         <option value="3">3- Нормально</option>
+                                                         <option value="4">4- Очень хорошо</option>
+                                                         <option value="5">5- Великолепно</option>
                                                       </select>
                                                    </div>
                                                    <div>
-                                                      <label htmlFor="comment">Comment</label>
+                                                      <label htmlFor="comment">Комментарий</label>
                                                       <textarea
                                                          id="comment"
                                                          value={comment}
@@ -420,7 +452,7 @@ function Tour(props) {
                                                    <div>
 
                                                       <button className="action-button-tour" type="submit">
-                                                         Submit
+                                                         Отправить
                                                       </button>
                                                    </div>
                                                    <div>
@@ -438,6 +470,7 @@ function Tour(props) {
                                     </div>
                                  </div>
 
+      
 
 
 
@@ -445,10 +478,49 @@ function Tour(props) {
 
 
                                  <div className='head-text'>
-                                    Comments
+                                   На модерации
                                  </div>
                                  <div className="box">
-                                    <h2 className="box-head">Comments {numComments && ' - total ' + numComments}</h2>
+                                    {comments.length === 0 && (
+                                       <MessageBox>There is no comment</MessageBox>
+                                    )}
+                              
+                                    <ul>
+
+                                       {userInfo && comments && comments.filter(row => !deletedComment.includes(row._id) && (row.user._id === userInfo._id ) && (!row.isActive)).map(comment => (
+
+                                          <li key={comment._id}>
+                                             <div className="card__name">{comment.user.firstName} {comment.user.lastName}
+
+
+                                             </div>
+                                             <p>Comment: {comment.comment}</p>
+
+                                             <p>Status: {!comment.isActive ? <p> На модерации</p> : <p>True</p>}</p>
+                                             <p>{comment.createdAt.substring(0, 10)}
+                                                <Rating rating={comment.rating} numReviews={comment.rating} />
+                                             </p>
+                                             {userInfo && userInfo.isAdmin &&
+                                                <div className="btn-remove-comment">
+                                                   <button className="btn-remove" type="button" onClick={(e) => submitUpdateStatusComment(comment._id, 'disable')}>Отключить</button> 
+                                                   <button className="btn-remove" type="button" onClick={(e) => submitDeleteComment(comment._id)}>Удалить</button>
+                                                </div>
+                                             }
+
+                                             <div className="text-divider__divider"></div>
+                                             <br />
+                                          </li>
+                                       ))}
+                                    </ul>
+                                 </div>
+
+
+
+                                 <div className='head-text'>
+                                    Комментарии
+                                 </div>
+                                 <div className="box">
+                                    <h2 className="box-head">Комментарии {/* {numComments && ' - total ' + numComments} */}</h2>
                                     {comments.length === 0 && (
                                        <MessageBox>There is no comment</MessageBox>
                                     )}
@@ -469,9 +541,9 @@ function Tour(props) {
                                              </p>
                                              {userInfo && userInfo.isAdmin &&
                                                 <div className="btn-remove-comment">
-                                                   <button className="btn-remove" type="button" onClick={(e) => submitUpdateStatusComment(comment._id, 'disable')}>disable</button>
+                                                   <button className="btn-remove" type="button" onClick={(e) => submitUpdateStatusComment(comment._id, 'disable')}>Отключить</button>
                                                    {/*     <button className="btn-remove" type="button" onClick={(e) => submitUpdateStatusComment(comment._id, 'enable')}>enable</button> */}
-                                                   <button className="btn-remove" type="button" onClick={(e) => submitDeleteComment(comment._id)}>delete</button>
+                                                   <button className="btn-remove" type="button" onClick={(e) => submitDeleteComment(comment._id)}>Удалить</button>
                                                 </div>
                                              }
 
@@ -493,12 +565,12 @@ function Tour(props) {
 
                                  {userInfo && userInfo.isAdmin && <>
                                     <div className='head-text'>
-                                       Disabled comments
+                                       Отключенные комментарии
                                     </div>
                                     <div className="box">
-                                       <h2 className="box-head">Disabled comments  </h2>
+                        {/*                <h2 className="box-head">Disabled comments  </h2> */}
                                        {comments.length === 0 && (
-                                          <MessageBox>There is no comment</MessageBox>
+                                          <MessageBox>Нет комментарий</MessageBox>
                                        )}
                                        <ul>
 
@@ -518,8 +590,8 @@ function Tour(props) {
                                                 {userInfo && userInfo.isAdmin &&
                                                    <div className="btn-remove-comment">
                                                       {/*  <button className="btn-remove" type="button" onClick={(e) => submitUpdateStatusComment(comment._id, 'disable')}>disable</button> */}
-                                                      <button className="btn-remove" type="button" onClick={(e) => submitUpdateStatusComment(comment._id, 'enable')}>enable</button>
-                                                      <button className="btn-remove" type="button" onClick={(e) => submitDeleteComment(comment._id)}>delete</button>
+                                                      <button className="btn-remove" type="button" onClick={(e) => submitUpdateStatusComment(comment._id, 'enable')}>Одобрить</button>
+                                                      <button className="btn-remove" type="button" onClick={(e) => submitDeleteComment(comment._id)}>Удалить</button>
                                                    </div>
                                                 }
 

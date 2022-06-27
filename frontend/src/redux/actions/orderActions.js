@@ -136,7 +136,7 @@ export const deleteOrder = (orderId) => async (dispatch, getState) => {
   })
   const { userSignIn : { userInfo } } = getState() 
   try {
-    const { data } = await Axios.delete(`/api/orders/${orderId}`, { headers: { 
+    const { data } = await Axios.delete(`/api/orders/${orderId}/${userInfo.email}`, { headers: { 
       Authorization: `Bearer ${userInfo.token}`,
       oauth : userInfo.oauth, 
       userId : userInfo._id 

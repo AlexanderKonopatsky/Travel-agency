@@ -16,7 +16,12 @@ const storage = multer.diskStorage({
 const upload = multer({ storage })
 
 uploadRouter.post('/', isAuth, upload.single('image'), async (req, res) => {
-  res.send(`${req.file.path}`)
+   if (req.hasOwnProperty('file')) {
+      res.send(`${req.file.path}`)
+   } else {
+      res.send('Выберите изображение')
+   }
+
 })
 
 

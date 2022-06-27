@@ -8,12 +8,18 @@ import { ORDER_CREATE_RESET } from '../redux/constants/orderConstants'
 import LoadingBox from '../components/LoadingBox'
 
 
+
 export default function CartPage(props) {
   const tourId = props.match.params.id
-  let startDate = props.location.search.split('=')[1]
-  let endDate = props.location.search.split('=')[2]
+  let idSeats = props.location.search.split('=')[1]
+  let startDate = props.location.search.split('=')[2]
+  let endDate = props.location.search.split('=')[3]
+  let numberOfPerson = props.location.search.split('=')[4]
 
-
+console.log('///', props.location.search.split('=')[1])
+console.log('///', props.location.search.split('=')[2])
+console.log('///', props.location.search.split('=')[3])
+console.log('///', props.location.search.split('=')[4])
   const dispatch = useDispatch()
 
   const cart = useSelector(state => state.cart)
@@ -31,6 +37,7 @@ export default function CartPage(props) {
 
   const orderHandler = () => {
     if (!userInfo) {
+
       props.history.push('/login?redirect=cart')
     } else {
       dispatch(createOrder({ orderItems: cartItems }))
@@ -40,15 +47,15 @@ export default function CartPage(props) {
 
   useEffect(() => {
     if (tourId && !success) {
-      dispatch(addToCart(tourId, startDate, endDate))
+      dispatch(addToCart(tourId, startDate, endDate, numberOfPerson, idSeats))
     }
 
     if (success) {
       /*       props.history.push(`/order/${order._id}`)  */
       props.history.push(`/order/${order._id}`)
-      /* dispatch({ type: ORDER_CREATE_RESET}) */
+       dispatch({ type: ORDER_CREATE_RESET}) 
     }
-  }, [dispatch, tourId, startDate, endDate, success, order, props.history])
+  }, [dispatch, tourId, startDate, endDate, success, order, props.history, idSeats])
 
 
   return (
@@ -73,16 +80,20 @@ export default function CartPage(props) {
                               <img className='item-cart-image' src={item.image} alt='/'></img>
                             </div>
                             <div>
+         
                               <h3 className="text">{item.title}</h3>
-                              <h4 className="text">Start date: {item.startDate}</h4>
-                              <h4 className="text">End date: {item.endDate}</h4>
-                              <h4 className="text">Price: {item.price} $</h4>
+                              <h4 className="text">Дата начала: {item.startDate}</h4>
+                              <h4 className="text">Дата окончания: {item.endDate}</h4>
+                              <h4 className="text">Количество человек: {item.numberOfPerson}</h4>
+                              <h4 className="text">Количество дней: {item.numberOfDays}</h4>
+                              <h4 className="text">Цена за день: {item.price} $</h4>
+                              <h4 className="text">Общая стоимость {item.price}$ * {item.numberOfDays} * {item.numberOfPerson} = {item.totalPrice} $</h4>
                             </div>
 
 
                           </div>
                           <div className="item-bnt-remove">
-                            <button type="button" className="btn-remove" onClick={() => removeFromCartHandler(item._id)}>Remove</button>
+                            <button type="button" className="btn-remove" onClick={() => removeFromCartHandler(item._id)}>Удалить</button>
                           </div>
                         </div>
                       ))
@@ -98,10 +109,12 @@ export default function CartPage(props) {
               <h1 className="head-text">Общая сумма заказа  </h1>
               <div className="item-checkout">
                 <div className="row-info">
-                  <div className="col-total">Total  {cartItems.reduce((a, c) => a + c.price, 0)} $</div>
+                  <div className="col-total">Всего  {cartItems.reduce((a, c) => a + c.totalPrice, 0)} $</div>
                 </div>
                 <button onClick={orderHandler} type="submit" class="btn-checkout" disabled={cartItems.length === 0} >Заказать</button>
               </div>
+              {console.log(userInfo)}
+              {!userInfo && <MessageBox variant="success">Для бронирования пожалуйства авторизуйтесь</MessageBox>}
             </section>
 
             <div className='section_message'>

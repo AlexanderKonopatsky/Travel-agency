@@ -56,6 +56,10 @@ code {
     overflow: hidden;
 }
 
+.text {
+
+}
+
 .text-center  {
   color: white;
   font-size: 50px;
@@ -98,6 +102,7 @@ img {
     padding: 45px 0;
     background-color: #013d48;
     overflow: hidden;
+   min-height: 40 0px;
 }
 
 .grid__section {
@@ -227,6 +232,7 @@ img {
 
   margin: auto;
   margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 
@@ -482,6 +488,8 @@ button.close-sidebar {
   height: 60px;
   text-decoration: none;
   font-size: 18px;
+  width: 100%;
+  background-color: #1b1a1a;
 }
 
 .sidebar_link:hover {
@@ -824,6 +832,7 @@ body {
  }
  .chatbox input {
    width: calc(100% - 9rem);
+   font-size: larger;
  }
  
  .grid-support {
@@ -871,11 +880,13 @@ body {
  }
  .support-messages input {
    width: calc(100% - 9rem);
+   font-size: larger;
  }
  .support-messages ul {
    height: 400px;
    max-height: 600px;
    overflow: scroll;
+   font-size: larger;
  }
  .support-messages li {
    margin-bottom: 6px;
@@ -1087,14 +1098,44 @@ body {
 
  .history__cards__item {
     margin: 5px;
-    width: 248px;
-    height: 165px;
+    width: 275px;
+    height: 182px;
  }
 
+ .recomendation__cards__item {
+   margin: 5px;
+   width: 248px;
+   height: 238px;
+}
 
  .loading {
     margin-top: 400px;
     margin-left: 50%;
 
     margin-bottom: 400px;
+    width: 20%;
+ }
+
+ .error403 {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   margin-top: 125px;
+   margin-bottom: 125px;
+}
+
+ .counterCartTour {
+    margin-top: 10px;
+    margin-bottom: 20px;
+ }
+
+
+
+
+ .availableSeats {
+    display: flex;
+ }
+
+ .datapickerTour {
+    padding-right: 110px;
  }

@@ -177,10 +177,10 @@ function Navbar(props) {
                      : (
                         <>
                            <li className='nav-item'>
-                              <Button onClick={closeMobileMenu} text='Log in' link='/login' />
+                              <Button onClick={closeMobileMenu} text='Вход' link='/login' />
                            </li>
                            <li className='nav-item'>
-                              <Button onClick={closeMobileMenu} text='Sign up' link='/signUp' />
+                              <Button onClick={closeMobileMenu} text='Регистрация' link='/signUp' />
                            </li>
                         </>
                      )

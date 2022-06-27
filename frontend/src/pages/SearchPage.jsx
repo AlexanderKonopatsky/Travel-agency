@@ -5,8 +5,6 @@ import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import { Link } from 'react-router-dom';
 
-
-
 export default function SearchPage(props) {
    const searchTitle = props.match.params.title
 
@@ -34,8 +32,6 @@ export default function SearchPage(props) {
             </div>
          ) : (
             <>
-
-
                {tours &&
                   <div className='row'>
                      <div className='col-xs-12'>
@@ -45,16 +41,13 @@ export default function SearchPage(props) {
                            </h1>
                            {tours.map(tour => (
                               <div key={tour._id}>
-
                                  <Link className='href_search' to={`/tour/${tour._id}`}>
-
                                     <div className="href_search_result">{tour.title}</div>
                                  </Link>
                                  <div className="search_text_body">
                                     {tour.desc}
                                  </div>
                               </div>
-
                            ))}
                         </div>
                      </div>

@@ -224,8 +224,8 @@ function CountryEditPage(props) {
                           <span className='form-label'>
                             Id страны
                           </span>
-                          <input className="form-input" value={currentIdCountry} onChange={e => setCountryNameUpdate(e.target.value)} type="text" />
-                        </label>
+                          <input type="hidden" className="form-input" value={currentIdCountry}  type="text" />
+                        </label> 
                       </div>
 
                       <div className='form-box'>

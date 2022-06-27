@@ -13,19 +13,14 @@ import env from "dotenv"
 env.config()
 
 function Login(props) {
-
    const [email, setEmail] = useState('')
-   const [errorEmail, setErrorEmail] = useState('Email cannot be empty')
+   const [errorEmail, setErrorEmail] = useState('Поле почты не может быть пустым')
    const [dirtyEmail, setDirtyEmail] = useState(false)
-
    const [password, setPassword] = useState('')
-   const [errorPassword, setErrorPassword] = useState('Password cannot be empty')
+   const [errorPassword, setErrorPassword] = useState('Поле пароля не может быть пустым')
    const [dirtyPassword, setDirtyPassword] = useState(false)
    const [forgotPassword, setForgotPassword] = useState(false)
-
    const [formValid, setFormValid] = useState(false)
-
-
    const [alert, setAlert] = useState('')
    const [errorFirstName, setErrorFirstName] = useState('')
    const [messageAlert, setMessageAlert] = useState(false)
@@ -33,7 +28,6 @@ function Login(props) {
       localStorage.getItem('loginData') ? JSON.parse(localStorage.getItem('loginData')) : null
    )
    const dispatch = useDispatch()
-
    const userSignIn = useSelector(state => state.userSignIn)
    const { userInfo, loading, error } = userSignIn
 
@@ -51,9 +45,9 @@ function Login(props) {
       setEmail(e.target.value)
       const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
       if (!reg.test(String(e.target.value).toLowerCase())) {
-         setErrorEmail('Incorrect email')
+         setErrorEmail('Неверная почта')
          if (!e.target.value)
-            setErrorEmail('Email cannot be empty')
+            setErrorEmail('Поле почты не может быть пустым')
       } else {
          setErrorEmail("")
       }
@@ -62,14 +56,13 @@ function Login(props) {
    const passwordHandler = (e) => {
       setPassword(e.target.value)
       if (e.target.value.length < 4 || e.target.value.length > 30) {
-         setErrorPassword('Password length from 4 to 30 characters')
+         setErrorPassword('Длина пароля от 4 до 30 символов')
          if (!e.target.value)
-            setErrorPassword('Password cannot be empty')
+            setErrorPassword('Поле пароля не может быть пустым')
       } else {
          setErrorPassword("")
       }
    }
-
    const blurHandler = (e) => {
       switch (e.target.name) {
          case 'email':
@@ -82,14 +75,11 @@ function Login(props) {
             break
       }
    }
-
    useEffect(() => {
       if (userInfo || loginData) {
          props.history.push(redirect)
       }
    }, [props.history, redirect, userInfo, loginData])
-
-
    useEffect(() => {
       if (errorEmail || errorPassword) {
          setFormValid(false)
@@ -102,15 +92,12 @@ function Login(props) {
       setForgotPassword(true)
 
    }
-
    const MessageBoxStyle = {
       'margin-top': '15px',
-
    };
    const signUpHandler = () => {
       props.history.push('/signUp')
    }
-
    const forgotPasswordHandler = () => {
       setForgotPassword(true)
    }
@@ -123,33 +110,20 @@ function Login(props) {
 
    }
 
-
    const responseGoogle = async (response) => {
+      console.log('response', response)
       let tokenId = response.tokenId
       const res = await Axios.post('/api/users/google_login', { tokenId })
 
       setLoginData(res.data.message)
       localStorage.setItem('loginData', JSON.stringify(res.data.message))
-
-
-
       let email = res.data.message.email
-      await dispatch(signInOAuth({ email }))
-
+      await dispatch(signInOAuth({ response }))
       let userInfo = JSON.parse(localStorage.getItem('userInfo'));
       userInfo.token = response.accessToken
       localStorage.setItem('userInfo', JSON.stringify(userInfo));
-
       refreshTokenSetup(response)
-
-      /*       if (response.profileObj.hasOwnProperty('email')) {
-               dispatch(signInOAuth(response.profileObj))
-               refreshTokenSetup(response)
-               console.log(response)
-            } */
    }
-
-
    return (
       <>
          <div className="signUp_section">
@@ -167,13 +141,9 @@ function Login(props) {
                      </div>
                   </div>
                </div>
-
-
                <div className='section_message'>
                   {loading && <LoadingBox></LoadingBox>}
-
                   {!forgotPassword && error && <MessageBox variant="danger">{error}</MessageBox>}
-
                </div>
 
                <div className='form_login'>
@@ -181,12 +151,7 @@ function Login(props) {
                      {!forgotPassword &&
                         <form className='form_for_new_user' onSubmit={submitHandler}>
                            <div className='row1'>
-
-
                               <>
-
-
-
                                  <div className='form-box'>
                                     <label className="form-box__field" >
                                        <span className='form-label'>
@@ -196,7 +161,6 @@ function Login(props) {
                                     </label>
                                     {(dirtyEmail && errorEmail) && <p className="error-validate">{errorEmail}</p>}
                                  </div>
-
                                  <div className='form-box'>
                                     <label className="form-box__field" >
                                        <span className='form-label'>
@@ -206,25 +170,17 @@ function Login(props) {
                                     </label>
                                     {(dirtyPassword && errorPassword) && <p className="error-validate">{errorPassword}</p>}
                                  </div>
-
-
                                  <button disabled={!formValid} className='btn_auth' type="submit" >
                                     Вход {alert && alert}
                                  </button>
                                  <button className='btn_auth' onClick={forgotPasswordHandler} >
                                     Забыли пароль?
                                  </button>
-
-
-
                                  < div className='text-divider'>
                                     <div className='text-divider__divider'></div>
-                                    <div className='text-divider__text'>OAuth authorization</div>
+                                    <div className='text-divider__text'>OAuth авторизация</div>
                                     <div className='text-divider__divider'></div>
                                  </div>
-
-
-
                                  <GoogleLogin
                                     clientId={process.env.REACT_APP_OAUTH_CLIENT_ID}
                                     buttonText="Войдите с помощью Gmail"
@@ -236,21 +192,7 @@ function Login(props) {
                                     cookiePolicy={'single_host_origin'}
                                     isSignedIn={true}
                                  />
-
-
-
-
-                                 < div className='text-divider'>
-                                    <div className='text-divider__divider'></div>
-                                    <div className='text-divider__text'>Log in with email</div>
-                                    <div className='text-divider__divider'></div>
-                                 </div>
                               </>
-
-
-
-
-
                            </div>
                         </form>
                      }
@@ -275,9 +217,6 @@ function Login(props) {
                                     {messageAlert}
                                  </div>
                               }
-                              {/*                              <button className='btn_auth' onClick={loginHandler} >
-                                 Вернуться к входу через почту
-                              </button> */}
                            </div>
                         </form>
                      </>}

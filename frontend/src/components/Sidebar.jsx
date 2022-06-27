@@ -19,7 +19,7 @@ import Axios from "axios"
 
 const SidebarData = [
   {
-    title: 'Category',
+    title: 'Категории',
     path: '/',
     icon: <BiIcons.BiCategory />,
     iconClosed: <RiIcons.RiArrowDownSFill />,
@@ -30,7 +30,7 @@ const SidebarData = [
 
 const SidebarDataCountry = [
   {
-    title: 'Country',
+    title: 'Страны',
     path: '/',
     icon: <BiIcons.BiCategoryAlt   />,
     iconClosed: <RiIcons.RiArrowDownSFill />,
@@ -41,7 +41,7 @@ const SidebarDataCountry = [
 
 const SidebarDataCity = [
   {
-    title: 'Cities',
+    title: 'Города',
     path: '/',
     icon: <MdIcons.MdOutlineLocationCity />,
     iconClosed: <RiIcons.RiArrowDownSFill />,
@@ -50,7 +50,7 @@ const SidebarDataCity = [
   }
 ];
 
-const SidebarData2 = [
+/* const SidebarData2 = [
   {
     title: 'Messages',
     path: '/messages',
@@ -77,7 +77,7 @@ const SidebarData2 = [
     path: '/support',
     icon: <IoIcons.IoMdHelpCircle />
   }
-];
+]; */
 
 
 const SidebarNav = styled.nav`
@@ -98,17 +98,9 @@ const Sidebar = () => {
   const [sidebar, setSidebar] = useState(false);
   const [listCountry, setListCountry] = useState('');
   const [listCity, setListCity] = useState('');
-
   const listTourCategory = useSelector(state => state.listTourCategory)
   const { categories, loading: loadingCategories, error: errorCategories } = listTourCategory
-
-
   const dispatch = useDispatch()
-
-  /*   useEffect(() => {
-      dispatch(listTourCategories())
-    }, [dispatch]) */
-
   const showSidebar = () => {
     setSidebar(!sidebar)
   }
@@ -120,8 +112,6 @@ const Sidebar = () => {
     const listCity = await Axios.get('/api/tours/city')
     setListCity(listCity.data.sort())
   }
-
-
 
   return (
     <>
@@ -144,9 +134,6 @@ const Sidebar = () => {
             })}
             {SidebarDataCity.map((item, index) => {
               return <SubMenu item={item} key={index} list={listCity} path="city" />;
-            })}
-            {SidebarData2.map((item, index) => {
-              return <SubMenu2 item={item} key={index} />;
             })}
           </div>
         </SidebarNav>

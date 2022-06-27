@@ -4,6 +4,7 @@
   background-color: white;
   word-wrap:break-word;
 /*   table-layout: fixed; */
+margin-top: 30px;
 }
 .table tbody tr:nth-of-type(odd) {
   background-color: #f4f4f4;
