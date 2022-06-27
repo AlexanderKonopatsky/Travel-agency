@@ -58,7 +58,6 @@ io.on('connection', (socket) => {
          messages: []
       }
       const existUser = await Chat.findOne({ _id : updatedUser._id})
-
       if (existUser) {
          existUser.socketId = socket.id
          existUser.online = true
@@ -66,15 +65,10 @@ io.on('connection', (socket) => {
       } else {
          await Chat.create(updatedUser)
       }
-
-
       const admin = await Chat.findOne({ isAdmin : true, online : true})
       if (admin) {
          io.to(admin.socketId).emit('updateUser', updatedUser)
       }
-/*       if (updatedUser.isAdmin) {
-         io.to(updatedUser.socketId).emit('listUsers', users) 
-      } */
    })
 
    socket.on('onUserSelected', async user => {
@@ -113,9 +107,7 @@ io.on('connection', (socket) => {
             )
          } 
       }
-
    })
-
 })
  
 

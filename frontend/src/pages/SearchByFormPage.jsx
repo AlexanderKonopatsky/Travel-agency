@@ -22,23 +22,14 @@ function TourCategoryPage(props) {
    const city = props.match.params.city
    const searchType = category || country || city
    const dispatch = useDispatch()
-   const tourListByCategory = useSelector(state => state.tourListByCategory)
-   const { loading, error, tours, page, pages } = tourListByCategory
+   const tourListAdvanceSearch3 = useSelector(state => state.tourListAdvanceSearch3)
+   const { loading, error, tours } = tourListAdvanceSearch3
 
 
 
 
 
-   useEffect(() => {
-      if (category) {
-         dispatch(listTourByCategory({ category, typeReq: 'category', pageNumber }))
-      } else if (country) {
-         dispatch(listTourByCategory({ country, typeReq: 'country', pageNumber }))
-      } else if (city) {
-         dispatch(listTourByCategory({ city, typeReq: 'city', pageNumber }))
-      }
-      getData()
-   }, [category, city, country, dispatch, next, pageNumber])
+
 
    /*   const paginationSubmit = async () => {
        const resp = await Axios.get(`/api/tours?country=Russia&page=${pageNumber}`)
@@ -46,19 +37,7 @@ function TourCategoryPage(props) {
      } */
 
 
-   const getData = async () => {
-      let objResult
-      if (path.indexOf('country') === 1) {
-         objResult = await Axios.get(`/api/country/search/${searchType}`)
-         setSearchInfo(objResult.data.country)
-      } else if (path.indexOf('city') === 1) {
-         objResult = await Axios.get(`/api/city/${searchType}`)
-         setSearchInfo(objResult.data.city)
-      } else if (path.indexOf('category') === 1) {
-         objResult = await Axios.get(`/api/categories/${searchType}`)
-         setSearchInfo(objResult.data.category)
-      }
-   }
+
 
    return (
       <>
@@ -104,9 +83,7 @@ function TourCategoryPage(props) {
                            <div className='grid__content__container'>
                               <div className='grid__content'>
                                  <h1 className='text-center'>
-                                 {searchInfo && searchInfo.cityName && searchInfo.cityName}
-                                 {searchInfo && searchInfo.countryName && searchInfo.countryName}
-                                 {searchInfo && searchInfo.categoryName && searchInfo.categoryName}
+
                                  </h1>
                                  <br />  <br />
                                  <div className="text-divider__divider"></div>
@@ -154,19 +131,7 @@ function TourCategoryPage(props) {
 
 
                         </div>
-                        <div className="row center pagination">
-                           {[...Array(pages).keys()].map((x) => (
-                              <Link
-                                 className={x + 1 === page ? 'active' : ''}
-                                 key={x + 1}
-                                 to={`/country/${searchType}?page=${x + 1}`}
 
-                              >
-                                 {x + 1}
-                              </Link>
-                           ))}
-
-                        </div>
                      </div>
 
                   </>

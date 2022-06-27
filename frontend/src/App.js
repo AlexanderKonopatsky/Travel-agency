@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector, useStore } from "react-redux";
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import Navbar from './components/Navbar'
+import error404 from './components/error404'
 import ContactUs from './pages/ContactUs'
 import Products from './pages/Products'
 import Home from './pages/Home'
@@ -30,6 +31,7 @@ import TourAdvanceSearchPage from './pages/TourAdvanceSearchPage'
 import SupportPage from './pages/SupportPage'
 import DashboardPage from './pages/DashboardPage'
 import ResetPassword from './pages/ResetPassword'
+import SearchByFormPage from './pages/SearchByFormPage'
 import ChatBox from './components/ChatBox'
 
 function App() {
@@ -66,13 +68,12 @@ function App() {
           <Route path="/category/:category" exact component={TourCategoryPage}/> 
           <Route path="/city/:city" exact component={TourCategoryPage}/> 
           <Route path="/country/:country" exact component={TourCategoryPage}/> 
+          <Route path="/searchByForm" exact component={SearchByFormPage}/> 
           <Route path="/advancedSearch" exact component={AdvancedSearch}/> 
           <Route path="/advancedSearchPage" exact component={TourAdvanceSearchPage}/> 
-          
+          <Route exact component={error404} />
         </Switch>
-
         <Footer></Footer>
-        
       </Router>
   )
 }

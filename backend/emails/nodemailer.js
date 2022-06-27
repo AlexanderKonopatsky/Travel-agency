@@ -14,7 +14,7 @@ const transporter = nodemailer.createTransport(
       }
    },
    {
-      from : 'Mailer test <vkowalex@gmail.com>',
+      from : 'Почта <vkowalex@gmail.com>',
    }
 )
 

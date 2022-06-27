@@ -125,7 +125,9 @@ export default function DashBoardPage() {
       const response = await Axios.get('/api/dashboard/summary')
       await setData(response.data)
 
-      let newData = { labels: [], datasets: [{ label: "jidsjodfdsofj dsfd", data: [], borderColor: "rgb(53, 162, 235)", background: "rgba(53, 162, 235, 0.4)" }] }
+      let newData = { labels: [], datasets: [{ label: "jidsjodfdsofj dsfd", data: [], borderColor: "rgb(53, 162, 235)",backgroundColor: [
+         'rgb(84, 122, 135)',
+      ] }] }
       response.data.dailyOrders.forEach(el => {
          newData.labels.push(el._id)
          newData.datasets[0].data.push(el.orders)
@@ -152,10 +154,15 @@ export default function DashBoardPage() {
          'rgb(245, 152, 235)',
       ], }] }
       response.data.arrayOfToursVisits.forEach(el => {
-         newData.labels.push(el._id[0].title)
-         newData.datasets[0].data.push(el.count)
+       
+         if (el._id[0]?.title) {
+            newData.labels.push(el._id[0].title)
+            newData.datasets[0].data.push(el.count)
+         }
+
       })
-      console.log(newData)
+      
+      console.log('newData',newData)
       setCharData5(newData)
       
       response.data.averagePriceOnTour.forEach(el => {
@@ -277,6 +284,7 @@ export default function DashBoardPage() {
 
          <div className='title-div'>
             <h1>Панель администратора</h1>
+            {console.log('dashboard')}
          </div>
 
          <div id="container-chart">
@@ -289,9 +297,9 @@ export default function DashBoardPage() {
                   <span className='chart-span'>
                      Количество туров в заказов: {data && data.countOrdersTours}
                   </span>
-                  <span className='chart-span'>
+      {/*             <span className='chart-span'>
                      Оплачено заказов: {data && data.paidOrders}
-                  </span>
+                  </span> */}
                   <span className='chart-span'>
                      Отменено заказов: {data && data.paidOrders}
                   </span>

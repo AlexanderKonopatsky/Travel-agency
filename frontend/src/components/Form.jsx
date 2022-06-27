@@ -6,6 +6,8 @@ import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import Axios from "axios";
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { listTourAdvancedSearch3 } from "../redux/actions/tourActions";
 
 export function Form(props) {
   const [startDate, setStartDate] = useState(new Date())
@@ -47,10 +49,25 @@ export function Form(props) {
       setCity(data.value)
     }
   }
-
+  const dispatch = useDispatch()
   const submitHandler = (e) => {
     e.preventDefault();
-    history.push(`/advancedSearchPage?city=${city || listCity[0]}&count=${count}`)
+
+    const cityName = city || listCity[0]
+
+    const object = {
+      startDate,
+      endDate,
+      cityName,
+      count
+   }
+
+   dispatch(listTourAdvancedSearch3(object))
+
+   console.log(object)
+   history.push(`/searchByForm`)
+
+    //history.push(`/advancedSearchPage?city=${city || listCity[0]}&count=${count}`)
   }
 
   useEffect(() => {
@@ -68,7 +85,7 @@ export function Form(props) {
               <Dropdown type="text" options={listCity && listCity} value={listCity && listCity[0]} onChange={changeCityHandler} placeholder="Select an option" />
             </div>
             <div className="booking__section__bottom">
-              <label className="label" for="city_id">City</label>
+              <label className="label" for="city_id">Город</label>
             </div>
           </div>
           <div className="booking__section">
@@ -76,7 +93,7 @@ export function Form(props) {
               <DatePicker name="start_date" id="booking-start-date" className="booking__input" selected={startDate} onChange={(date) => setStartDate(date)} dateFormat="MMMM d, yyyy" />
             </div>
             <div className="booking__section__bottom">
-              <label className="label" for="booking-start-date">Start Date</label>
+              <label className="label" for="booking-start-date">Дата начала</label>
             </div>
           </div>
           <div className="booking__section">
@@ -84,7 +101,7 @@ export function Form(props) {
               <DatePicker name="end_date" id="booking-end-date" className="booking__input" selected={endDate} onChange={(date) => setEndDate(date)} dateFormat="MMMM d, yyyy" />
             </div>
             <div className="booking__section__bottom">
-              <label className="label" for="booking-end-date">End Date</label>
+              <label className="label" for="booking-end-date">Дата окончания</label>
             </div>
           </div>
           <div className="booking__section">
@@ -119,13 +136,13 @@ export function Form(props) {
               </div>
             </div>
             <div className="booking__section__bottom">
-              <label className="label">Participants</label>
+              <label className="label">Кол-во человек</label>
 
             </div>
           </div>
           <div className="booking__section">
 
-            <button name="button" type="submit" className="booking__btn">Find Tours</button>
+            <button name="button" type="submit" className="booking__btn">Поиск туров</button>
 
           </div>
         </div>

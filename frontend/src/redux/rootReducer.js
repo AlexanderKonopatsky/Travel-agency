@@ -28,6 +28,7 @@ export const rootReducer = combineReducers({
   listTourCategory: listTourCategoriesReducer,
   tourListByCategory: tourListByCategoryReducer,
   tourListAdvanceSearch: tourListAdvancedSearchReducer,
+  tourListAdvanceSearch3: tourListAdvancedSearchReducer,
   tourCommentDelete : tourCommentDeleteReducer,
   tourCommentUpdateStatus : tourCommentUpdateStatusReducer
 })

@@ -8,17 +8,14 @@ const { isAuth, isAdmin } = require('../middleware/utils')
 var mongoose = require('mongoose');
 const ObjectId = require('mongodb').ObjectID;
 const Category = require('../models/categoryModel')
-
 const dashboardRouter = express.Router()
 
 dashboardRouter.get('/summary', async (req, res) => {
    const countOrders = await Order.find().count() //+
    const countOrdersTours = await Order.find()
-
    let arrOrders = [], arrPaidOrders = []
    countOrdersTours.forEach(el => el.orderItems.forEach(el2 => arrOrders.push(el2)))
    countOrdersTours.forEach(el => { if (el.isPaid) arrPaidOrders.push(el) })
-
    const totalCostByCategory = await Tour.aggregate(
       [
          {$match: {}},
@@ -39,12 +36,7 @@ dashboardRouter.get('/summary', async (req, res) => {
          }
       ]
    )
-
-
-   
-
    const tourCount = await Tour.find().count()
-
    const dailyOrders = await Order.aggregate([
       {
         $group: {
@@ -55,9 +47,6 @@ dashboardRouter.get('/summary', async (req, res) => {
       },
       { $sort: { _id: 1 } },
     ]);
-
- 
-
     const averagePriceOnTour = await Tour.aggregate([
        {
          $group: {
@@ -71,16 +60,12 @@ dashboardRouter.get('/summary', async (req, res) => {
          $sort: {'total_st': -1}
        }
       ])
-
-
     let orderInDayAverage  = 0
     dailyOrders.forEach(el => orderInDayAverage += el.orders)
     let date1 = new Date(dailyOrders[dailyOrders.length - 1]._id) 
     let date2 = new Date(dailyOrders[0]._id) 
     let result = ( date1 - date2 ) / 864e5
     let orderInDay = (orderInDayAverage / result).toFixed(2)
-
-   
     const findPopularCategory = await Order.aggregate([
       { $unwind: "$orderItems" },
       { $group: {
@@ -99,14 +84,8 @@ dashboardRouter.get('/summary', async (req, res) => {
          
       }
     ])
-
-
-
-
     const countyCount = await Country.find().count()
     const cityCount = await City.find().count()
-
-
     let averageRatingTour = await Tour.aggregate(
       [
          {    
@@ -118,8 +97,6 @@ dashboardRouter.get('/summary', async (req, res) => {
       ]
     )
    averageRatingTour = (averageRatingTour[0].avgRating).toFixed(2)
-  
-
    let averagePriceTour = await Tour.aggregate(
       [
          {    
@@ -131,7 +108,6 @@ dashboardRouter.get('/summary', async (req, res) => {
       ]
     )
     averagePriceTour = (averagePriceTour[0].avgPrice).toFixed(2)
-
     const arrayOfToursVisits = await User.aggregate([
       { $project : { "visitShema" : 1 } },
       { $unwind: "$visitShema" },
@@ -156,7 +132,7 @@ dashboardRouter.get('/summary', async (req, res) => {
       { $sort: { count: -1 } },
    ]);
 
-console.log(arrayOfToursVisits)
+   console.log(arrayOfToursVisits)
 
    res.send({
       countOrders: countOrders,
@@ -175,15 +151,6 @@ console.log(arrayOfToursVisits)
       arrayOfToursVisits
 
    })
-
-/*    const countOrdersTours = Order.aggregate([
-         { $match: {_id: ObjectId('618976016a7d9a0e56d744c7')}}, 
-         {
-            $count: "passing_scores"
-          }]) */
-
-/*    const orders = await Order.aggregate([{ $group: { userInfo: '618976016a7d9a0e56d744c7' }}]) */
-
  })
 
 

@@ -15,7 +15,7 @@ export default function ChatBox(props) {
    const [isOpen, setIsOpen] = useState(false);
    const [messageBody, setMessageBody] = useState('');
    const [messages, setMessages] = useState([
-      { name: 'Admin', body: 'Hello there, Please ask your question.' },
+      { name: 'Admin', body: 'Добрый день! Оставьте ваш вопрос здесь.' },
    ]);
 
    useEffect(() => {
@@ -48,7 +48,7 @@ export default function ChatBox(props) {
    const submitHandler = (e) => {
       e.preventDefault();
       if (!messageBody.trim()) {
-         alert('Error. Please type message.');
+         alert('Ошибка. Пожалуйства напишите ваше сообщение.');
       } else {
          setMessages([...messages, { body: messageBody, name: userInfo.firstName,  lastName: userInfo.lastName, }]);
          setMessageBody('');
@@ -70,7 +70,6 @@ export default function ChatBox(props) {
       <div className="chatbox">
          {!isOpen ? (
             <button type="button" onClick={supportHandler}>
-               {/*   <i className="fa fa-support" /> */}
                <i className="fas fa-comment-alt" />
             </button>
          ) : (
@@ -78,7 +77,6 @@ export default function ChatBox(props) {
                <div className="row">
                   <strong>Поддержка </strong>
                   <button type="button" onClick={closeHandler}>
-                     {/*           <i className="fa fa-close" /> */}
                      <i class="fas fa-window-close" ></i>
                   </button>
                </div>
@@ -95,9 +93,9 @@ export default function ChatBox(props) {
                         value={messageBody}
                         onChange={(e) => setMessageBody(e.target.value)}
                         type="text"
-                        placeholder="type message"
+                        placeholder="Напишите сообщение"
                      />
-                     <button type="submit">Send</button>
+                     <button type="submit">Отправить</button>
                   </form>
                </div>
             </div>

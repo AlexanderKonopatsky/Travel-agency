@@ -1,16 +1,11 @@
 const { Schema, model } = require('mongoose')
 
-
-
-
-
 const categorySchema = new Schema(
   {
     categoryName: { type: String, required: true },
     description: { type: String, required: true },
   }
 )
-
 
 const commentsSchema = new Schema(
    {
@@ -30,8 +25,18 @@ const commentsSchema = new Schema(
      descAttraction: { type: String, required: false },
      imageAttraction: { type: String, required: true },
      adressAttraction: { type: String, required: true },
-     lon: { type: Number, required: false }, //долгота
-     lat: { type: Number, required: false }, //ширина
+     lon: { type: Number, required: false }, 
+     lat: { type: Number, required: false }, 
+   }
+ )
+
+
+ const availableSeats = new Schema(
+   {
+     startDate: { type: Date },
+     endDate: { type: Date },
+     availableSeats: { type: Number }, 
+     reservedSeats: { type: Number }, 
    }
  )
 
@@ -58,6 +63,7 @@ const tourSchema = new Schema(
           required: false,
       },
     ],
+    availableSeats: [availableSeats],
   },
   {
     timestamps: true

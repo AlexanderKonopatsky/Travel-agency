@@ -18,7 +18,7 @@ function OrderHistoryPage(props) {
   return (
     <>
       <  div className="orderList">
-        <h1>Order History</h1>
+        <h1>История заказов</h1>
         {loading ? (
           <LoadingBox></LoadingBox>
         ) : error ? (
@@ -28,11 +28,11 @@ function OrderHistoryPage(props) {
             <thead>
               <tr>
                 <th>ID</th>
-                <th>DATE</th>
+                <th>Дата</th>
 {/*                 <th>TOTAL</th>
                 <th>PAID</th> */}
 
-                <th>ACTIONS</th>
+                <th>Действие</th>
               </tr>
             </thead>
             <tbody>
@@ -50,7 +50,7 @@ function OrderHistoryPage(props) {
                         props.history.push(`/order/${order._id}`);
                       }}
                     >
-                      Details
+                      Детали
                     </button>
                   </td>
                 </tr>

@@ -139,8 +139,8 @@ function AdvancedSearch(props) {
                <li class={currentStep >= 3 && 'active'}>{/* Category */}</li>
                <li class={currentStep >= 4 && 'active'}>{/* Country */}</li>
                <li class={currentStep >= 5 && 'active'}>{/* City */}</li>
-               <li class={currentStep >= 6 && 'active'}>{/* Duration */}</li>
-               <li class={currentStep >= 7 && 'active'}>{/* Rating */}</li>
+
+               <li class={currentStep >= 6 && 'active'}>{/* Rating */}</li>
 
             </ul>
 
@@ -210,7 +210,7 @@ function AdvancedSearch(props) {
             </fieldset>
 
 
-            <fieldset className={currentStep === 6 ? '' : 'hideFieldset'} >
+{/*             <fieldset className={currentStep === 6 ? '' : 'hideFieldset'} >
                <h3 class="fs-subtitle">Шаг 6</h3>
                <h2 class="fs-title">Выберите продолжительность</h2>
                <Slider
@@ -223,10 +223,10 @@ function AdvancedSearch(props) {
                <h2 class="fs-subtitle">Duration {sliderValueDuration} days</h2>
                <input type="button" name="previous" class="previous action-button" value="<---" onClick={handlePrevStep} />
                <input type="button" name="next" class="next action-button" value="--->" onClick={handleNextStep} />
-            </fieldset>
+            </fieldset> */}
 
-            <fieldset className={currentStep === 7 ? '' : 'hideFieldset'} >
-               <h3 class="fs-subtitle">Шаг 7</h3>
+            <fieldset className={currentStep === 6 ? '' : 'hideFieldset'} >
+               <h3 class="fs-subtitle">Шаг 6</h3>
                <h2 class="fs-title">Выберите рейтинг тура </h2>
                <Slider
                   min={0}

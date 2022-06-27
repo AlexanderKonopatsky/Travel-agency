@@ -73,9 +73,9 @@ function SignUp(props) {
       setEmail(e.target.value)
       const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
       if (!reg.test(String(e.target.value).toLowerCase())) {
-         setErrorEmail('Incorrect email')
+         setErrorEmail('Неверная почта')
          if (!e.target.value)
-            setErrorEmail('Email cannot be empty')
+            setErrorEmail('Поле почты не может быть пустым')
       } else {
          setErrorEmail("")
       }

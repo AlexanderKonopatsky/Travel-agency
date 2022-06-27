@@ -39,8 +39,7 @@ function OrderListAdminPage(props) {
               <tr>
                 <th>Id</th>
                 <th>Дата заказа</th>
-                <th>Общая стоимость</th>
-                <th>Оплата</th>
+
 
                 <th></th>
               </tr>
@@ -51,8 +50,8 @@ function OrderListAdminPage(props) {
                 <tr key={order._id}>
                   <td>{order._id}</td>
                   <td>{order.createdAt.substring(0, 10)}</td>
-                  <td>----</td>
-                  <td>{order.isPaid ? order.paidAt.substring(0, 10) : 'No'}</td>
+           
+                {/*   <td>{order.isPaid ? order.paidAt.substring(0, 10) : 'No'}</td> */}
                   <td>
                     <button
                       type="button"

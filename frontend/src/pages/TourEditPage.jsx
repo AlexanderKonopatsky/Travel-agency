@@ -8,6 +8,10 @@ import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import { YMaps, Map, Placemark} from 'react-yandex-maps';
 import Axios from "axios"
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import Range from 'rc-slider'
+import 'rc-slider/assets/index.css';
 
 
 function TourEditPage(props) {
@@ -29,13 +33,13 @@ function TourEditPage(props) {
    const [coordinates, setCoordinates] = useState('')
    const [cityName, setCityName] = useState('')
    const [deletedAttraction, setDeletedAttraction] = useState([])
-   
+   const [deletedSeats, setDeletedSeats] = useState([])
    const [dataAttraction, setDataAttraction] = useState('')
+   const [availableSeats, setAvailableSeats] = useState('')
    const [adressAttraction, setAdressAttraction] = useState('')
    const [descAttraction, setDescAttraction] = useState('')
    const [titleAttraction, setTitleAttraction] = useState('')
    const [attractionId, setAttractionId] = useState('')
-
    const [loadingUpload, setLoadingUpload] = useState(false)
    const [errorUpload, setErrorUpload] = useState('')
 
@@ -44,6 +48,9 @@ function TourEditPage(props) {
 
    const [loadingUploadAttraction, setLoadingUploadAttraction] = useState(false)
    const [errorUploadAttraction, setErrorUploadAttraction] = useState('')
+
+   const [startDate, setStartDate] = useState(new Date());
+   const [endDate, setEndDate] = useState(new Date());
 
    const userSignIn = useSelector(state => state.userSignIn)
    const { userInfo } = userSignIn
@@ -55,6 +62,20 @@ function TourEditPage(props) {
 
    const tourDetails = useSelector(state => state.tourDetails)
    const { loading: loadingDetails, error: errorDetails, tour } = tourDetails
+
+   const [sliderNumberSeatsAvailable, setSliderNumberSeatsAvailable] = useState(10)
+
+   const onSliderNumberSeatsAvailable = (value) => {
+
+      setSliderNumberSeatsAvailable(value)
+
+   };
+
+   const onChange = (dates) => {
+      console.log(dates)
+      setEndDate(dates[1]);
+      setStartDate(dates[0]);
+   };
 
    const changeCityHandler = (data) => {
       setCity(data.value)
@@ -70,6 +91,13 @@ function TourEditPage(props) {
       if (window.confirm('Are you sure to delete?')) {
          const { data } = await Axios.delete(`/api/attraction/${tourId}/${attraction._id}`, { headers: { Authorization: `Bearer ${userInfo.token}` } })
          setDeletedAttraction(arr => [...deletedAttraction, attraction._id]) 
+      }
+   }
+
+   const deleteHandler2 = async (availableSeats) => {
+      if (window.confirm('Are you sure to delete seats?')) {
+         const { data } = await Axios.delete(`/api/tours/${tourId}/${availableSeats._id}`, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+         setDeletedSeats(arr => [...deletedSeats, availableSeats._id]) 
       }
    }
 
@@ -219,6 +247,19 @@ function TourEditPage(props) {
       setAttractionId(a._id)
    }
 
+   const addAvailableSeats = async () => {
+      let { data } = await Axios.put(`/api/tours/${tourId}/addAvailableSeats`, {startDate, endDate, sliderNumberSeatsAvailable}, {
+         headers: { Authorization: `Bearer ${userInfo.token}` }
+       })
+       getDataAvailableSeats()
+   }
+
+   const getDataAvailableSeats = async () => {
+      let availableSeats  = await Axios.get(`/api/tours/${tourId}/availableSeats`, { headers: { Authorization: `Bearer ${userInfo.token}` } })
+      availableSeats = availableSeats.data.availableSeats
+      console.log(availableSeats)
+      setAvailableSeats(availableSeats) 
+    }
 
    const submitHandler = async (e) => {
       e.preventDefault();
@@ -238,6 +279,7 @@ function TourEditPage(props) {
    useEffect(() => {
       getData()
       dispatch({ type: TOUR_UPDATE_RESET })
+      getDataAvailableSeats()
    }, [dispatch])
 
    useEffect(() => {
@@ -302,7 +344,7 @@ function TourEditPage(props) {
                   </div>
                </div>
 
-               <div className="grid-cart-profile">
+               <div className="grid-tour-page">
                   <section className="grid-main-column-cart">
                      <h1 className="head-text">Параметры тура</h1>
                      <div className="item-cart">
@@ -440,7 +482,7 @@ function TourEditPage(props) {
                                              </MessageBox>
                                           )}
                                           <button className='btn_auth' type="submit" >
-                                             Создать
+                                             Обновить
                                           </button>
                                           <button className='btn_auth' type="submit" onClick={backHandler} >
                                              Вернуться к списку туров
@@ -458,7 +500,174 @@ function TourEditPage(props) {
                      </div>
 
 
+
+
+
+
+
+                     <h1 className="head-text">Параметры тура</h1>
+                     <div className="item-cart">
+
+
+                        <form className='form_for_new_user' onSubmit={submitHandler}>
+
+
+                           <>
+                              {loadingUpdate && <LoadingBox></LoadingBox>}
+                              {errorUpdate && (
+                                 <MessageBox variant="danger">{errorUpdate}</MessageBox>
+                              )}
+
+                              <div className='row'>
+                                 {loadingDetails &&
+                                    <LoadingBox></LoadingBox>
+                                 }
+
+                                 {errorDetails ?
+                                    <MessageBox variant="danger">{errorDetails}</MessageBox> :
+                                    (
+                                       <>
+
+<div className="availableSeats">
+      <div className="datapickerTour">
+         <h1 class="fs-subtitle">Выберите диапазон дат</h1>
+                        <DatePicker
+                           selected={startDate}
+                           onChange={onChange}
+                           startDate={startDate}
+                           endDate={endDate}
+                           selectsRange
+                           inline
+                        />
+        
+      </div>
+      <div>
+
+         <h2 class="fs-subtitle">Количество мест</h2>
+
+                                       
+                        <Range
+                           defaultValue={10}
+                           onChange={onSliderNumberSeatsAvailable}
+                           max={100}
+                        />
+      </div>
+             
+</div>
+<h2 class="fs-subtitle">{startDate && String(startDate).slice(0, 16)} - {endDate && String(endDate).slice(0, 16)}  </h2>
+<h2 class="fs-subtitle">Количество мест {sliderNumberSeatsAvailable}</h2>
+
+
+<button className='btn_auth' onClick={() => addAvailableSeats()}>
+      Добавить
+ </button>
+
+
+
+
+
+
+
+                        <table className="table">
+                           <thead>
+                              <tr>
+                                 <th>Дата начала</th>
+                                 <th>Дата окончания </th>
+                                 <th>Кол-во мест </th>
+                                 <th>Кнопка</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                           {availableSeats && availableSeats.availableSeats.filter(row => !deletedSeats.includes(row._id)).map(a => (
+                   
+                           <tr key={a._id}>
+                              <td>{String(a.startDate).slice(0, 10)}</td>
+                              <td>{String(a.endDate).slice(0, 10)}</td>
+                              <td>{a.availableSeats}</td>
+                           <td>
+
+                              <button
+                                 type="button"
+                                 className="btn_details_admin"
+                                 onClick={() => deleteHandler2(a)} 
+                              >
+                                 Delete
+                              </button>
+
+                           </td>
+                        </tr>
+                        ))}
+                        </tbody>
+                        </table>
+                
+
+
+                                       </>)
+                                 }
+                              </div>
+                           </>
+                        </form>
+                     </div>
+
+
+
+
+
+
+
+
+
+
+
                   </section>
+                                 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+                     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

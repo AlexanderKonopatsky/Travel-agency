@@ -4,8 +4,17 @@
   grid-gap: 30px;
   grid-template-columns: 1fr 1fr;
   margin: auto;
-  max-width: 1300px;
+  max-width: 1200px;
 }
+
+.grid-tour-page {
+   padding-top: 60px;
+   display: grid;
+   grid-gap: 30px;
+   grid-template-columns: 1fr 1fr;
+   margin: auto;
+   max-width: 1700px;
+ }
 
 .grid-chart-div {
    padding-top: 60px;

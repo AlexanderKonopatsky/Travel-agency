@@ -23,14 +23,15 @@ tourRouter.get('/cityInTheCountry', async (req, res) => {
  })
 
  tourRouter.post('/advancedSearchPage', async (req, res) => {
+
    let tours = await Tour
       .find({
-         price: {$gt : 50, $lt: 500},
-         rating: {$gt : 2},
-         country: 'Belarus' 
+         price: {$gt : req.body.sliderValuePriceFrom, $lt: req.body.sliderValuePriceTo},
+         rating: {$gt : req.body.ratingValue},
+         country: req.body.countryValue 
       })
-      .populate({path: 'cityT', match : { cityName : 'Pinsk'}})
-      .populate({path: 'categoryS', match : { categoryName : 'Historical travel'}})
+      .populate({path: 'cityT', match : { cityName : req.body.cityValue}})
+      .populate({path: 'categoryS', match : { categoryName : req.body.categoryValue}})
       .select('_id title image category label desc additionalInfo price rating numReviews country categoryS cityT')
 
    tours = tours.filter(tour => {
@@ -38,6 +39,33 @@ tourRouter.get('/cityInTheCountry', async (req, res) => {
    })
 
    res.send({tours})
+})
+
+ tourRouter.post('/searchTours', async (req, res) => {
+   let ids = []
+   const cityName = req.body.cityName 
+   const startDate = req.body.startDate
+   const endDate = req.body.endDate
+   const tour = await Tour.aggregate([
+      { $match: {city: cityName }},
+      { $unwind: '$availableSeats'},
+      { $match: {'availableSeats.startDate': {$gte: new Date(startDate)}}},
+      { $match: {'availableSeats.endDate': {$lte: new Date(endDate)}}}
+   ])
+   tour.forEach(el => {
+      ids.push(el._id + "")
+   })
+   idsUnique = Array.from(new Set(ids))
+
+   const tours2 = await Tour.find({ _id: idsUnique})
+
+
+   let tours = await Tour
+      .find({
+         city: req.body.cityName 
+      })
+    
+   res.send({tours: tours2})
 })
 
 
@@ -130,11 +158,94 @@ tourRouter.get('/getHistory', async (req, res) => {
             }
          }
        ]);
-/*      console.log(tourHistory2) */
-  /*  tourHistory.forEach(el => console.log(new Date(el.updateAt))) */
-
-/*   console.log(tourHistory.visitShema) */
    res.send(tourHistory2)
+})
+
+tourRouter.get('/getRecomendation', async (req, res) => {
+   const recomedation = await User.aggregate([
+      { $match: {_id: ObjectId(req.query.userId)}},
+      { $unwind: "$visitShema" },
+      { $project: {
+         visitShema : 1
+      }},
+      { $sort: {'visitShema.counter': -1} },
+      { $lookup :
+         {
+           from: "tours",
+           localField: "visitShema.tourId",
+           foreignField: "_id",
+           pipeline : [{ 
+            $project: {
+               "title": 1,
+               "price" : 1, 
+               "rating" : 1,
+               "category" : 1,
+               "country" : 1,
+               "city" : 1,
+               "rating" : 1
+             }
+           }],
+           as: "visitShema.tourId"
+         },
+      }, 
+   
+
+      {$group: 
+         {
+           _id: "$visitShema.tourId.city",
+           maxcounter: { "$max": "$visitShema.counter"}
+         } 
+      },  
+
+   ])
+   const bestTourInMostVisitCountry = []
+   if (recomedation.length >= 1) {
+      const bestTourInMostVisitCountry1 = await Tour.find({city : recomedation[0]._id}).sort({rating : -1}).select('_id title image category label desc additionalInfo price rating numReviews country city').limit(1)
+      bestTourInMostVisitCountry.push(bestTourInMostVisitCountry1[0])
+   }
+   if (recomedation.length >= 2) {
+      const bestTourInMostVisitCountry2 = await Tour.find({city : recomedation[1]._id}).sort({rating : -1}).select('_id title image category label desc additionalInfo price rating numReviews country city').limit(1)
+      bestTourInMostVisitCountry.push(bestTourInMostVisitCountry2[0])
+   }
+   if (recomedation.length >= 3) {
+      const bestTourInMostVisitCountry3 = await Tour.find({city : recomedation[2]._id}).sort({rating : -1}).select('_id title image category label desc additionalInfo price rating numReviews country city').limit(1)
+      bestTourInMostVisitCountry.push(bestTourInMostVisitCountry3[0])
+   }
+
+
+
+   let mostVisitTours = await User.aggregate([
+      { $match: {_id: ObjectId(req.query.userId)}},
+      { $unwind: "$visitShema" },
+      { $project: {
+         visitShema : 1
+      }},
+      { $sort: {'visitShema.counter': -1} },
+      { $lookup :
+         {
+           from: "tours",
+           localField: "visitShema.tourId",
+           foreignField: "_id",
+           pipeline : [{ 
+            $project: {
+               "title": 1,
+               "price" : 1, 
+               "rating" : 1,
+               "category" : 1,
+               "country" : 1,
+               "city" : 1,
+               "rating" : 1,
+               "image" : 1
+             }
+           }],
+           as: "visitShema.tourId"
+         },
+      }, 
+   ])
+   res.send({
+      mostVisitTours,
+      bestTourInMostVisitCountry
+   })
 })
 
 tourRouter.get('/:id', async (req, res) => {
@@ -156,40 +267,7 @@ tourRouter.get('/:id', async (req, res) => {
           user.visitShema.push(visit)
           const updatedUser = await user.save()
       }
-      
-/*       let averageRatingTour = await User.aggregate(
-         [
-            { $match: {_id: userId}}, 
-            {    
-                $sort: { "visitShema.$.updatedAt": 1 } 
-            }
-         ]
-       )
-       console.log(averageRatingTour) */
-
-/* "visitShema.$.counter" */
-/*       await Tour.updateOne(
-         { _id: tourId, "comments._id": commentId},
-         { $set: { "comments.$.isActive" : statusValue} })
-
-      await User.updateOne({ _id: userId },{ $set: { "numReviews" : tour.length, "rating" : rating } })
-
-      await User.updateOne(
-         {_id: userId}, 
-         {$push: {visitShema: {"tourId": tourId}}},{new: true, upsert: true })
-
-
-
-      category.save();
-      }); */
-
-/*       const user = await User.findByIdAndUpdate()
-      const visit = {
-         tourPage: req.params._id,
-         counter: req.body.comment
-       }
-       tour.comments.push(comment)
-       tour.numReviews = tour.comments.length */
+   
    }
    const tour = await Tour.findById(req.params.id).populate('comments.user').populate('categoryS cityT')
    if (tour) {
@@ -248,6 +326,59 @@ tourRouter.put('/:id', isAuth, isAdmin, async (req, res) => {
   }
 })
 
+tourRouter.put('/:id/addAvailableSeats', isAuth, isAdmin, async (req, res) => {
+ 
+
+   
+   const tourId = req.params.id
+   const tour = await Tour.findById(tourId)
+   if (tour) {
+     const checkOrder = await Order.find({  userInfo : req.user._id,  orderItems: tourId } )
+     if (checkOrder.length !== 0 || req.user.isAdmin) {
+       const availableSeats = {
+         startDate: req.body.startDate,
+         endDate: req.body.endDate,
+         availableSeats: Number(req.body.sliderNumberSeatsAvailable), 
+         reservedSeats: 0
+       }
+       tour.availableSeats.push(availableSeats)
+       const updatedTour = await tour.save()
+       res.status(201).send({ message: 'Комментарий добавлен'})
+     } else {
+       res.status(404).send({ message: 'Вы не можете писать комментарий, так как вы не заказывали данный тур.' })
+     }
+   } else {
+     res.status(404).send({ message: 'Tour not found' })
+   }
+
+ })
+
+
+ tourRouter.get('/:tourId/availableSeats', async (req, res) => {
+   const availableSeats = await Tour.findById(req.params.tourId).select('availableSeats')
+
+   if (availableSeats) {
+      res.send({ availableSeats })
+
+
+   } else {
+      res.status(404).send({ message: 'Available seats not found'})
+   }
+ })
+
+ tourRouter.delete('/:tourId/:availableSeatsIs', isAuth, isAdmin, async (req, res) => {
+   const tourId = req.params.tourId
+   const seatsId = req.params.availableSeatsIs
+   await Tour.findByIdAndUpdate(tourId, {
+      '$pull': {
+          'availableSeats':{ '_id': new ObjectId(seatsId) }
+      }
+   });
+   res.send({ message: "Seats deleted" })   
+ })
+
+
+
 tourRouter.delete('/:id', isAuth, isAdmin, async (req, res) => {
   const tour = await Tour.findById(req.params.id)
   if (tour) {
@@ -276,15 +407,16 @@ tourRouter.post('/:id/comments', isAuth, async (req, res) => {
       const comment = {
         user: req.user._id,
         comment: req.body.comment,
-        rating: Number(req.body.rating)
+        rating: Number(req.body.rating),
+        isActive: false
       }
       tour.comments.push(comment)
       tour.numReviews = tour.comments.length
       tour.rating = (tour.comments.reduce((a, c) =>  c.rating + a, 0 ) / tour.comments.length).toFixed(2)
       const updatedTour = await tour.save()
-      res.status(201).send({ message: 'Comment created', comment: updatedTour.comments[updatedTour.comments.length - 1]})
+      res.status(201).send({ message: 'Комментарий добавлен', comment: updatedTour.comments[updatedTour.comments.length - 1]})
     } else {
-      res.status(404).send({ message: 'You cannot write comments, because you have not ordered this tour' })
+      res.status(404).send({ message: 'Вы не можете писать комментарий, так как вы не заказывали данный тур.' })
     }
   } else {
     res.status(404).send({ message: 'Tour not found' })
